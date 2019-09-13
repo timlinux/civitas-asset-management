@@ -51,6 +51,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     ABS_PATH('core', 'static'),
+    ABS_PATH('web-app', ''),
 )
 
 # import SECRET_KEY into current namespace
@@ -83,6 +84,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             ABS_PATH('core', 'templates'),
+            ABS_PATH('web-app', 'templates'),
         ],
         'OPTIONS': {
             'loaders': [

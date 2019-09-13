@@ -1,7 +1,7 @@
 #--------- Generic stuff all our Dockerfiles should start with so we get caching ------------
 # Note this base image is based on debian
 FROM ubuntu:18.04
-MAINTAINER Irwan Fathurrahman<meomancer@kartoza.com>
+MAINTAINER Irwan Fathurrahman<meomancer@gmail.com>
 
 # Pandoc needed to generate rst dumps, uic compressor needed for django-pipeline
 ENV DEBIAN_FRONTEND noninteractive

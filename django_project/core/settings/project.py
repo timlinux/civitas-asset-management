@@ -8,7 +8,6 @@ repository!
 
 import os  # noqa
 from django.utils.translation import ugettext_lazy as _
-from core.settings.utils import ABS_PATH
 from .contrib import *  # noqa
 
 # Due to profile page does not available,
@@ -30,3 +29,8 @@ LANGUAGES = (
 
 # Set storage path for the translation files
 LOCALE_PATHS = (ABS_PATH('locale'),)
+
+# Extra installed apps
+INSTALLED_APPS = INSTALLED_APPS + (
+    'web-app',
+)

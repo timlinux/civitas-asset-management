@@ -2,7 +2,7 @@
 # Note this base image is based on debian
 
 FROM project_uwsgi
-MAINTAINER Irwan Fathurrahman<meomancer@kartoza.com>
+MAINTAINER Irwan Fathurrahman<meomancer@gmail.com>
 
 # This section taken on 2 July 2015 from
 # https://docs.docker.com/examples/running_ssh_service/
