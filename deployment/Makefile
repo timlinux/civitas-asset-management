@@ -6,39 +6,49 @@ SHELL := /bin/bash
 #    P R O D U C T I O N     C O M M A N D S
 # ----------------------------------------------------------------------------
 default: web
-run: build web migrate collectstatic
+run: build web collectstatic
 
-deploy: build web migrate collectstatic
+deploy: run
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Bringing up fresh instance "
-	@echo "You can access it on http://localhost:5000"
+	@echo "You can access it on http://localhost"
 	@echo "------------------------------------------------------------------"
-
-build:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Building in production mode"
-	@echo "------------------------------------------------------------------"
-	@docker-compose -p $(PROJECT_ID) build uwsgi
 
 web:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Running in production mode"
 	@echo "------------------------------------------------------------------"
-	@docker-compose -p $(PROJECT_ID) up -d web
 	@# Dont confuse this with the dbbackup make command below
 	@# This one runs the postgis-backup cron container
 	@# We add --no-recreate so that it does not destroy & recreate the db container
-	@docker-compose -p $(PROJECT_ID) up --no-recreate --no-deps -d dbbackups
+	@docker-compose up -d
 
-db:
+dev:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Running db in production mode"
+	@echo "Running in dev mode"
 	@echo "------------------------------------------------------------------"
-	@docker-compose -p $(PROJECT_ID) up -d db
+	@docker-compose ${ARGS} up -d dev
+	@# Dont confuse this with the dbbackup make command below
+	@# This one runs the postgis-backup cron container
+	@# We add --no-recreate so that it does not destroy & recreate the db container
+	@docker-compose ${ARGS} up --no-recreate --no-deps -d
+
+build:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Building in production mode"
+	@echo "------------------------------------------------------------------"
+	@docker-compose -p $(PROJECT_ID) build
+
+# mapstore-frontend:
+#	@echo
+#	@echo "------------------------------------------------------------------"
+#	@echo "Running in production mode"
+#	@echo "------------------------------------------------------------------"
+#	@docker-compose -p $(PROJECT_ID) up -d mapstore-frontend
 
 nginx:
 	@echo
@@ -51,142 +61,91 @@ nginx:
 	@docker-compose -p $(PROJECT_ID) up -d nginx
 	@echo "Site should now be available at http://localhost"
 
-migrate:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Running migrate static in production mode"
-	@echo "------------------------------------------------------------------"
-	@#http://stackoverflow.com/questions/29689365/auth-user-error-with-django-1-8-and-syncdb-migrate
-	@#and
-	@#http://stackoverflow.com/questions/3143635/how-to-ignore-mv-error
-	@# We add the '-' prefix to the next line as the migration may fail
-	@# but we want to continue anyway.
-	@#We need to migrate accounts first as it has a reference to user model
-	-@docker-compose -p $(PROJECT_ID) run uwsgi python manage.py migrate auth
-	@docker-compose -p $(PROJECT_ID) run uwsgi python manage.py migrate
+up: web
 
-update-migrations:
+status:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Running update migrations in production mode"
+	@echo "Show status for all containers"
 	@echo "------------------------------------------------------------------"
-	@docker-compose -p $(PROJECT_ID) run uwsgi python manage.py makemigrations
-
-collectstatic:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Collecting static in production mode"
-	@echo "------------------------------------------------------------------"
-	#@docker-compose -p $(PROJECT_ID) run uwsgi python manage.py collectstatic --noinput
-	#We need to run collect static in the same context as the running
-	# uwsgi container it seems so I use docker exec here
-	@docker exec -t -i $(PROJECT_ID)-uwsgi python manage.py collectstatic --noinput
-
-reload:
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Reload django project in production mode"
-	@echo "------------------------------------------------------------------"
-	@docker exec -t -i $(PROJECT_ID)-uwsgi uwsgi --reload  /tmp/django.pid
+	@docker-compose -p $(PROJECT_ID) ps
 
 kill:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Killing in production mode"
 	@echo "------------------------------------------------------------------"
-	@docker-compose -p $(PROJECT_ID) kill
+	@docker-compose -p $(PROJECT_ID) stop
 
-rm: dbbackup rm-only
-
-
-rm-only: kill
+rm: kill
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Removing production instance!!! "
 	@echo "------------------------------------------------------------------"
-	@docker-compose -p $(PROJECT_ID) rm
+	@docker-compose -p $(PROJECT_ID) down
 
 shell:
 	@echo
 	@echo "------------------------------------------------------------------"
 	@echo "Shelling in in production mode"
 	@echo "------------------------------------------------------------------"
-	@docker-compose -p $(PROJECT_ID) run --rm uwsgi /bin/bash
+	@docker-compose -p $(PROJECT_ID) exec django /bin/bash
 
-runtests:
+db-bash:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Run tests in production mode"
+	@echo "Entering DB Bash in production mode"
 	@echo "------------------------------------------------------------------"
-	@docker-compose -p $(PROJECT_ID) run --rm uwsgi python manage.py test; exit $?
+	@docker-compose -p $(PROJECT_ID) exec db sh
 
-superuser:
+db-shell:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Creating a superuser in production mode"
+	@echo "Entering PostgreSQL Shell in production mode"
 	@echo "------------------------------------------------------------------"
-	@docker-compose -p $(PROJECT_ID) run uwsgi python manage.py createsuperuser
+	docker-compose -p $(PROJECT_ID) exec db su - postgres -c "psql"
 
-dbbash:
+geoserver-shell:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Bashing in to production database"
+	@echo "Entering Geoserver Shell in in production mode"
 	@echo "------------------------------------------------------------------"
-	@docker exec -t -i $(PROJECT_ID)-db /bin/bash
+	@docker-compose -p $(PROJECT_ID) exec geoserver sh
 
-dbshell:
+collectstatic:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Shelling in in production database"
+	@echo "Collecting static in production mode"
 	@echo "------------------------------------------------------------------"
-	@docker exec -t -i $(PROJECT_ID)-db psql -U docker -h localhost gis
+	#@docker-compose -p $(PROJECT_ID) run django python manage.py collectstatic --noinput
+	#We need to run collect static in the same context as the running
+	# django container it seems so I use docker exec here
+	# no -it flag so we can run over remote shell
+	@docker exec $(PROJECT_ID)_django_1 python manage.py collectstatic --noinput
 
-dbrestore:
+reload:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Restore dump from backups/latest.dmp in production mode"
+	@echo "Reload django project in production mode"
 	@echo "------------------------------------------------------------------"
-	@# - prefix causes command to continue even if it fails
-	-@docker exec -t -i $(PROJECT_ID)-db su - postgres -c "dropdb gis"
-	@docker exec -t -i $(PROJECT_ID)-db su - postgres -c "createdb -O docker -T template_postgis gis"
-	@docker exec -t -i $(PROJECT_ID)-db pg_restore /backups/latest.dmp | docker exec -i $(PROJECT_ID)-db su - postgres -c "psql gis"
+	# no -it flag so we can run over remote shell
+	@docker exec $(PROJECT_ID)_django_1 django --reload  /tmp/django.pid
 
-dbbackup:
+migrate:
 	@echo
 	@echo "------------------------------------------------------------------"
-	@echo "Create `date +%d-%B-%Y`.dmp in production mode"
-	@echo "Warning: backups/latest.dmp will be replaced with a symlink to "
-	@echo "the new backup."
+	@echo "Running migrate static in production mode"
 	@echo "------------------------------------------------------------------"
-	@# - prefix causes command to continue even if it fails
-	@# Explicitly don't use -t so we can call this make target over a remote ssh session
-	@docker exec -i $(PROJECT_ID)-db-backups /backups.sh
-	@docker exec -i $(PROJECT_ID)-db-backups cat /var/log/cron.log | tail -2 | head -1 | awk '{print $4}'
-	-@if [ -f "backups/latest.dmp" ]; then rm backups/latest.dmp; fi
-	# backups is intentionally missing from front of first clause below otherwise symlink comes
-	# out with wrong path...
-	@ln -s `date +%Y`/`date +%B`/PG_$(PROJECT_ID)_gis.`date +%d-%B-%Y`.dmp backups/latest.dmp
-	@echo "Backup should be at: backups/`date +%Y`/`date +%B`/PG_$(PROJECT_ID)_gis.`date +%d-%B-%Y`.dmp"
+	@docker-compose exec django python manage.py migrate
 
-# ----------------------------------------------------------------------------
-#    DEVELOPMENT C O M M A N D S
-# --no-deps will attach to prod deps if running
-# after running you will have ssh and web ports open (see dockerfile for no's)
-# and you can set your pycharm to use the python in the container
-# Note that pycharm will copy in resources to the /root/ user folder
-# for pydevd etc. If they dont get copied, restart pycharm...
-# ----------------------------------------------------------------------------
+# --------------- help --------------------------------
 
-devweb: db
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Running in DEVELOPMENT mode"
-	@echo "------------------------------------------------------------------"
-	@docker-compose -p $(PROJECT_ID) up --no-deps -d devweb
-
-build-devweb: db
-	@echo
-	@echo "------------------------------------------------------------------"
-	@echo "Building devweb"
-	@echo "------------------------------------------------------------------"
-	@docker-compose -p $(PROJECT_ID) build devweb
+help:
+	@echo "* **build** - builds all required containers."
+	@echo "* **up** - runs all required containers."
+	@echo "* **kill** - kills all running containers. Does not remove them."
+	@echo "* **logs** - view the logs of all running containers. Note that you can also view individual logs in the deployment/logs directory."
+	@echo "* **nginx** - builds and runs the nginx container."
+	@echo "* **permissions** - Update the permissions of shared volumes. Note this will destroy any existing permissions you have in place."
+	@echo "* **rm** - remove all containers."
+	@echo "* **shell-frontend-mapstore** - open a bash shell in the frontend mapstore (where django runs) container."

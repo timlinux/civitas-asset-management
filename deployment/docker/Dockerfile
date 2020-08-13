@@ -28,6 +28,9 @@ RUN pip install uwsgi==2.0.18
 
 RUN ln -s /usr/bin/python3 /usr/local/bin/python
 
+ADD entrypoint.sh /entrypoint.sh
+ADD initialize.py /initialize.py
+
 # Open port 8080 as we will be running our uwsgi socket on that
 EXPOSE 8080
 
