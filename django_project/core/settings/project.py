@@ -66,6 +66,9 @@ ADMIN_GROUP = {
         ],
         'community': [
             'Province', 'Region', 'Community'
+        ],
+        'water_supply': [
+            'Tank', 'TankBrand', 'TankType'
         ]
     }
 }

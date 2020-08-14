@@ -20,7 +20,7 @@ def grouping_models(app):
             }
             for object_name in value:
                 for model in app['models']:
-                    if model['object_name'] in object_name:
+                    if model['object_name'] == object_name:
                         group['models'].append(model)
             groups.append(group)
         return groups

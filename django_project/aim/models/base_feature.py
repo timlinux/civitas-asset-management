@@ -5,24 +5,6 @@ from django.contrib.gis.db import models
 from aim.models.base import _Term
 
 
-class BaseFeature(models.Model):
-    """
-    Model for base feature.
-    Every feature needs to override this model
-    """
-    uid = models.CharField(
-        unique=True,
-        max_length=256,
-        help_text='unique asset ID'
-    )
-    description = models.TextField(
-        null=True, blank=True
-    )
-
-    class Meta:
-        abstract = True
-
-
 class AssetSubClass(_Term):
     """
     The second Level of the Asset Hierrarchy as defined in "Background" Sheet
@@ -70,3 +52,22 @@ class FeatureCode(_Term):
 
     def __str__(self):
         return '({}) {}'.format(self.name, self.description)
+
+
+class BaseFeature(models.Model):
+    """
+    Model for base feature.
+    Every feature needs to override this model
+    """
+
+    uid = models.CharField(
+        unique=True,
+        max_length=256,
+        help_text='unique asset ID'
+    )
+    description = models.TextField(
+        null=True, blank=True
+    )
+
+    class Meta:
+        abstract = True
