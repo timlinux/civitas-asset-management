@@ -68,7 +68,11 @@ ADMIN_GROUP = {
             'Province', 'Region', 'Community'
         ],
         'water_supply': [
-            'Tank', 'TankBrand', 'TankType'
+            'Tank', 'TankBrand', 'TankType',
+            'Source', 'SourceType',
+            'Treatment', 'TreatmentType',
+            'Pump', 'PumpBrand', 'PumpType',
+            'Motor', 'MotorType',
         ]
     }
 }

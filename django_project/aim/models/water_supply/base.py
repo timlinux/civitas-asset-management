@@ -17,6 +17,13 @@ class WaterSupplyFeature(BaseFeature):
             'asset_class__name': 'PWS'}
     )
 
+    def get_feature_code(self):
+        """
+        return current feature code
+        :rtype: FeatureCode
+        """
+        return self.feature_code
+
     class Meta:
-        ordering = ('feature_code__name', )
+        ordering = ('feature_code__name',)
         abstract = True

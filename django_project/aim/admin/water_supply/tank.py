@@ -2,12 +2,13 @@ __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '14/08/20'
 
 from django.contrib import admin
+from aim.admin.base_feature import BaseFeatureAdmin
 from aim.models.water_supply import (
     Tank, TankBrand, TankType
 )
 
 
-class TankAdmin(admin.ModelAdmin):
+class TankAdmin(BaseFeatureAdmin):
     list_display = ('uid', 'type', 'brand', 'model', 'capacity', 'feature_code')
 
 

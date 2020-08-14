@@ -33,3 +33,10 @@ class FeatureCodeAdmin(admin.ModelAdmin):
 admin.site.register(AssetClass, AssetClassAdmin)
 admin.site.register(AssetSubClass, AssetSubClassAdmin)
 admin.site.register(FeatureCode, FeatureCodeAdmin)
+
+
+class BaseFeatureAdmin(admin.ModelAdmin):
+    readonly_fields = ('uid',)
+
+    class Meta:
+        abstract = True

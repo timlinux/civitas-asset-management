@@ -61,8 +61,8 @@ class BaseFeature(models.Model):
     """
 
     uid = models.CharField(
-        unique=True,
         max_length=256,
+        null=True, blank=True,
         help_text='unique asset ID'
     )
     description = models.TextField(
@@ -71,3 +71,25 @@ class BaseFeature(models.Model):
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        super(BaseFeature, self).save(*args, **kwargs)
+        new_uid = '{}-{}-{}-{}'.format(
+            self.get_feature_code().asset_class.name,
+            self.get_feature_code().asset_sub_class.name,
+            self.get_feature_code().name,
+            self.id
+        )
+        if self.uid != new_uid:
+            self.uid = new_uid
+            self.save()
+
+    def get_feature_code(self):
+        """
+        return current feature code
+        :rtype: FeatureCode
+        """
+        raise NotImplementedError
+
+    def __str__(self):
+        return '{}'.format(self.uid)
