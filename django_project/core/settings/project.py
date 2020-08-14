@@ -63,6 +63,9 @@ ADMIN_GROUP = {
     'aim': {
         'base feature': [
             'AssetClass', 'AssetSubClass', 'FeatureCode'
+        ],
+        'community': [
+            'Province', 'Region', 'Community'
         ]
     }
 }

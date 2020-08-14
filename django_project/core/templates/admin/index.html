@@ -15,6 +15,7 @@
     <style>
         .sub-section {
             background: #92bed3 !important;
+            text-transform: uppercase;
         }
 
         .sub-section .section {
@@ -38,9 +39,10 @@
                         {% if groups %}
                             {# if is group #}
                             {% for group in groups %}
-                                <caption class="sub-section">
-                                    <a href="{{ app.app_url }}" class="section" title="{% blocktrans with name=group.name %}Models in the {{ name }} group{% endblocktrans %}">{{ group.name }}</a>
-                                </caption>
+                                <tr class="sub-section">
+                                    <td colspan="3">
+                                        <a href="{{ app.app_url }}" class="section" title="{% blocktrans with name=group.name %}Models in the {{ name }} group{% endblocktrans %}">{{ group.name }}</a></td>
+                                </tr>
                                 {% for model in group.models %}
                                     <tr class="model-{{ model.object_name|lower }}">
                                         {% if model.admin_url %}

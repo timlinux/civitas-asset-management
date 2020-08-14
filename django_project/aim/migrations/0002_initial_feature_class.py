@@ -85,7 +85,6 @@ def import_data(apps, schema_editor):
                 )
             except (AssetClass.DoesNotExist, AssetSubClass.DoesNotExist):
                 pass
-    raise Exception('test')
 
 
 class Migration(migrations.Migration):
