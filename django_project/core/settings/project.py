@@ -8,29 +8,61 @@ repository!
 
 import os  # noqa
 from django.utils.translation import ugettext_lazy as _
-from .contrib import *  # noqa
+from .base import *  # noqa
 
-# Due to profile page does not available,
-# this will redirect to home page after login
-LOGIN_REDIRECT_URL = '/'
+# Extra installed apps
+INSTALLED_APPS = INSTALLED_APPS + (
+    # 3rd party
+    'rest_framework',
+    'rest_framework_gis',
 
-# How many versions to list in each project box
-PROJECT_VERSION_LIST_SIZE = 10
+    # apps
+    'core',
+    'aim',
+    'web-app',
+)
 
-# Set debug to false for production
-DEBUG = TEMPLATE_DEBUG = False
+# databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.environ['DATABASE_NAME'],
+        'USER': os.environ['DATABASE_USERNAME'],
+        'PASSWORD': os.environ['DATABASE_PASSWORD'],
+        'HOST': os.environ['DATABASE_HOST'],
+        'PORT': 5432,
+        'TEST_NAME': 'unittests',
+    }
+}
+# AIM database
+AIM_DATABASE = 'aim'
+DATABASES[AIM_DATABASE] = {
+    'ENGINE': 'django.contrib.gis.db.backends.postgis',
+    'NAME': os.environ['DATABASE_AIM_NAME'],
+    'USER': os.environ['DATABASE_USERNAME'],
+    'PASSWORD': os.environ['DATABASE_PASSWORD'],
+    'HOST': os.environ['DATABASE_HOST'],
+    'PORT': 5432,
+    'TEST_NAME': 'unittests',
+}
+DATABASE_ROUTERS = ['aim.router.Router']
 
-SOUTH_TESTS_MIGRATE = False
+# Admins and allowed hosts
+ADMINS = (
+    ('Irwan Fathurrahman', 'meomancer@gmail.com'),
+)
+ALLOWED_HOSTS = ['*']
 
 # Set languages which want to be translated
 LANGUAGES = (
     ('en', _('English')),
 )
 
-# Set storage path for the translation files
-LOCALE_PATHS = (ABS_PATH('locale'),)
-
-# Extra installed apps
-INSTALLED_APPS = INSTALLED_APPS + (
-    'web-app',
-)
+# Create APP as the key, after that group it by it's model
+ADMIN_GROUP = {
+    'aim': {
+        'base feature': [
+            'AssetClass', 'AssetSubClass', 'FeatureCode'
+        ]
+    }
+}

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # Django settings for watchkeeper project.
 
+# import SECRET_KEY into current namespace
+from core.settings.secret import *  # noqa
 from core.settings.utils import ABS_PATH
 
 # Local time zone for this installation. Choices can be found here:
@@ -54,9 +56,6 @@ STATICFILES_DIRS = (
     ABS_PATH('web-app', ''),
 )
 
-# import SECRET_KEY into current namespace
-from core.settings.secret import *  # noqa
-
 # Every cache key will get prefixed with this value - here we set it to
 # the name of the directory the project is in to try and use something
 # project specific.
@@ -84,6 +83,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             ABS_PATH('core', 'templates'),
+            ABS_PATH('aim', 'templates'),
             ABS_PATH('web-app', 'templates'),
         ],
         'OPTIONS': {
@@ -129,3 +129,13 @@ INSTALLED_APPS = (
 LOGIN_URL = '/login'
 SITE_ID = 1
 DEFAULT_FROM_EMAIL = 'meomancer@gmail.com'
+
+# Due to profile page does not available,
+# this will redirect to home page after login
+LOGIN_REDIRECT_URL = '/'
+
+# Set debug to false for production
+DEBUG = TEMPLATE_DEBUG = False
+
+# Set storage path for the translation files
+LOCALE_PATHS = (ABS_PATH('locale'),)
