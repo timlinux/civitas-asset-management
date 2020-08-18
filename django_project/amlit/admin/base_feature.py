@@ -2,9 +2,12 @@ __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '14/08/20'
 
 from django.contrib import admin
+from django.contrib.gis.admin import OSMGeoAdmin
 from amlit.models.base_feature import (
     AssetClass, AssetSubClass, FeatureCode
 )
+
+water_list_display = ('uid', 'feature_code')
 
 
 class AssetClassAdmin(admin.ModelAdmin):
@@ -35,8 +38,12 @@ admin.site.register(AssetSubClass, AssetSubClassAdmin)
 admin.site.register(FeatureCode, FeatureCodeAdmin)
 
 
-class BaseFeatureAdmin(admin.ModelAdmin):
+class BaseFeatureAdmin(OSMGeoAdmin):
+    default_lon = 0
+    default_lat = 0
+    default_zoom = 5
     readonly_fields = ('uid',)
+    list_filter = ('feature_code',)
 
     class Meta:
         abstract = True

@@ -61,6 +61,9 @@ LANGUAGES = (
 # Create APP as the key, after that group it by it's model
 ADMIN_GROUP = {
     'amlit': {
+        'config': [
+            'Configuration'
+        ],
         'base feature': [
             'AssetClass', 'AssetSubClass', 'FeatureCode'
         ],
