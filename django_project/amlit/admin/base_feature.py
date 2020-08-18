@@ -2,7 +2,7 @@ __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '14/08/20'
 
 from django.contrib import admin
-from aim.models.base_feature import (
+from amlit.models.base_feature import (
     AssetClass, AssetSubClass, FeatureCode
 )
 

@@ -83,7 +83,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             ABS_PATH('core', 'templates'),
-            ABS_PATH('aim', 'templates'),
+            ABS_PATH('amlit', 'templates'),
             ABS_PATH('web-app', 'templates'),
         ],
         'OPTIONS': {

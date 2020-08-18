@@ -1,7 +1,7 @@
 from django.conf import settings
 
 try:
-    DATABASE = settings.AIM_DATABASE
+    DATABASE = settings.AMLIT_DATABASE
 except AttributeError:
     DATABASE = 'default'
 
@@ -13,7 +13,7 @@ class Router(object):
         A router to control all database operations on models in the
         auth and contenttypes applications.
         """
-    app_label = 'aim'
+    app_label = 'amlit'
 
     def db_for_read(self, model, **hints):
         """

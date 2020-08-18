@@ -2,8 +2,8 @@ __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '14/08/20'
 
 from django.contrib.gis.db import models
-from aim.models.base import _Term
-from aim.models.water_supply.base import WaterSupplyFeature
+from amlit.models.base import _Term
+from amlit.models.water_supply.base import WaterSupplyFeature
 
 
 class TankType(_Term):

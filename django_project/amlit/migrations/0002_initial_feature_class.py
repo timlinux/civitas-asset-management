@@ -10,14 +10,14 @@ from django.db import migrations
 
 def import_data(apps, schema_editor):
     db_alias = schema_editor.connection.alias
-    app_name = 'aim'
+    app_name = 'amlit'
     DJANGO_ROOT = os.path.dirname(
         os.path.dirname(
             os.path.dirname(os.path.abspath(__file__))
         ))
 
     fixture_file = os.path.join(
-        DJANGO_ROOT, 'aim', 'fixtures', 'feature_class.xlsx')
+        DJANGO_ROOT, 'amlit', 'fixtures', 'feature_class.xlsx')
     sheet = xlsx_get(fixture_file, column_limit=11)
     sheetname = next(iter(sheet))
     records = sheet[sheetname]
@@ -90,7 +90,7 @@ def import_data(apps, schema_editor):
 class Migration(migrations.Migration):
     atomic = False
     dependencies = [
-        ('aim', '0001_initial'),
+        ('amlit', '0001_initial'),
     ]
 
     operations = [

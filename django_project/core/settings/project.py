@@ -18,7 +18,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
 
     # apps
     'core',
-    'aim',
+    'amlit',
     'web-app',
 )
 
@@ -34,9 +34,9 @@ DATABASES = {
         'TEST_NAME': 'unittests',
     }
 }
-# AIM database
-AIM_DATABASE = 'aim'
-DATABASES[AIM_DATABASE] = {
+# AMLIT database
+AMLIT_DATABASE = 'amlit'
+DATABASES[AMLIT_DATABASE] = {
     'ENGINE': 'django.contrib.gis.db.backends.postgis',
     'NAME': os.environ['DATABASE_AIM_NAME'],
     'USER': os.environ['DATABASE_USERNAME'],
@@ -45,7 +45,7 @@ DATABASES[AIM_DATABASE] = {
     'PORT': 5432,
     'TEST_NAME': 'unittests',
 }
-DATABASE_ROUTERS = ['aim.router.Router']
+DATABASE_ROUTERS = ['amlit.router.Router']
 
 # Admins and allowed hosts
 ADMINS = (
@@ -60,7 +60,7 @@ LANGUAGES = (
 
 # Create APP as the key, after that group it by it's model
 ADMIN_GROUP = {
-    'aim': {
+    'amlit': {
         'base feature': [
             'AssetClass', 'AssetSubClass', 'FeatureCode'
         ],

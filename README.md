@@ -1,1 +1,1 @@
-# New Django Project
+#  Asset Management LandInfo Technologies (AMLIT)
