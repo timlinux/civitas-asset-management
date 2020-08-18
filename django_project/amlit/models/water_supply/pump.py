@@ -9,14 +9,14 @@ from amlit.models.water_supply.motor import Motor
 
 
 class PumpType(_Term):
-    """ List of pump type."""
+    """ List of Pump Type."""
 
     class Meta:
         db_table = 'pump_type'
 
 
 class PumpSubType(_Term):
-    """ List of pump sub type."""
+    """ List of Pump Sub Type."""
     type = models.ForeignKey(
         PumpType,
         on_delete=models.CASCADE

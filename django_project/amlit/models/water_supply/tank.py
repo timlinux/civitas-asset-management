@@ -8,7 +8,7 @@ from amlit.models.water_supply.base import WaterSupplyFeature
 
 
 class TankType(_Term):
-    """ List of tank type."""
+    """ List of Tank Type."""
 
     class Meta:
         db_table = 'tank_type'

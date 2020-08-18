@@ -8,7 +8,7 @@ from amlit.models.water_supply.base import WaterSupplyFeature
 
 
 class HydrantType(_Term):
-    """ List of Hydrant type."""
+    """ List of Hydrant Type."""
 
     class Meta:
         db_table = 'hydrant_type'

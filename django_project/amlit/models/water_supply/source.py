@@ -7,7 +7,7 @@ from amlit.models.water_supply.base import WaterSupplyFeature
 
 
 class SourceType(_Term):
-    """ List of source type."""
+    """ List of Source Type."""
 
     class Meta:
         db_table = 'source_type'

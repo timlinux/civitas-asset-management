@@ -8,7 +8,7 @@ from amlit.models.water_supply.base import WaterSupplyFeature
 
 
 class ChamberType(_Term):
-    """ List of Chamber type."""
+    """ List of Chamber Type."""
 
     class Meta:
         db_table = 'chamber_type'
@@ -18,7 +18,7 @@ class Chamber(WaterSupplyFeature):
     """
     WaterSupply (PWS) sub-feature : Chamber
     """
-    geometry = models.PolygonField(
+    geometry = models.PointField(
         help_text="Geometry of Chamber."
     )
     brand = models.ForeignKey(

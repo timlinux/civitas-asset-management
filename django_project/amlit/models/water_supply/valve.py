@@ -3,33 +3,34 @@ __date__ = '14/08/20'
 
 from django.contrib.gis.db import models
 from amlit.models.base import _Term
+from amlit.models.water_supply import Box
 from amlit.models.water_supply.general import WaterGeneralBrand
 from amlit.models.water_supply.base import WaterSupplyFeature
 
 
 class ValveType(_Term):
-    """ List of Valve type."""
+    """ List of Valve Type."""
 
     class Meta:
         db_table = 'valve_type'
 
 
 class ValveActuationType(_Term):
-    """ List of Valve actuation type."""
+    """ List of Valve Actuation Type."""
 
     class Meta:
         db_table = 'valve_actuation_type'
 
 
 class ValveActuationDirection(_Term):
-    """ List of Valve actuation direction."""
+    """ List of Valve Actuation Direction."""
 
     class Meta:
         db_table = 'valve_actuation_direction'
 
 
 class ValveActuationSpec(_Term):
-    """ List of Valve actuation spec."""
+    """ List of Valve Actuation Spec."""
 
     class Meta:
         db_table = 'valve_actuation_spec'
@@ -39,8 +40,13 @@ class Valve(WaterSupplyFeature):
     """
     WaterSupply (PWS) sub-feature : Valve
     """
-    geometry = models.PolygonField(
+    geometry = models.PointField(
         help_text="Geometry of Valve."
+    )
+    box = models.ForeignKey(
+        Box,
+        null=True, blank=True,
+        on_delete=models.SET_NULL
     )
     brand = models.ForeignKey(
         WaterGeneralBrand,

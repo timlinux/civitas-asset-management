@@ -8,19 +8,19 @@ from amlit.models.water_supply.general import (
 from amlit.models.water_supply.base import WaterSupplyFeature
 
 
-class PartType(_Term):
-    """ List of Part Type."""
+class PipeType(_Term):
+    """ List of Pipe Type."""
 
     class Meta:
-        db_table = 'part_type'
+        db_table = 'pipe_type'
 
 
-class Part(WaterSupplyFeature):
+class Pipe(WaterSupplyFeature):
     """
-    WaterSupply (PWS) sub-feature : Part
+    WaterSupply (PWS) sub-feature : Pipe
     """
-    geometry = models.PointField(
-        help_text="Geometry of Part."
+    geometry = models.LineStringField(
+        help_text="Geometry of Pipe."
     )
     brand = models.ForeignKey(
         WaterGeneralBrand,
@@ -30,10 +30,10 @@ class Part(WaterSupplyFeature):
     model = models.CharField(
         max_length=256,
         null=True, blank=True,
-        help_text='Model of Part'
+        help_text='Model of Pipe'
     )
     type = models.ForeignKey(
-        PartType,
+        PipeType,
         null=True, blank=True,
         on_delete=models.SET_NULL
     )
@@ -42,10 +42,18 @@ class Part(WaterSupplyFeature):
         null=True, blank=True,
         on_delete=models.SET_NULL
     )
+    diameter = models.FloatField(
+        null=True, blank=True,
+        help_text='Depth of pipe (SI system)'
+    )
     depth = models.FloatField(
         null=True, blank=True,
-        help_text='Depth of part (SI system)'
+        help_text='Depth of pipe (SI system)'
+    )
+    length = models.FloatField(
+        null=True, blank=True,
+        help_text='Length of pipe (SI system)'
     )
 
     class Meta:
-        db_table = 'part'
+        db_table = 'pipe'

@@ -3,11 +3,12 @@ __date__ = '14/08/20'
 
 from django.contrib.gis.db import models
 from amlit.models.base import _Term
+from amlit.models.water_supply import Control
 from amlit.models.water_supply.base import WaterSupplyFeature
 
 
 class MotorType(_Term):
-    """ List of motor type."""
+    """ List of Motor Type."""
 
     class Meta:
         db_table = 'motor_type'
@@ -19,6 +20,11 @@ class Motor(WaterSupplyFeature):
     """
     geometry = models.PointField(
         help_text="Geometry of motor."
+    )
+    control = models.ForeignKey(
+        Control,
+        null=True, blank=True,
+        on_delete=models.SET_NULL
     )
     model = models.CharField(
         max_length=256,

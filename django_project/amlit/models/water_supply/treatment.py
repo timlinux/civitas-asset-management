@@ -7,7 +7,7 @@ from amlit.models.water_supply.base import WaterSupplyFeature
 
 
 class TreatmentType(_Term):
-    """ List of treatment type."""
+    """ List of Treatment Type."""
 
     class Meta:
         db_table = 'treatment_type'

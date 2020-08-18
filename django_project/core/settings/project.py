@@ -71,10 +71,14 @@ ADMIN_GROUP = {
             'WaterGeneralBrand', 'WaterGeneralMaterial'
         ],
         'water supply': [
+            'Box',
             'Chamber', 'ChamberType',
+            'Control',
             'Hydrant', 'HydrantType',
+            'Meter', 'MeterType', 'MeterReadingType', 'MeterPID',
             'Motor', 'MotorType',
             'Part', 'PartType',
+            'Pipe', 'PipeType',
             'Pump', 'PumpBrand', 'PumpType',
             'Source', 'SourceType',
             'Tank', 'TankBrand', 'TankType',

@@ -3,24 +3,37 @@ __date__ = '14/08/20'
 
 from django.contrib.gis.db import models
 from amlit.models.base import _Term
-from amlit.models.water_supply.general import (
-    WaterGeneralBrand, WaterGeneralMaterial)
+from amlit.models.water_supply.general import WaterGeneralBrand
 from amlit.models.water_supply.base import WaterSupplyFeature
 
 
-class PartType(_Term):
-    """ List of Part Type."""
+class MeterType(_Term):
+    """ List of Meter Type."""
 
     class Meta:
-        db_table = 'part_type'
+        db_table = 'meter_type'
 
 
-class Part(WaterSupplyFeature):
+class MeterReadingType(_Term):
+    """ List of Meter Reading Type."""
+
+    class Meta:
+        db_table = 'meter_reading_type'
+
+
+class MeterPID(_Term):
+    """ List of Meter PID."""
+
+    class Meta:
+        db_table = 'meter_pid'
+
+
+class Meter(WaterSupplyFeature):
     """
-    WaterSupply (PWS) sub-feature : Part
+    WaterSupply (PWS) sub-feature : Meter
     """
     geometry = models.PointField(
-        help_text="Geometry of Part."
+        help_text="Geometry of Meter."
     )
     brand = models.ForeignKey(
         WaterGeneralBrand,
@@ -30,22 +43,23 @@ class Part(WaterSupplyFeature):
     model = models.CharField(
         max_length=256,
         null=True, blank=True,
-        help_text='Model of Part'
+        help_text='Model of Meter'
     )
     type = models.ForeignKey(
-        PartType,
+        MeterType,
         null=True, blank=True,
         on_delete=models.SET_NULL
     )
-    material = models.ForeignKey(
-        WaterGeneralMaterial,
+    reading_type = models.ForeignKey(
+        MeterReadingType,
         null=True, blank=True,
         on_delete=models.SET_NULL
     )
-    depth = models.FloatField(
+    pid = models.ForeignKey(
+        MeterPID,
         null=True, blank=True,
-        help_text='Depth of part (SI system)'
+        on_delete=models.SET_NULL
     )
 
     class Meta:
-        db_table = 'part'
+        db_table = 'meter'
