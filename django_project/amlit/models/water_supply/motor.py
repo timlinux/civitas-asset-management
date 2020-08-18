@@ -22,11 +22,13 @@ class Motor(WaterSupplyFeature):
     )
     model = models.CharField(
         max_length=256,
+        null=True, blank=True,
         help_text='Model of motor'
     )
     type = models.ForeignKey(
         MotorType,
-        on_delete=models.CASCADE
+        null=True, blank=True,
+        on_delete=models.SET_NULL
     )
     output_hp = models.FloatField(
         null=True, blank=True,

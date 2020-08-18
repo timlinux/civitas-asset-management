@@ -71,12 +71,17 @@ ADMIN_GROUP = {
             'WaterGeneralBrand', 'WaterGeneralMaterial'
         ],
         'water supply': [
-            'Tank', 'TankBrand', 'TankType',
-            'Source', 'SourceType',
-            'Treatment', 'TreatmentType',
-            'Pump', 'PumpBrand', 'PumpType',
+            'Chamber', 'ChamberType',
             'Hydrant', 'HydrantType',
             'Motor', 'MotorType',
+            'Part', 'PartType',
+            'Pump', 'PumpBrand', 'PumpType',
+            'Source', 'SourceType',
+            'Tank', 'TankBrand', 'TankType',
+            'Treatment', 'TreatmentType',
+            # valve
+            'Valve', 'ValveType', 'ValveActuationType',
+            'ValveActuationDirection', 'ValveActuationSpec'
         ]
     }
 }

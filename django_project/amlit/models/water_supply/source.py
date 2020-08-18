@@ -22,7 +22,8 @@ class Source(WaterSupplyFeature):
     )
     type = models.ForeignKey(
         SourceType,
-        on_delete=models.CASCADE
+        null=True, blank=True,
+        on_delete=models.SET_NULL
     )
 
     class Meta:

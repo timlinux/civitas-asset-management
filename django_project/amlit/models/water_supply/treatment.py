@@ -22,7 +22,8 @@ class Treatment(WaterSupplyFeature):
     )
     type = models.ForeignKey(
         TreatmentType,
-        on_delete=models.CASCADE
+        null=True, blank=True,
+        on_delete=models.SET_NULL
     )
 
     class Meta:

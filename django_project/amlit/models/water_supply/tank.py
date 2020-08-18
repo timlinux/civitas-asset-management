@@ -23,14 +23,17 @@ class Tank(WaterSupplyFeature):
     )
     type = models.ForeignKey(
         TankType,
-        on_delete=models.CASCADE
+        null=True, blank=True,
+        on_delete=models.SET_NULL
     )
     brand = models.ForeignKey(
         WaterGeneralBrand,
-        on_delete=models.CASCADE
+        null=True, blank=True,
+        on_delete=models.SET_NULL
     )
     model = models.CharField(
         max_length=256,
+        null=True, blank=True,
         help_text='Model of tank'
     )
     capacity = models.FloatField(

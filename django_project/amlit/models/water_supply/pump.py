@@ -35,19 +35,23 @@ class Pump(WaterSupplyFeature):
     )
     motor = models.ForeignKey(
         Motor,
-        on_delete=models.CASCADE
+        null=True, blank=True,
+        on_delete=models.SET_NULL
     )
     brand = models.ForeignKey(
         WaterGeneralBrand,
-        on_delete=models.CASCADE
+        null=True, blank=True,
+        on_delete=models.SET_NULL
     )
     model = models.CharField(
         max_length=256,
+        null=True, blank=True,
         help_text='Model of pump'
     )
     subtype = models.ForeignKey(
         PumpSubType,
-        on_delete=models.CASCADE
+        null=True, blank=True,
+        on_delete=models.SET_NULL
     )
     submerged = models.BooleanField(
         null=True, blank=True,
