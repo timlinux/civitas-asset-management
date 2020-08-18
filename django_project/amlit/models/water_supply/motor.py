@@ -21,7 +21,7 @@ class Motor(WaterSupplyFeature):
         help_text="Geometry of motor."
     )
     model = models.CharField(
-        max_length=64,
+        max_length=256,
         help_text='Model of motor'
     )
     type = models.ForeignKey(

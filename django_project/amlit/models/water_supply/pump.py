@@ -3,6 +3,7 @@ __date__ = '14/08/20'
 
 from django.contrib.gis.db import models
 from amlit.models.base import _Term
+from amlit.models.water_supply.general import WaterGeneralBrand
 from amlit.models.water_supply.base import WaterSupplyFeature
 from amlit.models.water_supply.motor import Motor
 
@@ -25,13 +26,6 @@ class PumpSubType(_Term):
         db_table = 'pump_sub_type'
 
 
-class PumpBrand(_Term):
-    """ List of pump type."""
-
-    class Meta:
-        db_table = 'pump_brand'
-
-
 class Pump(WaterSupplyFeature):
     """
     WaterSupply (PWS) sub-feature : Pump
@@ -44,11 +38,11 @@ class Pump(WaterSupplyFeature):
         on_delete=models.CASCADE
     )
     brand = models.ForeignKey(
-        PumpBrand,
+        WaterGeneralBrand,
         on_delete=models.CASCADE
     )
     model = models.CharField(
-        max_length=64,
+        max_length=256,
         help_text='Model of pump'
     )
     subtype = models.ForeignKey(

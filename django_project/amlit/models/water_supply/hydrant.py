@@ -7,23 +7,19 @@ from amlit.models.water_supply.general import WaterGeneralBrand
 from amlit.models.water_supply.base import WaterSupplyFeature
 
 
-class TankType(_Term):
-    """ List of tank type."""
+class HydrantType(_Term):
+    """ List of Hydrant type."""
 
     class Meta:
-        db_table = 'tank_type'
+        db_table = 'Hydrant_type'
 
 
-class Tank(WaterSupplyFeature):
+class Hydrant(WaterSupplyFeature):
     """
-    WaterSupply (PWS) sub-feature : Tank
+    WaterSupply (PWS) sub-feature : Hydrant
     """
-    geometry = models.PolygonField(
+    geometry = models.PointField(
         help_text="Geometry of tank."
-    )
-    type = models.ForeignKey(
-        TankType,
-        on_delete=models.CASCADE
     )
     brand = models.ForeignKey(
         WaterGeneralBrand,
@@ -31,12 +27,12 @@ class Tank(WaterSupplyFeature):
     )
     model = models.CharField(
         max_length=256,
-        help_text='Model of tank'
+        help_text='Model of hydrant'
     )
-    capacity = models.FloatField(
-        null=True, blank=True,
-        help_text='Capacity of tank (SI system)'
+    type = models.ForeignKey(
+        HydrantType,
+        on_delete=models.CASCADE
     )
 
     class Meta:
-        db_table = 'tank'
+        db_table = 'Hydrant'
