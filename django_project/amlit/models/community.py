@@ -20,7 +20,7 @@ class _Administrative(models.Model):
         abstract = True
 
     def __str__(self):
-        return '({}) {}'.format(self.code, self.name)
+        return '{}'.format(self.name)
 
 
 class Province(_Administrative):

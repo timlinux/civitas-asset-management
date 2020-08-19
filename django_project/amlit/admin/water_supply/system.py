@@ -7,8 +7,8 @@ from amlit.models.water_supply.system import WaterSystem
 
 class WaterSystemAdmin(admin.ModelAdmin):
     filter_horizontal = (
-        'boxes', 'chamber', 'control', 'hydrant', 'meter',
-        'motor', 'part', 'pipe', 'pump', 'source', 'tank', 'valve')
+        'boxes', 'chambers', 'controls', 'hydrants', 'meters',
+        'motors', 'parts', 'pipes', 'pumps', 'sources', 'tanks', 'valves')
 
 
 admin.site.register(WaterSystem, WaterSystemAdmin)

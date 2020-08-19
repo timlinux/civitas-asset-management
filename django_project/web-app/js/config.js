@@ -1,0 +1,53 @@
+require.config({
+    paths: {
+        'jquery': 'libs/jquery.js/3.4.1/jquery.min',
+        'jqueryUI': 'libs/jquery-ui/1.12.1/jquery-ui',
+        'backbone': 'libs/backbone.js/1.4.0/backbone-min',
+        'leaflet': 'libs/leaflet/1.5.1/leaflet-src',
+        'bootstrap': 'libs/bootstrap/3.3.5/js/bootstrap.min',
+        'underscore': 'libs/underscore.js/1.9.1/underscore-min',
+        'leafletDraw': 'libs/leaflet.draw/1.0.4/leaflet.draw',
+        'request': 'request',
+    },
+    shim: {
+        leaflet: {
+            exports: ['L']
+        },
+        bootstrap: {
+            deps: ["jquery"]
+        },
+        jqueryUI: {
+            deps: ["jquery"]
+        },
+        rangeSlider: {
+            deps: ["jquery"]
+        },
+        leafletDraw: {
+            deps: ['leaflet'],
+            exports: 'LeafletDraw'
+        },
+    }
+});
+require([
+    'jquery',
+    'bootstrap',
+    'backbone',
+    'underscore',
+    'leaflet',
+    'leafletDraw',
+    'request',
+    'view/map',
+    'view/side-panel',
+    'view/style',
+    'view/helper/notification'
+], function ($, bootstrap, Backbone, _, L, LDraw, _Request, Map, SidePanel, _Style, Notification) {
+    csrfmiddlewaretoken = $('input[name ="csrfmiddlewaretoken"]').val();
+    dispatcher = _.extend({}, Backbone.Events);
+    Request = new _Request();
+    Style = new _Style()
+
+    // initiate all view
+    let mapiew = new Map();
+    map = mapiew.map;
+    new SidePanel();
+});

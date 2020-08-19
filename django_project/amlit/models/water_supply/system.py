@@ -21,37 +21,37 @@ class WaterSystem(_Term):
     boxes = models.ManyToManyField(
         Box, blank=True
     )
-    chamber = models.ManyToManyField(
+    chambers = models.ManyToManyField(
         Chamber, blank=True
     )
-    control = models.ManyToManyField(
+    controls = models.ManyToManyField(
         Control, blank=True
     )
-    hydrant = models.ManyToManyField(
+    hydrants = models.ManyToManyField(
         Hydrant, blank=True
     )
-    meter = models.ManyToManyField(
+    meters = models.ManyToManyField(
         Meter, blank=True
     )
-    motor = models.ManyToManyField(
+    motors = models.ManyToManyField(
         Motor, blank=True
     )
-    part = models.ManyToManyField(
+    parts = models.ManyToManyField(
         Part, blank=True
     )
-    pipe = models.ManyToManyField(
+    pipes = models.ManyToManyField(
         Pipe, blank=True
     )
-    pump = models.ManyToManyField(
+    pumps = models.ManyToManyField(
         Pump, blank=True
     )
-    source = models.ManyToManyField(
+    sources = models.ManyToManyField(
         Source, blank=True
     )
-    tank = models.ManyToManyField(
+    tanks = models.ManyToManyField(
         Tank, blank=True
     )
-    valve = models.ManyToManyField(
+    valves = models.ManyToManyField(
         Valve, blank=True
     )
 

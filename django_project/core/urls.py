@@ -1,17 +1,17 @@
 # coding=utf-8
 """Project level url handler."""
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from core.views.template import HomeView, MapView
+from core.views.template import MapView
 
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^$', MapView.as_view(), name='map'),
     url(r'^admin/', admin.site.urls),
-    url(r'^map/', MapView.as_view(), name='map'),
+    url(r'^amlit/', include('amlit.urls')),
 
 ]
 
