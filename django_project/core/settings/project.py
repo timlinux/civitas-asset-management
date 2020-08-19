@@ -74,6 +74,7 @@ ADMIN_GROUP = {
             'WaterGeneralBrand', 'WaterGeneralMaterial'
         ],
         'water supply': [
+            'WaterSystem',
             'Box',
             'Chamber', 'ChamberType',
             'Control',

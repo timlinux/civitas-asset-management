@@ -15,3 +15,5 @@ from amlit.models.water_supply.source import *
 from amlit.models.water_supply.tank import *
 from amlit.models.water_supply.treatment import *
 from amlit.models.water_supply.valve import *
+
+from amlit.models.water_supply.system import *

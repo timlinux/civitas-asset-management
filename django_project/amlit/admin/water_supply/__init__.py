@@ -15,3 +15,4 @@ from amlit.admin.water_supply.source import *
 from amlit.admin.water_supply.tank import *
 from amlit.admin.water_supply.treatment import *
 from amlit.admin.water_supply.valve import *
+from amlit.admin.water_supply.system import *

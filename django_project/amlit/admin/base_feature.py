@@ -39,9 +39,9 @@ admin.site.register(FeatureCode, FeatureCodeAdmin)
 
 
 class BaseFeatureAdmin(OSMGeoAdmin):
-    default_lon = 0
-    default_lat = 0
-    default_zoom = 5
+    default_lon = 11170608.17969
+    default_lat = -100436.17209
+    default_zoom = 17
     readonly_fields = ('uid',)
     list_filter = ('feature_code',)
 
