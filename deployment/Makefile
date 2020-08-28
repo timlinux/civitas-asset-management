@@ -1,4 +1,4 @@
-PROJECT_ID := project
+PROJECT_ID := amlit
 
 SHELL := /bin/bash
 

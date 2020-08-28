@@ -4,37 +4,48 @@ __date__ = '14/08/20'
 from django.contrib import admin
 from django.contrib.gis.admin import OSMGeoAdmin
 from amlit.models.base_feature import (
-    AssetClass, AssetSubClass, FeatureCode
+    FeatureClass, FeatureSubClass, FeatureCode, FeatureType, FeatureSubType
 )
 
-water_list_display = ('uid', 'feature_code')
+feature_display = ('uid', 'type', 'system', 'date_installed', 'remaining_life')
 
 
-class AssetClassAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'sub_class')
-    filter_horizontal = ('sub_classes',)
+class FeatureClassAdmin(admin.ModelAdmin):
+    list_display = ('name',)
 
-    def sub_class(self, obj):
-        """ Return list of sub class
+
+class FeatureSubClassAdmin(admin.ModelAdmin):
+    list_display = ('name', 'the_class')
+
+
+class FeatureTypeAdmin(admin.ModelAdmin):
+    list_display = (
+        'name', 'sub_class', 'the_class',
+        'maintenance_cost', 'renewal_cost', 'lifespan', 'unit')
+    list_filter = ('sub_class', 'sub_class__the_class')
+
+    def the_class(self, obj):
+        """ Return the_class
         :param obj:
-        :type obj: AssetClass
         :return:
         """
-        return ', '.join(
-            [sub_class.__str__() for sub_class in obj.sub_classes.all()]
-        )
+        return obj.sub_class.the_class.__str__()
+
+    the_class.short_description = 'class'
 
 
-class AssetSubClassAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description')
+class FeatureSubTypeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'type')
 
 
 class FeatureCodeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'asset_class', 'asset_sub_class')
+    list_display = ('name', 'sub_class')
 
 
-admin.site.register(AssetClass, AssetClassAdmin)
-admin.site.register(AssetSubClass, AssetSubClassAdmin)
+admin.site.register(FeatureClass, FeatureClassAdmin)
+admin.site.register(FeatureSubClass, FeatureSubClassAdmin)
+admin.site.register(FeatureType, FeatureTypeAdmin)
+admin.site.register(FeatureSubType, FeatureSubTypeAdmin)
 admin.site.register(FeatureCode, FeatureCodeAdmin)
 
 
@@ -42,8 +53,13 @@ class BaseFeatureAdmin(OSMGeoAdmin):
     default_lon = 11170608.17969
     default_lat = -100436.17209
     default_zoom = 17
-    readonly_fields = ('uid',)
-    list_filter = ('feature_code',)
+    readonly_fields = ('uid', 'feature_code', 'remaining_life')
+    list_filter = ('type',)
 
     class Meta:
         abstract = True
+
+    def remaining_life(self, obj):
+        """ Return remaining_life
+        """
+        return '{} years'.format(obj.remaining_life())

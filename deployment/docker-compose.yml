@@ -16,7 +16,7 @@ x-common-django:
     # hardcoded
     - RABBITMQ_HOST=rabbitmq
     - DJANGO_SETTINGS_MODULE=core.settings.prod
-    - VIRTUAL_HOST=project.com
+    - VIRTUAL_HOST=amlit.com
     - VIRTUAL_PORT=8080
   volumes:
     - ../django_project:/home/web/django_project
@@ -52,7 +52,7 @@ services:
     environment:
       # take care to let the project name below match that
       # declared in the top of the makefile
-      - DUMPPREFIX=PG_project
+      - DUMPPREFIX=PG_amlit
       # These are all defaults anyway, but setting explicitly in
       # case we ever want to ever use different credentials
       - PGDATABASE=${DATABASE_NAME}
@@ -90,9 +90,9 @@ services:
       dockerfile: Dockerfile-dev
     ports:
       # for django test server
-      - "5002:8080"
+      - "6002:8080"
       # for ssh
-      - "5003:22"
+      - "6003:22"
 
 volumes:
   database:

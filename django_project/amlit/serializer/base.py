@@ -6,24 +6,33 @@ from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 
 class FeatureBaseSerializer(GeoFeatureModelSerializer):
-    asset_class = serializers.SerializerMethodField()
-    asset_sub_class = serializers.SerializerMethodField()
+    feature_class = serializers.SerializerMethodField()
+    feature_sub_class = serializers.SerializerMethodField()
     feature_code = serializers.SerializerMethodField()
+    type = serializers.SerializerMethodField()
+    sub_type = serializers.SerializerMethodField()
     brand = serializers.SerializerMethodField()
     material = serializers.SerializerMethodField()
-    type = serializers.SerializerMethodField()
 
     def get_feature_code(self, obj):
         """ Return feature code string """
         return obj.feature_code.__str__()
 
-    def get_asset_class(self, obj):
-        """ Return asset class string from feature code """
-        return obj.feature_code.asset_class.__str__()
+    def get_type(self, obj):
+        """ Return type string """
+        return obj.type.__str__()
 
-    def get_asset_sub_class(self, obj):
-        """ Return asset sub class string from feature code """
-        return obj.feature_code.asset_sub_class.__str__()
+    def get_sub_type(self, obj):
+        """ Return sub type string """
+        return obj.sub_type.__str__()
+
+    def get_feature_class(self, obj):
+        """ Return feature class string from feature code """
+        return obj.type.sub_class.the_class.__str__()
+
+    def get_feature_sub_class(self, obj):
+        """ Return feature sub class string from feature code """
+        return obj.type.sub_class.__str__()
 
     def get_brand(self, obj):
         """ Return brand string """
@@ -32,10 +41,6 @@ class FeatureBaseSerializer(GeoFeatureModelSerializer):
     def get_material(self, obj):
         """ Return material string """
         return obj.material.__str__()
-
-    def get_type(self, obj):
-        """ Return material string """
-        return obj.type.__str__()
 
     class Meta:
         abstract = True

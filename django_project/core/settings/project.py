@@ -62,28 +62,33 @@ LANGUAGES = (
 ADMIN_GROUP = {
     'amlit': {
         'config': [
-            'Configuration'
+            'Configuration',
+            'GeneralBrand', 'GeneralMaterial',
+            'Currency', 'Money',
+            'Unit', 'Quantity',
         ],
         'base feature': [
-            'AssetClass', 'AssetSubClass', 'FeatureCode'
+            'FeatureClass', 'FeatureSubClass', 'FeatureType', 'FeatureSubType', 'FeatureCode'
         ],
         'community': [
             'Province', 'Region', 'Community'
         ],
-        'base water supply': [
-            'WaterGeneralBrand', 'WaterGeneralMaterial'
-        ],
-        'water supply': [
-            'WaterSystem',
+        'feature': [
+            'System',
             'Box',
             'Chamber', 'ChamberType',
+            'CatchbasinGrate', 'CatchbasinTrunk',
             'Control',
+            'Detention',
+            'Ditch',
             'Hydrant', 'HydrantType',
+            'ManholeCover', 'ManholeTrunk',
             'Meter', 'MeterType', 'MeterReadingType', 'MeterPID',
             'Motor', 'MotorType',
             'Part', 'PartType',
             'Pipe', 'PipeType',
             'Pump', 'PumpBrand', 'PumpType',
+            'Retention',
             'Source', 'SourceType',
             'Tank', 'TankBrand', 'TankType',
             'Treatment', 'TreatmentType',
