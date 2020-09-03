@@ -66,6 +66,7 @@ ADMIN_GROUP = {
             'GeneralBrand', 'GeneralMaterial',
             'Currency', 'Money',
             'Unit', 'Quantity',
+            'Condition', 'Deterioration'
         ],
         'base feature': [
             'FeatureClass', 'FeatureSubClass', 'FeatureType', 'FeatureSubType', 'FeatureCode'

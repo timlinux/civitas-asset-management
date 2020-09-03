@@ -30,4 +30,4 @@ class Money(models.Model):
         db_table = 'money'
 
     def __str__(self):
-        return '{} {}'.format(self.value, self.currency)
+        return '{} {}'.format(self.currency, self.value)

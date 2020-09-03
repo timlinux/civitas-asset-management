@@ -31,7 +31,11 @@ def get_term_from_records(sheet, sheet_name):
             continue
 
         name = record[2]
-        description = record[3]
+        description = ''
+        try:
+            description = record[3]
+        except IndexError:
+            pass
         data[id] = {
             'name': name,
             'description': description.capitalize(),
@@ -81,17 +85,20 @@ def import_data(apps, schema_editor):
     fixture_file = os.path.join(
         DJANGO_ROOT, 'amlit', 'fixtures', filename)
     sheet = xlsx_get(fixture_file, column_limit=11)
+    conditions = get_term_from_records(sheet, 'condition')
     classes = get_term_from_records(sheet, 'class')
     subclasses = get_term_from_records(sheet, 'subclass')
     types = get_term_from_records(sheet, 'type')
-    units = get_term_from_records(sheet, 'unit_valuelist')
-    type_unit = get_type_value_from_records(sheet, 'unit_lookup')
     type_life = get_type_value_from_records(
         sheet, 'life_lookup')
     type_renewal_cost = get_type_value_from_records(
         sheet, 'renewal_cost_lookup')
     type_maintenance_cost = get_type_value_from_records(
         sheet, 'maintenance_cost_lookup')
+    units = get_term_from_records(sheet, 'unit_valuelist')
+    type_unit = get_type_value_from_records(sheet, 'unit_lookup')
+    deteriorations = get_term_from_records(sheet, 'deterioration_valuelist')
+    deteriorations_subclass = get_type_value_from_records(sheet, 'deterioration_lookup')
 
     # INSERT INTO DATABASE
     # To prevent the indexing error (insert id directly)
@@ -107,6 +114,28 @@ def import_data(apps, schema_editor):
         obj, created = Unit.objects.using(db_alias).get_or_create(
             name=data['name'],
             defaults={'description': data['description']}
+        )
+        data['obj'] = obj
+
+    # units
+    Condition = apps.get_model(app_name, 'Condition')
+    Condition.objects.using(db_alias).all().delete()
+    for key, data in conditions.items():
+        obj, created = Condition.objects.using(db_alias).get_or_create(
+            name=data['name'],
+            defaults={
+                'description': data['description'],
+                'value': key
+            }
+        )
+        data['obj'] = obj
+
+    # deterioration
+    Deterioration = apps.get_model(app_name, 'Deterioration')
+    for key, data in deteriorations.items():
+        obj, created = Deterioration.objects.using(db_alias).get_or_create(
+            name=data['name'],
+            defaults={'equation': data['description']}
         )
         data['obj'] = obj
 
@@ -128,6 +157,10 @@ def import_data(apps, schema_editor):
             the_class=foreign_key,
             defaults={'description': data['description']}
         )
+        obj.unit = units[type_unit[key]]['obj'] if key in type_unit else None
+        obj.deterioration = deteriorations[
+            deteriorations_subclass[key]]['obj'] if key in type_unit else None
+        obj.save()
         data['obj'] = obj
 
     Currency = apps.get_model(app_name, 'Currency')
@@ -158,10 +191,8 @@ def import_data(apps, schema_editor):
                 currency=canadian,
                 value=maintenance_cost
             )
-
         obj.description = data['description']
-        obj.unit = units[type_unit[key]]['obj'] if key in type_unit else None
-        obj.lifespan = type_life[key] if key in type_life else None
+        obj.lifespan = type_life[key] if key in type_life and type_life[key] else None
         obj.save()
 
         data['obj'] = obj
