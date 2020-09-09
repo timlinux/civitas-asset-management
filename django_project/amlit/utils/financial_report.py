@@ -25,7 +25,25 @@ class _FinancialReportBase(object):
 
     def base_reports(self):
         """ Return reports format """
-        return {}
+        reports = {}
+        for _type in FeatureTypeCombination.objects.all():
+            _class = _type.the_class
+            _sub_class = _type.sub_class
+            _type = _type.type
+
+            try:
+                reports[_class.id]
+            except KeyError:
+                reports[_class.id] = self.template(_class.name)
+            try:
+                reports[_class.id]['details'][_sub_class.id]
+            except KeyError:
+                reports[_class.id]['details'][_sub_class.id] = self.template(_sub_class.name)
+            try:
+                reports[_class.id]['details'][_sub_class.id]['details'][_type.id]
+            except KeyError:
+                reports[_class.id]['details'][_sub_class.id]['details'][_type.id] = self.template(_type.name)
+        return reports
 
     def get(self):
         """
@@ -82,39 +100,21 @@ class FinancialReport(_FinancialReportBase):
         report['replacement'] += model.replacement_cost()
         report['maintenance'] += model.maintenance_cost()
 
-    def base_reports(self):
-        """ Return reports format """
-        reports = {}
-        for _type in FeatureTypeCombination.objects.all():
-            _class = _type.the_class
-            _sub_class = _type.sub_class
-            _type = _type.type
 
-            try:
-                reports[_class.id]
-            except KeyError:
-                reports[_class.id] = self.template(_class.name)
-            try:
-                reports[_class.id]['details'][_sub_class.id]
-            except KeyError:
-                reports[_class.id]['details'][_sub_class.id] = self.template(_sub_class.name)
-            try:
-                reports[_class.id]['details'][_sub_class.id]['details'][_type.id]
-            except KeyError:
-                reports[_class.id]['details'][_sub_class.id]['details'][_type.id] = self.template(_type.name)
-        return reports
-
-
-class ReplacementReport(_FinancialReportBase):
-    def __init__(self, th_year):
-        self.th_year = th_year
+class ProjectedReport(_FinancialReportBase):
+    def __init__(self, date):
+        self.date = date
 
     def template(self, name):
         return {
+            'name': name,
             'replacement': 0,
+            'maintenance': 0,
+            'details': {}
         }
 
     def add_detail_to_report(
             self, report, model):
+        report['maintenance'] += model.maintenance_cost()
         report['replacement'] += model.replacement_cost_year(
-            self.th_year)
+            self.date)

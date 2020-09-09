@@ -11,8 +11,11 @@
 
 {% block content %}
     {% csrf_token %}
+    <div id="navigation" class="row">
+        <div class="col-8">summary</div>
+    </div>
     <div id="report" class="container">
-        <h1>REPORTS</h1>
+        <h1 id="report-header">summary</h1>
         <div id="header" class="row">
             <div class="col-3 col-name"></div>
         </div>
@@ -31,6 +34,8 @@
     <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
     <script data-main="{% static 'js/report/config.js' %}" src="{% static 'js/libs/require.js/2.3.6/require.min.js' %}"></script>
     <script>
-        let reports = {{ reports |safe}};
+        let reports = {
+            'summary':{{ reports |safe}}
+        }
     </script>
 {% endblock javascript %}

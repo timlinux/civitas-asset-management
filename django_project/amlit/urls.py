@@ -3,7 +3,7 @@ __date__ = '19/08/20'
 
 from django.conf.urls import url, include
 from amlit.api import (
-    GetSystem, GetSystems)
+    GetSystem, GetSystems, ProjectedReportAPI)
 from amlit.view.report import ReportPageView
 
 API = [
@@ -18,5 +18,8 @@ API = [
 
 urlpatterns = [
     url(r'^api/', include(API)),
+    url(r'^api/report/projected/(?P<year>\d+)$',
+        ProjectedReportAPI.as_view(),
+        name='amlit-projected-report'),
     url(r'^report$', ReportPageView.as_view(), name='amlit-report')
 ]

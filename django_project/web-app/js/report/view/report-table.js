@@ -6,9 +6,6 @@ define([
     Backbone, $, _) {
     return Backbone.View.extend({
         el: "#table",
-        maintenance: 'maintenance',
-        replacement: 'replacement',
-        annualReserve: 'annual_reserve',
         initialize: function () {
             this.template = _.template($('#_report_row').html());
         },
@@ -25,20 +22,16 @@ define([
                     ${rowData.name}
                  </a>` : rowData.name;
             let html = `<div class="row ${extraClass}"><div class="col-3 col-name">${name}</div>`;
-            $.each(this.headers, function (key, value) {
+            $.each(this.headers, function (key, header) {
                 html += `
-                    <div class="col number">${toCurrency(rowData[value])}</div>
+                    <div class="col number">${toCurrency(rowData[header])}</div>
                     <div class="col percent">${
-                    parentData[key]? ((rowData[key] / parentData[key]) * 100).toFixed(2)
-                    }</div>
+                    parentData[header] ? ((rowData[header] / parentData[header]) * 100).toFixed(2) : 100
+                    }%</div>
                 `
             })
             html += '</div>';
             return html
-        },
-        getPercentage: function (rowData, totalData, key) {
-            rowData[`${key}_perc`] = rowData[key] ? (
-                (rowData[key] / totalData[key]) * 100).toFixed(2) : 100
         },
         /** Init data for table
          *
@@ -48,11 +41,12 @@ define([
             const that = this;
             this.subIdx = 1;
             this.data = data;
-            this.headers = ['name'];
-            that.$el.html('<div class="col-3 col-name"></div>')
+            this.headers = [];
+            const $el = $('#header');
+            $el.html('<div class="col-3 col-name"></div>')
             $.each(data, function (key, value) {
                 if (!isNaN(value)) {
-                    that.$el.append(
+                    $el.append(
                         `<div class="col">${capitalize(key)}</div>` +
                         '<div class="col percent"></div>')
                     that.headers.push(key)
@@ -63,12 +57,6 @@ define([
         renderGroupData($el, data, parentData, tree) {
             const that = this;
             $.each(data, function (key, value) {
-                // calculate the percentage
-                if (parentData) {
-                    that.getPercentage(value, parentData, that.maintenance);
-                    that.getPercentage(value, parentData, that.replacement);
-                    that.getPercentage(value, parentData, that.annualReserve);
-                }
                 const subID = `sub-${that.subIdx}`;
                 that.subIdx += 1;
                 $el.append(
@@ -90,10 +78,7 @@ define([
             //render class
             this.$el.html('');
             this.renderGroupData(this.$el, data['details'], data, 0);
-            data['maintenance_perc'] = 100;
-            data['replacement_perc'] = 100;
-            data['annual_reserve_perc'] = 100;
-            this.$el.append(that.renderRow('', data, 0, 'total'))
+            this.$el.append(that.renderRow('', data, 0, 0, 'total'))
         },
     });
 });

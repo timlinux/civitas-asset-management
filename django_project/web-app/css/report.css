@@ -50,3 +50,26 @@
 .col-name {
     padding-left: 10px !important;
 }
+
+#navigation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px;
+    padding-left: 0;
+    width: 210px;
+}
+
+#navigation div {
+    list-style-type: none;
+    padding: 5px 10px;
+    background: #eee;
+    border: 1px solid #dee2e6;
+    margin-top: -1px;
+    cursor: pointer;
+    text-align: center;
+}
+
+#navigation div:hover {
+    opacity: 0.5;
+}

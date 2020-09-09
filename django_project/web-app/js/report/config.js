@@ -24,12 +24,10 @@ require([
     'backbone',
     'underscore',
     'request',
-    'view/report-table',
-], function ($, bootstrap, Backbone, _, _Request, Table) {
+    'view/navigation',
+], function ($, bootstrap, Backbone, _, _Request, Navigation) {
     csrfmiddlewaretoken = $('input[name ="csrfmiddlewaretoken"]').val();
     dispatcher = _.extend({}, Backbone.Events);
     Request = new _Request();
-    table = new Table();
-    table.initData(reports);
-    table.render(reports)
+    new Navigation();
 });

@@ -134,15 +134,18 @@ class BaseFeature(models.Model):
             return (replacement_cost / lifespan) + maintenance_cost
         return 0
 
-    def replacement_cost_year(self, th_year):
+    def replacement_cost_year(self, date):
         """
         Replacement cost for specific year
         example: current 2020, th_year is 1
         so projected cost is 2021
 
-        :type th_year: int
+        :type date: datetime
         """
         # check for maintenance cost
+        th_year = date.year - datetime.today().year
+        if th_year < 0:
+            return 0
 
         # check for specific cost
         replacement_cost = self.replacement_cost()
