@@ -30,5 +30,6 @@ require([
     dispatcher = _.extend({}, Backbone.Events);
     Request = new _Request();
     table = new Table();
+    table.initData(reports);
     table.render(reports)
 });

@@ -38,3 +38,12 @@ function cloneObject(obj) {
 function toCurrency(value, currency) {
     return Intl.NumberFormat('en-EN', {style: 'currency', currency: 'USD'}).format(value)
 }
+
+function capitalize(string) {
+    //check if it is already has upper case
+    string = string.replaceAll('_', ' ')
+    if (/[A-Z]/.test(string)) {
+        return string;
+    }
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}

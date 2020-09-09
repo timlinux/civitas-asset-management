@@ -35,8 +35,8 @@ class _FinancialReportBase(object):
         :rtype:dict
         """
         output = self.template('Grand Total')
-        output['reports'] = self.base_reports()
-        reports = output['reports']
+        output['details'] = self.base_reports()
+        reports = output['details']
 
         # get report data
         for Model in self.MODELS:
@@ -50,10 +50,10 @@ class _FinancialReportBase(object):
                     class_report = reports[_class.id]
 
                     # get sub class report in class report
-                    sub_class_report = class_report[_sub_class.id]
+                    sub_class_report = class_report['details'][_sub_class.id]
 
                     # get type report in sub class report
-                    type_report = sub_class_report[_type.id]
+                    type_report = sub_class_report['details'][_type.id]
 
                     # save data into report
                     self.add_detail_to_report(output, model)
@@ -72,7 +72,8 @@ class FinancialReport(_FinancialReportBase):
             'name': name,
             'annual_reserve': 0,
             'replacement': 0,
-            'maintenance': 0
+            'maintenance': 0,
+            'details': {}
         }
 
     def add_detail_to_report(
@@ -94,13 +95,13 @@ class FinancialReport(_FinancialReportBase):
             except KeyError:
                 reports[_class.id] = self.template(_class.name)
             try:
-                reports[_class.id][_sub_class.id]
+                reports[_class.id]['details'][_sub_class.id]
             except KeyError:
-                reports[_class.id][_sub_class.id] = self.template(_sub_class.name)
+                reports[_class.id]['details'][_sub_class.id] = self.template(_sub_class.name)
             try:
-                reports[_class.id][_sub_class.id][_type.id]
+                reports[_class.id]['details'][_sub_class.id]['details'][_type.id]
             except KeyError:
-                reports[_class.id][_sub_class.id][_type.id] = self.template(_type.name)
+                reports[_class.id]['details'][_sub_class.id]['details'][_type.id] = self.template(_type.name)
         return reports
 
 

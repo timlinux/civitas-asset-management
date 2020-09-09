@@ -41,27 +41,12 @@
     border-top: 1px solid #dee2e6;
 }
 
-.class, .subclass {
+.sub {
     border-top: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
+    background: rgba(220, 220, 220, 0.3);
 }
 
 .col-name {
     padding-left: 10px !important;
-}
-
-.class .row {
-    background: #FAFAFA;
-}
-
-.class .col-name {
-    padding-left: 20px !important;
-}
-
-.subclass .row {
-    background: #F6F6F6;
-}
-
-.subclass .col-name {
-    padding-left: 30px !important;
 }
