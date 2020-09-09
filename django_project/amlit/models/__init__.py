@@ -3,8 +3,8 @@ __date__ = '14/08/20'
 
 from .config import *
 from .abstract import *
-from .base_feature import *
+from .feature import *
 from .community import *
 from .economy import *
-from .features import *
+from .feature import *
 from .unit import *

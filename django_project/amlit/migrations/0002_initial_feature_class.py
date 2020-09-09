@@ -24,9 +24,9 @@ def get_term_from_records(sheet, sheet_name):
     for record in records[2:]:
         # check if id exist
         try:
-            id = record[1]
-            if not id:
+            if not record[1]:
                 break
+            id = int(record[1])
         except IndexError:
             continue
 
@@ -130,6 +130,13 @@ def import_data(apps, schema_editor):
         )
         data['obj'] = obj
 
+    Currency = apps.get_model(app_name, 'Currency')
+    Money = apps.get_model(app_name, 'Money')
+    canadian, created = Currency.objects.using(db_alias).get_or_create(
+        code='$',
+        name='Canadian Dollar'
+    )
+
     # deterioration
     Deterioration = apps.get_model(app_name, 'Deterioration')
     for key, data in deteriorations.items():
@@ -151,10 +158,8 @@ def import_data(apps, schema_editor):
     # sub class
     FeatureSubClass = apps.get_model(app_name, 'FeatureSubClass')
     for key, data in subclasses.items():
-        foreign_key = classes[data['foreign_key']]['obj']
         obj, created = FeatureSubClass.objects.using(db_alias).get_or_create(
             name=data['name'],
-            the_class=foreign_key,
             defaults={'description': data['description']}
         )
         obj.unit = units[type_unit[key]]['obj'] if key in type_unit else None
@@ -163,39 +168,47 @@ def import_data(apps, schema_editor):
         obj.save()
         data['obj'] = obj
 
-    Currency = apps.get_model(app_name, 'Currency')
-    Money = apps.get_model(app_name, 'Money')
-    canadian, created = Currency.objects.using(db_alias).get_or_create(
-        code='$',
-        name='Canadian Dollar'
-    )
-    # types
+    # create types
     FeatureType = apps.get_model(app_name, 'FeatureType')
+    FeatureTypeCombination = apps.get_model(app_name, 'FeatureTypeCombination')
     for key, data in types.items():
-        foreign_key = subclasses[data['foreign_key']]['obj']
-        obj, created = FeatureType.objects.using(db_alias).get_or_create(
-            name=data['name'],
-            sub_class=foreign_key
+        type_subclass = subclasses[data['foreign_key']]
+        feature_type, created = FeatureType.objects.using(db_alias).get_or_create(
+            name=data['name']
         )
 
         renewal_cost = type_renewal_cost[key] if key in type_renewal_cost else None
-        if renewal_cost and not obj.renewal_cost:
-            obj.renewal_cost = Money.objects.using(db_alias).create(
+        if renewal_cost and not feature_type.renewal_cost:
+            feature_type.renewal_cost = Money.objects.using(db_alias).create(
                 currency=canadian,
                 value=renewal_cost
             )
 
         maintenance_cost = type_maintenance_cost[key] if key in type_maintenance_cost else None
-        if maintenance_cost and not obj.maintenance_cost:
-            obj.maintenance_cost = Money.objects.using(db_alias).create(
+        if maintenance_cost and not feature_type.maintenance_cost:
+            feature_type.maintenance_cost = Money.objects.using(db_alias).create(
                 currency=canadian,
                 value=maintenance_cost
             )
-        obj.description = data['description']
-        obj.lifespan = type_life[key] if key in type_life and type_life[key] else None
-        obj.save()
+        feature_type.description = data['description']
+        feature_type.lifespan = type_life[key] if key in type_life and type_life[key] else None
+        feature_type.save()
 
-        data['obj'] = obj
+        # create combination of that types
+        type_classes = type_subclass['foreign_key']
+        type_classes = type_classes.split(',') if type(type_classes) is str else [type_classes]
+        sub_class = type_subclass['obj']
+        for type_class in type_classes:
+            try:
+                class_id = int(type_class.strip())
+            except AttributeError:
+                class_id = int(type_class)
+            the_class = classes[class_id]['obj']
+            FeatureTypeCombination.objects.using(db_alias).get_or_create(
+                the_class=the_class,
+                sub_class=sub_class,
+                type=feature_type
+            )
 
     raise Exception('')
 

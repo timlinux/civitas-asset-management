@@ -52,10 +52,11 @@ define([
                 that.getPercentage(classVal, data, that.annualReserve);
 
                 const $el = that.$el;
+                const classGroupID = `class-${classKey}`;
                 $el.append(
-                    that.renderRow(`class-${classKey}`, classVal)
+                    that.renderRow(classGroupID, classVal)
                 );
-                $el.append(`<div id="class-${classKey}" class="collapse class"></div>`);
+                $el.append(`<div id="${classGroupID}" class="collapse class"></div>`);
 
                 //render sub class
                 $.each(classVal, function (subClassKey, subClassVal) {
@@ -67,11 +68,12 @@ define([
                     that.getPercentage(subClassVal, classVal, that.replacement);
                     that.getPercentage(subClassVal, classVal, that.annualReserve);
 
-                    const $el = $(`#class-${classKey}`);
+                    const $el = $(`#${classGroupID}`);
+                    const subClassGroupID = `sub-class-${classKey}-${subClassKey}`;
                     $el.append(
-                        that.renderRow(`sub-class-${subClassKey}`, subClassVal)
+                        that.renderRow(subClassGroupID, subClassVal)
                     );
-                    $el.append(`<div id="sub-class-${subClassKey}" class="collapse subclass"></div>`);
+                    $el.append(`<div id="${subClassGroupID}" class="collapse subclass"></div>`);
 
                     //render type
                     $.each(subClassVal, function (typeKey, typeVal) {
@@ -83,7 +85,7 @@ define([
                         that.getPercentage(typeVal, subClassVal, that.replacement);
                         that.getPercentage(typeVal, subClassVal, that.annualReserve);
 
-                        const $el = $(`#sub-class-${subClassKey}`);
+                        const $el = $(`#${subClassGroupID}`);
                         $el.append(
                             that.renderRow(typeKey, typeVal)
                         );

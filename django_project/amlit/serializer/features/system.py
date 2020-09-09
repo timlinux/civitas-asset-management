@@ -5,10 +5,6 @@ from rest_framework import serializers
 from rest_framework_gis.serializers import ModelSerializer
 from amlit.models.system import System
 from amlit.serializer.community import CommunitySerializer
-from amlit.serializer.features import (
-    BoxGeoSerializer, ChamberGeoSerializer,
-    HydrantGeoSerializer, MeterGeoSerializer, PipeGeoSerializer
-)
 
 
 class SystemSerializer(ModelSerializer):
@@ -18,11 +14,11 @@ class SystemSerializer(ModelSerializer):
     def get_features(self, obj):
         """ Return boxes data in geojson """
         return {
-            'boxes': BoxGeoSerializer(obj.boxes, many=True).data,
-            'chambers': ChamberGeoSerializer(obj.chambers, many=True).data,
-            'hydrants': HydrantGeoSerializer(obj.hydrants, many=True).data,
-            'meters': MeterGeoSerializer(obj.meters, many=True).data,
-            'pipes': PipeGeoSerializer(obj.pipes, many=True).data,
+            # 'boxes': BoxGeoSerializer(obj.boxes, many=True).data,
+            # 'chambers': ChamberGeoSerializer(obj.chambers, many=True).data,
+            # 'hydrants': HydrantGeoSerializer(obj.hydrants, many=True).data,
+            # 'meters': MeterGeoSerializer(obj.meters, many=True).data,
+            # 'pipes': PipeGeoSerializer(obj.pipes, many=True).data,
         }
 
     def get_community(self, obj):

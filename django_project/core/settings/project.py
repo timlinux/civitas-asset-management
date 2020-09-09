@@ -69,33 +69,14 @@ ADMIN_GROUP = {
             'Condition', 'Deterioration'
         ],
         'base feature': [
-            'FeatureClass', 'FeatureSubClass', 'FeatureType', 'FeatureSubType', 'FeatureCode'
+            'FeatureClass', 'FeatureSubClass', 'FeatureType', 'FeatureSubType', 'FeatureTypeCombination'
         ],
         'community': [
             'Province', 'Region', 'Community'
         ],
         'feature': [
             'System',
-            'Box',
-            'Chamber', 'ChamberType',
-            'CatchbasinGrate', 'CatchbasinTrunk',
-            'Control',
-            'Detention',
-            'Ditch',
-            'Hydrant', 'HydrantType',
-            'ManholeCover', 'ManholeTrunk',
-            'Meter', 'MeterType', 'MeterReadingType', 'MeterPID',
-            'Motor', 'MotorType',
-            'Part', 'PartType',
-            'Pipe', 'PipeType',
-            'Pump', 'PumpBrand', 'PumpType',
-            'Retention',
-            'Source', 'SourceType',
-            'Tank', 'TankBrand', 'TankType',
-            'Treatment', 'TreatmentType',
-            # valve
-            'Valve', 'ValveType', 'ValveActuationType',
-            'ValveActuationDirection', 'ValveActuationSpec'
+            'FeaturePoint', 'FeaturePolygon', 'FeatureLine'
         ]
     }
 }

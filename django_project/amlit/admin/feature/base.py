@@ -3,11 +3,10 @@ __date__ = '14/08/20'
 
 from django.contrib import admin
 from django.contrib.gis.admin import OSMGeoAdmin
-from amlit.models.base_feature import (
-    Condition, Deterioration, FeatureClass, FeatureSubClass, FeatureCode, FeatureType, FeatureSubType
+from amlit.models.feature.base import (
+    Condition, Deterioration, FeatureClass,
+    FeatureSubClass, FeatureType, FeatureSubType, FeatureTypeCombination
 )
-
-feature_display = ('uid', 'type', 'system', 'date_installed', 'remaining_life')
 
 
 class DeteriorationAdmin(admin.ModelAdmin):
@@ -19,31 +18,21 @@ class FeatureClassAdmin(admin.ModelAdmin):
 
 
 class FeatureSubClassAdmin(admin.ModelAdmin):
-    list_display = ('name', 'the_class', 'unit', 'deterioration')
+    list_display = ('name', 'unit', 'deterioration')
 
 
 class FeatureTypeAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'sub_class', 'the_class',
-        'maintenance_cost', 'renewal_cost', 'lifespan')
-    list_filter = ('sub_class', 'sub_class__the_class')
+        'name', 'maintenance_cost', 'renewal_cost', 'lifespan')
 
-    def the_class(self, obj):
-        """ Return the_class
-        :param obj:
-        :return:
-        """
-        return obj.sub_class.the_class.__str__()
 
-    the_class.short_description = 'class'
+class FeatureTypeCombinationAdmin(admin.ModelAdmin):
+    list_display = (
+        'the_class', 'sub_class', 'type')
 
 
 class FeatureSubTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'type')
-
-
-class FeatureCodeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'sub_class')
 
 
 admin.site.register(Condition)
@@ -52,21 +41,27 @@ admin.site.register(FeatureClass, FeatureClassAdmin)
 admin.site.register(FeatureSubClass, FeatureSubClassAdmin)
 admin.site.register(FeatureType, FeatureTypeAdmin)
 admin.site.register(FeatureSubType, FeatureSubTypeAdmin)
-admin.site.register(FeatureCode, FeatureCodeAdmin)
+admin.site.register(FeatureTypeCombination, FeatureTypeCombinationAdmin)
 
 
 class BaseFeatureAdmin(OSMGeoAdmin):
     default_lon = 11170608.17969
     default_lat = -100436.17209
     default_zoom = 17
+    list_display = ('uid', 'type', 'system', 'date_installed', 'remaining_life')
     readonly_fields = (
-        'uid', 'feature_code', 'age', 'remaining_life_percent',
+        'uid', 'age', 'remaining_life_percent',
         'replacement_cost', 'maintenance_cost', 'annual_reserve_cost'
     )
-    list_filter = ('type',)
+    list_filter = ('type__the_class', 'type__sub_class', 'type__type')
 
     class Meta:
         abstract = True
+
+    def render_change_form(self, request, context, *args, **kwargs):
+        # self.model._meta.db_table
+        return super(BaseFeatureAdmin, self).render_change_form(
+            request, context, *args, **kwargs)
 
     def age(self, obj):
         """ Return age
@@ -78,22 +73,22 @@ class BaseFeatureAdmin(OSMGeoAdmin):
         """
         return '{} years'.format(obj.remaining_life())
 
-    def replacement_cost(self, obj):
-        """ Return replacement_cost
-        """
-        return '{} {}'.format(obj.type.renewal_cost.currency, obj.replacement_cost())
-
-    def maintenance_cost(self, obj):
-        """ Return replacement_cost
-        """
-        return '{} {}'.format(obj.type.renewal_cost.currency, obj.maintenance_cost())
-
     def remaining_life_percent(self, obj):
         """ Return remaining_life_percent
         """
         return '{}%'.format(obj.remaining_life_percent())
 
+    def replacement_cost(self, obj):
+        """ Return replacement_cost
+        """
+        return '{} {}'.format(obj.type.type.renewal_cost.currency, obj.replacement_cost())
+
+    def maintenance_cost(self, obj):
+        """ Return replacement_cost
+        """
+        return '{} {}'.format(obj.type.type.renewal_cost.currency, obj.maintenance_cost())
+
     def annual_reserve_cost(self, obj):
         """ Return annual_reserve_cost
         """
-        return '{} {}'.format(obj.type.renewal_cost.currency, obj.annual_reserve_cost())
+        return '{} {}'.format(obj.type.type.renewal_cost.currency, obj.annual_reserve_cost())

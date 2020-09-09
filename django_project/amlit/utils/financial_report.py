@@ -1,21 +1,14 @@
 __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '04/09/20'
 
-from amlit.models.base_feature import FeatureType
-from amlit.models.features import (
-    Box,
-    CatchbasinGrate, CatchbasinTrunk, Chamber, Control,
-    Detention, Ditch, Hydrant, ManholeCover, ManholeTrunk, Meter,
-    Motor, Part, Pipe, Pump, Retention, Source, Tank, Treatment, Valve
+from amlit.models.feature.base import FeatureTypeCombination
+from amlit.models.feature import (
+    FeatureLine, FeaturePolygon, FeaturePoint
 )
 
 
 class _FinancialReportBase(object):
-    MODELS = [
-        Box, CatchbasinGrate, CatchbasinTrunk, Chamber, Control, Detention,
-        Ditch, Hydrant, ManholeCover, ManholeTrunk, Meter, Motor, Part, Pipe,
-        Pump, Retention, Source, Tank, Treatment, Valve
-    ]
+    MODELS = [FeatureLine, FeaturePolygon, FeaturePoint]
 
     def template(self, name):
         """
@@ -49,9 +42,9 @@ class _FinancialReportBase(object):
         for Model in self.MODELS:
             for model in Model.objects.all():
                 try:
-                    _class = model.type.sub_class.the_class
+                    _class = model.type.the_class
                     _sub_class = model.type.sub_class
-                    _type = model.type
+                    _type = model.type.type
 
                     # get class report
                     class_report = reports[_class.id]
@@ -91,14 +84,15 @@ class FinancialReport(_FinancialReportBase):
     def base_reports(self):
         """ Return reports format """
         reports = {}
-        for _type in FeatureType.objects.all():
-            _class = _type.sub_class.the_class
+        for _type in FeatureTypeCombination.objects.all():
+            _class = _type.the_class
             _sub_class = _type.sub_class
+            _type = _type.type
 
             try:
                 reports[_class.id]
             except KeyError:
-                reports[_class.id] = self.template(_class.description)
+                reports[_class.id] = self.template(_class.name)
             try:
                 reports[_class.id][_sub_class.id]
             except KeyError:

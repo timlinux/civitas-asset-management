@@ -11,13 +11,16 @@
 
 {% block content %}
     {% csrf_token %}
-    <div class="container">
+    <div id="report" class="container">
         <h1>REPORTS</h1>
         <div id="header" class="row">
-            <div class="col-4"></div>
+            <div class="col-2 col-name"></div>
             <div class="col">Maintenance</div>
+            <div class="col percent"></div>
             <div class="col">Replacement</div>
+            <div class="col percent"></div>
             <div class="col">Annual Reserve</div>
+            <div class="col percent"></div>
         </div>
 
         <div id="table">
@@ -25,7 +28,7 @@
     </div>
     <script type='text/template' id='_report_row'>
         <div class="row <%= extra_class %>">
-            <div class="col-4"><%= name %></div>
+            <div class="col-2 col-name"><%= name %></div>
             <div class="col number"><%= maintenance %></div>
             <div class="col percent"><%= maintenance_perc %>%</div>
             <div class="col number"><%= replacement %></div>

@@ -3,7 +3,6 @@ __date__ = '19/08/20'
 
 from django.conf.urls import url, include
 from amlit.api import (
-    GetBoxGeojson,
     GetSystem, GetSystems)
 from amlit.view.report import ReportPageView
 
@@ -15,9 +14,6 @@ API = [
     url(r'^system',
         GetSystems.as_view(),
         name='api-systems'),
-    url(r'^box/(?P<id>\d+)',
-        GetBoxGeojson.as_view(),
-        name='api-box')
 ]
 
 urlpatterns = [

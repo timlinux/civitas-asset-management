@@ -2,6 +2,27 @@
     padding-top: 20px;
 }
 
+#report .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#report .row div {
+    padding: 10px;
+    padding-right: 0;
+}
+
+#report .number, #header .col {
+    text-align: right;
+}
+
+#report .percent {
+    font-size: 12px;
+    font-style: italic;
+    opacity: 0.6;
+    flex: 0 0 60px;
+}
+
 #header {
     font-weight: 600;
 }
@@ -10,38 +31,14 @@
     border-bottom: 1px solid #dee2e6;
 }
 
-#header.row div, #table .row div {
-    padding: 10px;
-    padding-right: 0;
-}
-
-#table .row, #header.row {
-    margin-left: 0;
-    margin-right: 0;
-}
-
-#table .row {
-    border-top: 1px solid #dee2e6;
-}
-
-#table .number, #header .col {
-    text-align: right;
-}
-
-#table .percent {
-    font-size: 12px;
-    font-style: italic;
-    opacity: 0.6;
-    flex: 0 0 60px;
-}
-
-#tabel .group {
-    padding-left: 10px;
-}
 
 #table .total {
     background: #d1ffdd;
     border: 1px solid #CCC;
+}
+
+#table .row {
+    border-top: 1px solid #dee2e6;
 }
 
 .class, .subclass {
@@ -49,7 +46,7 @@
     border-bottom: 1px solid #CCC;
 }
 
-.col-4 {
+.col-name {
     padding-left: 10px !important;
 }
 
@@ -57,7 +54,7 @@
     background: #FAFAFA;
 }
 
-.class .col-4 {
+.class .col-name {
     padding-left: 20px !important;
 }
 
@@ -65,6 +62,6 @@
     background: #F6F6F6;
 }
 
-.subclass .col-4 {
+.subclass .col-name {
     padding-left: 30px !important;
 }
