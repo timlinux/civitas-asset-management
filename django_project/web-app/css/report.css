@@ -1,0 +1,70 @@
+.container {
+    padding-top: 20px;
+}
+
+#header {
+    font-weight: 600;
+}
+
+#header.row {
+    border-bottom: 1px solid #dee2e6;
+}
+
+#header.row div, #table .row div {
+    padding: 10px;
+    padding-right: 0;
+}
+
+#table .row, #header.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#table .row {
+    border-top: 1px solid #dee2e6;
+}
+
+#table .number, #header .col {
+    text-align: right;
+}
+
+#table .percent {
+    font-size: 12px;
+    font-style: italic;
+    opacity: 0.6;
+    flex: 0 0 60px;
+}
+
+#tabel .group {
+    padding-left: 10px;
+}
+
+#table .total {
+    background: #d1ffdd;
+    border: 1px solid #CCC;
+}
+
+.class, .subclass {
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+}
+
+.col-4 {
+    padding-left: 10px !important;
+}
+
+.class .row {
+    background: #FAFAFA;
+}
+
+.class .col-4 {
+    padding-left: 20px !important;
+}
+
+.subclass .row {
+    background: #F6F6F6;
+}
+
+.subclass .col-4 {
+    padding-left: 30px !important;
+}

@@ -252,7 +252,7 @@ class BaseFeature(models.Model):
                 '^', '**').replace(
                 'Y=', ''
             )
-            return self.type.lifespan * float(eval(deterioration_eq))
+            return self.type.lifespan * (1 - float(eval(deterioration_eq)))
         if self.type.lifespan:
             return datetime.today().year - self.date_installed.year
         return None
@@ -260,28 +260,28 @@ class BaseFeature(models.Model):
     def remaining_life(self):
         """ Calculate remaining life """
         age = self.age()
-        if age:
+        if age is not None:
             return self.type.lifespan - age
+        return None
+
+    def remaining_life_percent(self):
+        """ Calculate remaining life in percent"""
+        remaining_life = self.remaining_life()
+        if remaining_life is not None:
+            return int(100 * remaining_life / self.type.lifespan)
         return None
 
     def replacement_cost(self):
         """ Calculate replacement cost """
         if self.type.renewal_cost:
             return self.type.renewal_cost.value * self.quantity.value
-        return None
+        return 0
 
     def maintenance_cost(self):
         """ Calculate maintenance cost """
         if self.type.maintenance_cost:
             return self.type.maintenance_cost.value * self.quantity.value
-        return None
-
-    def remaining_life_percent(self):
-        """ Calculate remaining life in percent"""
-        age = self.age()
-        if age:
-            return int(100 * age / self.type.lifespan)
-        return None
+        return 0
 
     def annual_reserve_cost(self):
         """ Calculate cost that needed annually"""
@@ -290,4 +290,36 @@ class BaseFeature(models.Model):
         lifespan = self.type.lifespan
         if maintenance_cost and replacement_cost and lifespan:
             return (replacement_cost / lifespan) + maintenance_cost
-        return None
+        return 0
+
+    def replacement_cost_year(self, th_year):
+        """
+        Replacement cost for specific year
+        example: current 2020, th_year is 1
+        so projected cost is 2021
+
+        :type th_year: int
+        """
+        # check for maintenance cost
+
+        # check for specific cost
+        replacement_cost = self.replacement_cost()
+        if replacement_cost:
+            lifespan = self.type.lifespan
+            remaining_life = self.remaining_life()
+            after_renewal = th_year - remaining_life
+
+            # calculate remaining life
+            if remaining_life == th_year:
+                # this is for first renewal
+                # Example: remaining life is 5
+                # if th_year is 5, it is replacement state
+                return replacement_cost
+            if after_renewal % lifespan == 0:
+                # this is for every renewal cost after first renewal
+                # Example: remaining life is 5
+                # lifespan is 6
+                # if th_year is 11, it is replacement state (remaining life + lifespan)
+                # if th_year is 17, it is replacement state (remaining life + lifespan*2)
+                return replacement_cost
+        return 0

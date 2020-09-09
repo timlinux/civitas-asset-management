@@ -61,7 +61,8 @@ class BaseFeatureAdmin(OSMGeoAdmin):
     default_zoom = 17
     readonly_fields = (
         'uid', 'feature_code', 'age', 'remaining_life_percent',
-        'replacement_cost', 'maintenance_cost', 'annual_reserve_cost',)
+        'replacement_cost', 'maintenance_cost', 'annual_reserve_cost'
+    )
     list_filter = ('type',)
 
     class Meta:

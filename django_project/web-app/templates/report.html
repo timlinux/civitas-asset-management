@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Report
+{% endblock %}
+
+{% block stylesheet %}
+    <link href="{% static 'css/report.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+{% endblock stylesheet %}
+
+{% block content %}
+    {% csrf_token %}
+    <div class="container">
+        <h1>REPORTS</h1>
+        <div id="header" class="row">
+            <div class="col-4"></div>
+            <div class="col">Maintenance</div>
+            <div class="col">Replacement</div>
+            <div class="col">Annual Reserve</div>
+        </div>
+
+        <div id="table">
+        </div>
+    </div>
+    <script type='text/template' id='_report_row'>
+        <div class="row <%= extra_class %>">
+            <div class="col-4"><%= name %></div>
+            <div class="col number"><%= maintenance %></div>
+            <div class="col percent"><%= maintenance_perc %>%</div>
+            <div class="col number"><%= replacement %></div>
+            <div class="col percent"><%= replacement_perc %>%</div>
+            <div class="col number"><%= annual_reserve %></div>
+            <div class="col percent"><%= annual_reserve_perc %>%</div>
+        </div>
+    </script>
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
+    <script data-main="{% static 'js/report/config.js' %}" src="{% static 'js/libs/require.js/2.3.6/require.min.js' %}"></script>
+    <script>
+        let reports = {{ reports |safe}};
+    </script>
+{% endblock javascript %}

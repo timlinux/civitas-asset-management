@@ -5,8 +5,9 @@ from django.conf.urls import url, include
 from amlit.api import (
     GetBoxGeojson,
     GetSystem, GetSystems)
+from amlit.view.report import ReportPageView
 
-WATER_API = [
+API = [
     # API
     url(r'^system/(?P<id>\d+)',
         GetSystem.as_view(),
@@ -20,5 +21,6 @@ WATER_API = [
 ]
 
 urlpatterns = [
-    url('^api/', include(WATER_API))
+    url(r'^api/', include(API)),
+    url(r'^report$', ReportPageView.as_view(), name='amlit-report')
 ]

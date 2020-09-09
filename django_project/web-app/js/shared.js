@@ -1,6 +1,4 @@
 let dispatcher;
-let map;
-let Style;
 let Request;
 let csrfmiddlewaretoken;
 
@@ -35,4 +33,8 @@ function cloneObject(obj) {
     }
 
     return temp;
+}
+
+function toCurrency(value, currency) {
+    return Intl.NumberFormat('en-EN', {style: 'currency', currency: 'USD'}).format(value)
 }
