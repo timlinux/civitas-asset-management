@@ -91,6 +91,7 @@ class FinancialReport(_FinancialReportBase):
             'annual_reserve': 0,
             'replacement': 0,
             'maintenance': 0,
+            'total': 0,
             'details': {}
         }
 
@@ -99,6 +100,7 @@ class FinancialReport(_FinancialReportBase):
         report['annual_reserve'] += model.annual_reserve_cost()
         report['replacement'] += model.replacement_cost()
         report['maintenance'] += model.maintenance_cost()
+        report['total'] = report['annual_reserve'] + report['replacement'] + report['maintenance']
 
 
 class ProjectedReport(_FinancialReportBase):
@@ -110,6 +112,7 @@ class ProjectedReport(_FinancialReportBase):
             'name': name,
             'replacement': 0,
             'maintenance': 0,
+            'total': 0,
             'details': {}
         }
 
@@ -118,3 +121,4 @@ class ProjectedReport(_FinancialReportBase):
         report['maintenance'] += model.maintenance_cost()
         report['replacement'] += model.replacement_cost_year(
             self.date)
+        report['total'] = report['replacement'] + report['maintenance']

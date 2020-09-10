@@ -52,7 +52,6 @@ define([
                     that.headers.push(key)
                 }
             })
-
         },
         renderGroupData($el, data, parentData, tree) {
             const that = this;

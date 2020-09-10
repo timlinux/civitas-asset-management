@@ -1,4 +1,5 @@
 let table;
+const maxProjectedYear = 30;
 require.config({
     paths: {
         'jquery': '../libs/jquery.js/3.4.1/jquery.min',

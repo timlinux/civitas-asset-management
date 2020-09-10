@@ -12,16 +12,24 @@
 {% block content %}
     {% csrf_token %}
     <div id="navigation" class="row">
-        <div class="col-8">summary</div>
+        <div class="col-12" data-report="summary">Summary</div>
+        <div id="projected-expenditure" class="col-12 disabled" data-report="projected-graph">
+            Projected graph
+            <div id="projected-loading"></div>
+        </div>
     </div>
     <div id="report" class="container">
         <h1 id="report-header">summary</h1>
-        <div id="header" class="row">
-            <div class="col-3 col-name"></div>
-        </div>
+        <div id="report-table">
+            <div id="header" class="row">
+                <div class="col-3 col-name"></div>
+            </div>
 
-        <div id="table">
+            <div id="table">
+            </div>
         </div>
+        <canvas id="report-chart">
+        </canvas>
     </div>
     <script type='text/template' id='_report_row'>
         <div class="row <%= extra_class %>">
@@ -31,11 +39,13 @@
 {% endblock %}
 
 {% block javascript %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
     <script data-main="{% static 'js/report/config.js' %}" src="{% static 'js/libs/require.js/2.3.6/require.min.js' %}"></script>
     <script>
         let reports = {
-            'summary':{{ reports |safe}}
+            'summary':{{ reports |safe}},
+            'projected-graph':{}
         }
     </script>
 {% endblock javascript %}
