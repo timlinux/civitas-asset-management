@@ -92,6 +92,8 @@ class BaseFeature(models.Model):
         return '{}'.format(self.uid)
 
     def save(self, *args, **kwargs):
+        self.calculation()
+        super(BaseFeature, self).save(*args, **kwargs)
         new_uid = '{}-{}-{}-{}'.format(
             self.type.the_class.name,
             self.type.sub_class.name,
@@ -100,8 +102,7 @@ class BaseFeature(models.Model):
         )
         if self.uid != new_uid:
             self.uid = new_uid
-        self.calculation()
-        super(BaseFeature, self).save(*args, **kwargs)
+            self.save()
 
     def lifespan(self):
         """ Return lifespan of feature"""

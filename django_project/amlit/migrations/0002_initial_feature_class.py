@@ -210,8 +210,6 @@ def import_data(apps, schema_editor):
                 type=feature_type
             )
 
-    raise Exception('')
-
 
 class Migration(migrations.Migration):
     atomic = False
