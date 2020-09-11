@@ -14,16 +14,16 @@ class DeteriorationAdmin(admin.ModelAdmin):
 
 
 class FeatureClassAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'description')
 
 
 class FeatureSubClassAdmin(admin.ModelAdmin):
-    list_display = ('name', 'unit', 'deterioration')
+    list_display = ('name', 'description', 'unit', 'deterioration')
 
 
 class FeatureTypeAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'maintenance_cost', 'renewal_cost', 'lifespan')
+        'name', 'description', 'maintenance_cost', 'renewal_cost', 'lifespan')
 
 
 class FeatureTypeCombinationAdmin(admin.ModelAdmin):
@@ -45,12 +45,12 @@ admin.site.register(FeatureTypeCombination, FeatureTypeCombinationAdmin)
 
 
 class BaseFeatureAdmin(OSMGeoAdmin):
-    default_lon = 11170608.17969
-    default_lat = -100436.17209
-    default_zoom = 17
+    default_lon = -13271942
+    default_lat = 6485105
+    default_zoom = 12
     list_display = ('uid', 'type', 'system', 'date_installed', 'remaining_life')
     readonly_fields = (
-        'uid', 'age', 'remaining_life_percent',
+        'uid', 'age', 'remaining_life', 'remaining_life_percent',
         'replacement_cost', 'maintenance_cost', 'annual_reserve_cost'
     )
     list_filter = ('type__the_class', 'type__sub_class', 'type__type')
@@ -62,33 +62,3 @@ class BaseFeatureAdmin(OSMGeoAdmin):
         # self.model._meta.db_table
         return super(BaseFeatureAdmin, self).render_change_form(
             request, context, *args, **kwargs)
-
-    def age(self, obj):
-        """ Return age
-        """
-        return '{} years'.format(obj.age())
-
-    def remaining_life(self, obj):
-        """ Return remaining_life
-        """
-        return '{} years'.format(obj.remaining_life())
-
-    def remaining_life_percent(self, obj):
-        """ Return remaining_life_percent
-        """
-        return '{}%'.format(obj.remaining_life_percent())
-
-    def replacement_cost(self, obj):
-        """ Return replacement_cost
-        """
-        return '{} {}'.format(obj.type.type.renewal_cost.currency, obj.replacement_cost())
-
-    def maintenance_cost(self, obj):
-        """ Return replacement_cost
-        """
-        return '{} {}'.format(obj.type.type.renewal_cost.currency, obj.maintenance_cost())
-
-    def annual_reserve_cost(self, obj):
-        """ Return annual_reserve_cost
-        """
-        return '{} {}'.format(obj.type.type.renewal_cost.currency, obj.annual_reserve_cost())
