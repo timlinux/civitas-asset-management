@@ -42,6 +42,8 @@ services:
       - ALLOW_IP_RANGE=0.0.0.0/0
       - USERNAME=${DATABASE_USERNAME}
       - PASS=${DATABASE_PASSWORD}
+    ports:
+      - "${DB_PORT}:5432"
     restart: on-failure:5
 
   dbbackups:
