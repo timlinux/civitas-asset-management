@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     ]
     point_view = """
     CREATE VIEW feature_point_view AS 
-    SELECT point.*, class.name as class, sub.name as sub_class, type.name as type_name
+    SELECT point.*, class.name as class, sub.name as sub_class, type.name as type
     from feature_point as point
            LEFT JOIN asset_type_combination comb on point.type_id = comb.id
            LEFT JOIN asset_class class on comb.class = class.id
@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
 
     line_view = """
         CREATE VIEW feature_line_view AS 
-    SELECT line.*, class.name as class, sub.name as sub_class, type.name as type_name
+    SELECT line.*, class.name as class, sub.name as sub_class, type.name as type
     from feature_line as line
            LEFT JOIN asset_type_combination comb on line.type_id = comb.id
            LEFT JOIN asset_class class on comb.class = class.id
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
 
     polygon_view = """
         CREATE VIEW feature_polygon_view AS 
-    SELECT polygon.*, class.name as class, sub.name as sub_class, type.name as type_name
+    SELECT polygon.*, class.name as class, sub.name as sub_class, type.name as type
     from feature_polygon as polygon
            LEFT JOIN asset_type_combination comb on polygon.type_id = comb.id
            LEFT JOIN asset_class class on comb.class = class.id
