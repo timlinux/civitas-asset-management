@@ -1,4 +1,5 @@
-#  Civitas Asset Management Application (CAM)
+#  This application is a work in progress and is not ready for release
+# Civitas Asset Management Application (CAM)
 CAM is a GIS-integrated asset management application developed to address the unique needs of Canada’s small communities. CAM supports a three-phase approach to implementing asset management:
 
 1. Asset Register: Capture asset locations and collect relevant data
