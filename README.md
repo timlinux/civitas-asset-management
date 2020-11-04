@@ -10,3 +10,5 @@ CAM includes a web-interface for application users and a configured QGIS interfa
 
 For a user-based wiki, 
 [wiki in progress](https://github.com/landinfotech/civitas-asset-management/wiki)
+
+If you would like to become involved in this project, please send us message!
