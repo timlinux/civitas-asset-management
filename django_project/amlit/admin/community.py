@@ -3,8 +3,28 @@ __date__ = '14/08/20'
 
 from django.contrib import admin
 from amlit.models.community import (
-    Community, Province, Region
+    Community, Province, Region, System
 )
+
+
+class SystemAdmin(admin.ModelAdmin):
+    list_display = ('name', 'community', 'region', 'province')
+
+    def region(self, obj):
+        """ Return region
+        :param obj:
+        :type obj: System
+        :return:
+        """
+        return obj.community.region
+
+    def province(self, obj):
+        """ Return province
+        :param obj:
+        :type obj: System
+        :return:
+        """
+        return obj.community.region.province
 
 
 class CommunityAdmin(admin.ModelAdmin):
@@ -30,3 +50,4 @@ class ProvinceAdmin(admin.ModelAdmin):
 admin.site.register(Province, ProvinceAdmin)
 admin.site.register(Region, RegionAdmin)
 admin.site.register(Community, CommunityAdmin)
+admin.site.register(System, SystemAdmin)

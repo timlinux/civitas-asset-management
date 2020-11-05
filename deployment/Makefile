@@ -139,6 +139,13 @@ migrate:
 	@docker-compose exec django python manage.py migrate
 	@docker-compose exec django python manage.py migrate amlit --database=amlit
 
+rm-volumes:
+	@echo
+	@echo "------------------------------------------------------------------"
+	@echo "Removing all volumes!!!! "
+	@echo "------------------------------------------------------------------"
+	@docker volume rm $(PROJECT_ID)_database
+
 # --------------- help --------------------------------
 
 help:

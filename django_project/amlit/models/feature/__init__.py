@@ -1,7 +1,7 @@
 __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '14/08/20'
 
-from .base import *
-from .general import *
-from .feature import *
-from .property import *
+from .feature_base import *
+from .feature_geometry import *
+from .feature_property import *
+from .identifier import *

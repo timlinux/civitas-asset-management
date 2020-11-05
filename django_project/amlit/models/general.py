@@ -15,4 +15,17 @@ class _Term(models.Model):
         return self.name
 
     class Meta:
+        managed = False
         abstract = True
+
+
+class Unit(_Term):
+    """ Unit """
+
+    class Meta:
+        managed = False
+        ordering = ('name',)
+        db_table = 'unit'
+
+    def __str__(self):
+        return self.name

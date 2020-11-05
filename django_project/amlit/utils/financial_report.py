@@ -1,16 +1,15 @@
 __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '04/09/20'
 
-from amlit.models.feature.base import FeatureTypeCombination
-from amlit.models.feature import (
-    FeatureLine, FeaturePolygon, FeaturePoint
+from amlit.models.feature.identifier import FeatureTypeCombination
+from amlit.models.feature.identifier import (
+    FeatureClass, FeatureSubClass, FeatureType
 )
+from amlit.models.feature.feature_base import FeatureBase
 
 
 class _FinancialReportBase(object):
-    MODELS = [FeatureLine, FeaturePolygon, FeaturePoint]
-
-    def template(self, name):
+    def template(self, name: str):
         """
         Template report
         :rtype: dict
@@ -18,7 +17,7 @@ class _FinancialReportBase(object):
         raise NotImplementedError
 
     def add_detail_to_report(
-            self, report, model):
+            self, report: dict, model: FeatureBase()):
         """ Add detail into report based on model data
         """
         raise NotImplementedError
@@ -57,38 +56,40 @@ class _FinancialReportBase(object):
         reports = output['details']
 
         # get report data
-        for Model in self.MODELS:
-            for model in Model.objects.all():
-                try:
-                    _class = model.type.the_class
-                    _sub_class = model.type.sub_class
-                    _type = model.type.type
+        for model in FeatureBase.objects.all():
+            try:
+                self.add_detail_to_report(output, model)
 
-                    # get class report
-                    class_report = reports[_class.id]
+                # class report
+                _class = model.the_class
+                class_report = reports[_class.id]
+                self.add_detail_to_report(class_report, model)
 
-                    # get sub class report in class report
-                    sub_class_report = class_report['details'][_sub_class.id]
+                # sub class report
+                _sub_class = model.sub_class
+                sub_class_report = class_report['details'][_sub_class.id]
+                self.add_detail_to_report(sub_class_report, model)
 
-                    # get type report in sub class report
-                    type_report = sub_class_report['details'][_type.id]
-
-                    # save data into report
-                    self.add_detail_to_report(output, model)
-                    self.add_detail_to_report(class_report, model)
-                    self.add_detail_to_report(sub_class_report, model)
-                    self.add_detail_to_report(type_report, model)
-                except KeyError:
-                    pass
+                # type report
+                _type = model.type
+                type_report = sub_class_report['details'][_type.id]
+                self.add_detail_to_report(type_report, model)
+            except (
+                    KeyError,
+                    AttributeError,
+                    FeatureClass.DoesNotExist,
+                    FeatureSubClass.DoesNotExist,
+                    FeatureType.DoesNotExist):
+                pass
 
         return output
 
 
 class FinancialReport(_FinancialReportBase):
-    def template(self, name):
+    def template(self, name: str):
         return {
             'name': name,
-            'replacement': 0,
+            'renewal': 0,
             'maintenance': 0,
             'total': 0,
             'annual_reserve': 0,
@@ -96,11 +97,14 @@ class FinancialReport(_FinancialReportBase):
         }
 
     def add_detail_to_report(
-            self, report, model):
-        report['annual_reserve'] += model.annual_reserve_cost
-        report['replacement'] += model.replacement_cost
-        report['maintenance'] += model.maintenance_cost
-        report['total'] = report['replacement'] + report['maintenance']
+            self, report: dict, model: FeatureBase()):
+        """ Add detail to report
+        """
+        calculation = model.calculation()
+        report['annual_reserve'] += calculation.annual_reserve_cost()
+        report['renewal'] += calculation.renewal_cost()
+        report['maintenance'] += calculation.maintenance_cost()
+        report['total'] = report['renewal'] + report['maintenance']
 
 
 class ProjectedReport(_FinancialReportBase):
@@ -110,15 +114,21 @@ class ProjectedReport(_FinancialReportBase):
     def template(self, name):
         return {
             'name': name,
-            'replacement': 0,
+            'renewal': 0,
             'maintenance': 0,
             'total': 0,
             'details': {}
         }
 
     def add_detail_to_report(
-            self, report, model):
-        report['maintenance'] += model.maintenance_cost
-        report['replacement'] += model.replacement_cost_year(
-            self.date)
-        report['total'] = report['replacement'] + report['maintenance']
+            self, report: dict, model: FeatureBase()):
+        """ Add detail to report
+        :type report: dict
+        :type model: FeatureBase()
+        """
+        calculation = model.calculation()
+        if calculation.age():
+            report['maintenance'] += calculation.maintenance_cost()
+            report['renewal'] += model.renewal_cost_year(
+                self.date)
+            report['total'] = report['renewal'] + report['maintenance']

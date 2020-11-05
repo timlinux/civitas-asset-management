@@ -2,9 +2,7 @@ __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '14/08/20'
 
 from django.contrib.gis.db import models
-from amlit.models.abstract import _Term
-from amlit.models.economy import Money
-from amlit.models.unit import Unit
+from amlit.models.general import _Term, Unit
 
 
 class Deterioration(_Term):
@@ -15,6 +13,7 @@ class Deterioration(_Term):
     equation = models.CharField(max_length=512)
 
     class Meta:
+        managed = False
         ordering = ('name',)
         db_table = 'deterioration'
 
@@ -34,6 +33,7 @@ class Condition(_Term):
     value = models.IntegerField()
 
     class Meta:
+        managed = False
         ordering = ('name',)
         db_table = 'condition'
 
@@ -48,6 +48,7 @@ class FeatureClass(_Term):
     """
 
     class Meta:
+        managed = False
         ordering = ('name',)
         db_table = 'asset_class'
 
@@ -75,6 +76,7 @@ class FeatureSubClass(_Term):
     )
 
     class Meta:
+        managed = False
         ordering = ('name',)
         db_table = 'asset_sub_class'
 
@@ -92,41 +94,21 @@ class FeatureType(_Term):
         blank=True, null=True,
         help_text='Total estimated life span of asset in years'
     )
-    maintenance_cost = models.OneToOneField(
-        Money,
+    maintenance_cost = models.FloatField(
         blank=True, null=True,
-        on_delete=models.SET_NULL,
-        related_name='type_maintenance_cost',
+        db_column='unit_maintenance_cost',
         help_text='Annual operation and maintenance cost (Default in canadian dollars)'
     )
-    renewal_cost = models.OneToOneField(
-        Money,
+    renewal_cost = models.FloatField(
         blank=True, null=True,
-        on_delete=models.SET_NULL,
-        related_name='type_renewal_cost',
+        db_column='unit_renewal_cost',
         help_text='Renewal cost (Default in canadian dollars)'
     )
 
     class Meta:
+        managed = False
         ordering = ('name',)
         db_table = 'asset_type'
-
-    def __str__(self):
-        return self.name
-
-
-class FeatureSubType(_Term):
-    """
-    The fourth Level of the Asset Hierarchy as defined in "Background" Sheet
-    """
-    type = models.ForeignKey(
-        FeatureType,
-        on_delete=models.CASCADE
-    )
-
-    class Meta:
-        ordering = ('name',)
-        db_table = 'asset_sub_type'
 
     def __str__(self):
         return self.name
@@ -139,7 +121,7 @@ class FeatureTypeCombination(_Term):
     the_class = models.ForeignKey(
         FeatureClass,
         on_delete=models.CASCADE,
-        db_column='class',
+        db_column='class_id',
         verbose_name='class'
     )
 
@@ -153,9 +135,10 @@ class FeatureTypeCombination(_Term):
     )
 
     class Meta:
+        managed = False
         ordering = ('the_class', 'sub_class', 'type')
         unique_together = ('the_class', 'sub_class', 'type')
-        db_table = 'asset_type_combination'
+        db_table = 'asset_classification_combination'
 
     def __str__(self):
         return '{} - {} - {}'.format(

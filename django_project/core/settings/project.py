@@ -62,21 +62,29 @@ LANGUAGES = (
 ADMIN_GROUP = {
     'amlit': {
         'config': [
-            'Configuration',
-            'GeneralBrand', 'GeneralMaterial',
-            'Currency', 'Money',
-            'Unit', 'Quantity',
-            'Condition', 'Deterioration'
+            'Unit',
+            'Condition',
+            'Deterioration'
         ],
-        'base feature': [
-            'FeatureClass', 'FeatureSubClass', 'FeatureType', 'FeatureSubType', 'FeatureTypeCombination'
+        'risk': [
+            'POF',
+            'COF',
+            'Risk'
+        ],
+        'feature identifier': [
+            'FeatureClass',
+            'FeatureSubClass',
+            'FeatureType',
+            'FeatureSubType',
+            'FeatureTypeCombination'
         ],
         'community': [
-            'Province', 'Region', 'Community'
+            'Province', 'Region', 'Community', 'CapitalProject', 'CivicAddress'
         ],
         'feature': [
             'System',
-            'FeaturePoint', 'FeaturePolygon', 'FeatureLine'
+            'FeatureBase',
+            'FeatureGeometry'
         ]
     }
 }
