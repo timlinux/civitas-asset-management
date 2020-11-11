@@ -18,7 +18,7 @@ define([
             this.years = [];
 
             // get projected data
-            this.getProjectedData((new Date()).getFullYear() + 1, 0)
+            // this.getProjectedData((new Date()).getFullYear() + 1, 0)
         },
         getProjectedData: function (year, yearIdx) {
             const that = this;

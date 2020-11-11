@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block stylesheet %}
-    <link href="{% static 'js/libs/leaflet/1.5.1/leaflet.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
-    <link href="{% static 'js/libs/leaflet.draw/1.0.4/leaflet.draw.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'libs/leaflet/1.5.1/leaflet.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'libs/leaflet.draw/1.0.4/leaflet.draw.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
     <link href="{% static 'css/map.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
 {% endblock stylesheet %}
 
@@ -24,7 +24,7 @@
 
 {% block javascript %}
     <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
-    <script data-main="{% static 'js/map/config.js' %}" src="{% static 'js/libs/require.js/2.3.6/require.min.js' %}"></script>
+    <script data-main="{% static 'js/map/config.js' %}" src="{% static 'libs/require.js/2.3.6/require.min.js' %}"></script>
 
     <script type='text/template' id='_system'>
         <h3 data-system-id="<%= id %>" class="system-header"><%= name %></h3>

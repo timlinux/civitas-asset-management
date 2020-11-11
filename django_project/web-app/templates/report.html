@@ -41,7 +41,7 @@
 {% block javascript %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
-    <script data-main="{% static 'js/report/config.js' %}" src="{% static 'js/libs/require.js/2.3.6/require.min.js' %}"></script>
+    <script data-main="{% static 'js/report/config.js' %}" src="{% static 'libs/require.js/2.3.6/require.min.js' %}"></script>
     <script>
         let reports = {
             'summary':{{ reports |safe}},
