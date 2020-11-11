@@ -16,7 +16,7 @@ class FeatureBaseAdmin(admin.ModelAdmin):
     list_display = (
         'type', 'system', 'install_date')
     readonly_fields = (
-        'renewal_cost', 'maintenance_cost', 'age',
+        'estimated_renewal_cost', 'estimated_maintenance_cost', 'age',
         'remaining_life', 'remaining_life_percent', 'annual_reserve_cost'
     )
     list_filter = ('the_class', 'sub_class', 'type')
@@ -25,29 +25,41 @@ class FeatureBaseAdmin(admin.ModelAdmin):
     # TODO:
     #  after these fields already uncommented, remove these
     # CALCULATION
-    def renewal_cost(self, obj):
+    def estimated_renewal_cost(self, obj):
         """ return renewal cost based on calculation"""
-        return obj.calculation().renewal_cost()
+        if obj.calculation():
+            return obj.calculation().renewal_cost()
+        return '-'
 
-    def maintenance_cost(self, obj):
+    def estimated_maintenance_cost(self, obj):
         """ return maintenance cost based on calculation"""
-        return obj.calculation().maintenance_cost()
+        if obj.calculation():
+            return obj.calculation().maintenance_cost()
+        return '-'
 
     def age(self, obj):
         """ return age based on calculation"""
-        return obj.calculation().age()
+        if obj.calculation():
+            return obj.calculation().age
+        return '-'
 
     def remaining_life(self, obj):
         """ return remaining life based on calculation"""
-        return obj.calculation().remaining_life()
+        if obj.calculation():
+            return obj.calculation().remaining_life()
+        return '-'
 
     def remaining_life_percent(self, obj):
         """ return remaining life percent based on calculation"""
-        return obj.calculation().remaining_life_percent()
+        if obj.calculation():
+            return obj.calculation().remaining_life_percent()
+        return '-'
 
     def annual_reserve_cost(self, obj):
         """ return annual reserve cost based on calculation"""
-        return obj.calculation().annual_reserve_cost()
+        if obj.calculation():
+            return obj.calculation().annual_reserve_cost()
+        return '-'
 
 
 class FeatureGeometryAdmin(OSMGeoAdmin):

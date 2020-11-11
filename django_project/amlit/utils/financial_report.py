@@ -5,7 +5,7 @@ from amlit.models.feature.identifier import FeatureTypeCombination
 from amlit.models.feature.identifier import (
     FeatureClass, FeatureSubClass, FeatureType
 )
-from amlit.models.feature.feature_base import FeatureBase
+from amlit.models.view.feature_calculations import FeatureCalculation
 
 
 class _FinancialReportBase(object):
@@ -17,7 +17,7 @@ class _FinancialReportBase(object):
         raise NotImplementedError
 
     def add_detail_to_report(
-            self, report: dict, model: FeatureBase()):
+            self, report: dict, model: FeatureCalculation()):
         """ Add detail into report based on model data
         """
         raise NotImplementedError
@@ -56,22 +56,22 @@ class _FinancialReportBase(object):
         reports = output['details']
 
         # get report data
-        for model in FeatureBase.objects.all():
+        for model in FeatureCalculation.objects.all():
             try:
                 self.add_detail_to_report(output, model)
 
                 # class report
-                _class = model.the_class
+                _class = model.feature.the_class
                 class_report = reports[_class.id]
                 self.add_detail_to_report(class_report, model)
 
                 # sub class report
-                _sub_class = model.sub_class
+                _sub_class = model.feature.sub_class
                 sub_class_report = class_report['details'][_sub_class.id]
                 self.add_detail_to_report(sub_class_report, model)
 
                 # type report
-                _type = model.type
+                _type = model.feature.type
                 type_report = sub_class_report['details'][_type.id]
                 self.add_detail_to_report(type_report, model)
             except (
@@ -97,13 +97,12 @@ class FinancialReport(_FinancialReportBase):
         }
 
     def add_detail_to_report(
-            self, report: dict, model: FeatureBase()):
+            self, report: dict, model: FeatureCalculation()):
         """ Add detail to report
         """
-        calculation = model.calculation()
-        report['annual_reserve'] += calculation.annual_reserve_cost()
-        report['renewal'] += calculation.renewal_cost()
-        report['maintenance'] += calculation.maintenance_cost()
+        report['annual_reserve'] += model.annual_reserve_cost()
+        report['renewal'] += model.renewal_cost()
+        report['maintenance'] += model.maintenance_cost()
         report['total'] = report['renewal'] + report['maintenance']
 
 
@@ -121,14 +120,13 @@ class ProjectedReport(_FinancialReportBase):
         }
 
     def add_detail_to_report(
-            self, report: dict, model: FeatureBase()):
+            self, report: dict, model: FeatureCalculation()):
         """ Add detail to report
         :type report: dict
         :type model: FeatureBase()
         """
-        calculation = model.calculation()
-        if calculation.age():
-            report['maintenance'] += calculation.maintenance_cost()
+        if model.age():
+            report['maintenance'] += model.maintenance_cost()
             report['renewal'] += model.renewal_cost_year(
                 self.date)
             report['total'] = report['renewal'] + report['maintenance']

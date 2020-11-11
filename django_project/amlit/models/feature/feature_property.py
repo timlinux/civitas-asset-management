@@ -5,23 +5,6 @@ from django.contrib.gis.db import models
 from amlit.models.feature.feature_base import FeatureBase
 
 
-class FeatureProperty(models.Model):
-    """
-    This is additional property for the feature
-    """
-    feature = models.ForeignKey(
-        FeatureBase,
-        on_delete=models.CASCADE
-    )
-    value_text = models.TextField(
-        null=True, blank=True
-    )
-
-    class Meta:
-        managed = False
-        db_table = 'feature_property'
-
-
 class Property(models.Model):
     """
     This is property for feature
@@ -36,3 +19,24 @@ class Property(models.Model):
     class Meta:
         managed = False
         db_table = 'property'
+
+
+class FeatureProperty(models.Model):
+    """
+    This is additional property for the feature
+    """
+    feature = models.ForeignKey(
+        FeatureBase,
+        on_delete=models.CASCADE
+    )
+    property = models.ForeignKey(
+        Property,
+        on_delete=models.CASCADE
+    )
+    value_text = models.TextField(
+        null=True, blank=True
+    )
+
+    class Meta:
+        managed = False
+        db_table = 'feature_property'

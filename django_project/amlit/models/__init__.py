@@ -5,4 +5,5 @@ from .address import *
 from .capital_project import *
 from .community import *
 from .feature import *
+from .view import *
 from .general import *
