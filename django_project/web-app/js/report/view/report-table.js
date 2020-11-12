@@ -44,7 +44,7 @@ define([
             this.headers = [];
             const $el = $('#header');
             $el.html('<div class="col-3 col-name"></div>')
-            $.each(data, function (key, value) {
+            $.each(data[Object.keys(data)[0]], function (key, value) {
                 if (!isNaN(value)) {
                     $el.append(
                         `<div class="col">${capitalize(key)}</div>` +
@@ -76,7 +76,7 @@ define([
 
             //render class
             this.$el.html('');
-            this.renderGroupData(this.$el, data['details'], data, 0);
+            this.renderGroupData(this.$el, data, data, 0);
             this.$el.append(that.renderRow('', data, 0, 0, 'total'))
         },
     });

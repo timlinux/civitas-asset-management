@@ -9,6 +9,7 @@
     <link href="{% static 'libs/leaflet/1.5.1/leaflet.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
     <link href="{% static 'libs/leaflet.draw/1.0.4/leaflet.draw.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
     <link href="{% static 'css/dashboard/main.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'css/dashboard/widget.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
 {% endblock stylesheet %}
 
 {% block content %}
@@ -58,27 +59,26 @@
 {% endblock %}
 
 {% block javascript %}
+    <script type="text/javascript" src="{% static 'libs/chart.js/2.8.0.chart.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
     <script data-main="{% static 'js/dashboard/config.js' %}" src="{% static 'libs/require.js/2.3.6/require.min.js' %}"></script>
 
-    <script type='text/template' id='_system'>
-        <h3 data-system-id="<%= id %>" class="system-header"><%= name %></h3>
-        <div id="system-<%= id %>">
-            <div class="content">
-                <table>
-                    <tr>
-                        <td>Province</td>
-                        <td><%= community.community %></td>
-                    </tr>
-                    <tr>
-                        <td>Region</td>
-                        <td><%= community.region %></td>
-                    </tr>
-                    <tr>
-                        <td>Community</td>
-                        <td><%= community.province %></td>
-                    </tr>
-                </table>
+    <script type='text/template' id='_financial-estimation-donut-chart'>
+        <div>
+            <div class="navigation">
+                <span><i class="fa fa-pie-chart" aria-hidden="true"></i></span> ► <span>Wastewater Collection</span> ► <span>Pump</span>
+            </div>
+            <div class="section">
+                <canvas id="renewal-cost-donut"></canvas>
+                <div class="sub-title">Estimated Renewal Cost</div>
+            </div>
+            <div class="section">
+                <canvas id="maintenance-cost-donut"></canvas>
+                <div class="sub-title">Estimated Annual Maintenance Cost</div>
+            </div>
+            <div class="section">
+                <canvas id="annual-reserve-donut"></canvas>
+                <div class="sub-title">Estimated Annual Reserve</div>
             </div>
         </div>
     </script>

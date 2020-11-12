@@ -34,6 +34,12 @@ define([
         change: function (style) {
             this.style = style;
             this.$el.find('.name').html(style.name);
+
+            // destroy every view and render selected one
+            this.views.forEach(function (view, idx) {
+                view.destroy()
+            });
+            style.render()
         },
     });
 });

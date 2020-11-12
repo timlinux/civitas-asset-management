@@ -3,3 +3,4 @@ __date__ = '19/08/20'
 
 from .report import *
 from .community import *
+from .summary import *

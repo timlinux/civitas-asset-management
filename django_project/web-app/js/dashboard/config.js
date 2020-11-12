@@ -39,13 +39,13 @@ require([
     'map',
     '../event',
     '../request',
-    'community/controller',
-    'system/controller',
     'dashboard-style/controller',
     'side-panel/controller',
+    'community/controller',
+    'system/controller',
 ], function (
     $, bootstrap, Backbone, _, L, LDraw, Map, _Event, _Request,
-    CommunityConstroller, SystemConstroller, DashboardStyleController, SidePanelController) {
+    DashboardStyleController, SidePanelController, CommunityConstroller, SystemConstroller) {
     csrfmiddlewaretoken = $('input[name ="csrfmiddlewaretoken"]').val();
     event = new _Event();
     Request = new _Request();

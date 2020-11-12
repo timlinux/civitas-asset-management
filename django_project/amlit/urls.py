@@ -4,7 +4,8 @@ __date__ = '19/08/20'
 from django.conf.urls import url, include
 from amlit.api import (
     ProjectedReportAPI,
-    CommunityAPI, CommunityDetailAPI)
+    CommunityAPI, CommunityDetailAPI,
+    SummaryAPI)
 from amlit.view.dashboard import DashboardView
 from amlit.view.report import ReportPageView
 
@@ -13,6 +14,9 @@ API = [
     url(r'^report/projected/(?P<year>\d+)$',
         ProjectedReportAPI.as_view(),
         name='amlit-projected-report'),
+    url(r'^feature/summary$',
+        SummaryAPI.as_view(),
+        name='amlit-feature-summary'),
 
     # community
     url(r'^community/(?P<id>\d+)$',

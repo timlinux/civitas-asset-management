@@ -154,7 +154,7 @@ li {
     position: absolute;
     z-index: 9999;
     border-radius: 0;
-    width: 200px;
+    width: 220px;
     margin-left: -100px;
 }
 
@@ -241,6 +241,8 @@ li {
 
 #side-panel .loading {
     position: relative;
+    height: 100px;
+    width: 100%;
 }
 
 #side-panel .loading p {
@@ -249,5 +251,13 @@ li {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 14px;
+    opacity: 0.8;
+    animation: blinker 2s linear infinite;
 
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0.3;
+    }
 }

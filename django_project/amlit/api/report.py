@@ -5,7 +5,7 @@ from datetime import datetime
 from django.http import HttpResponseBadRequest
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from amlit.utils.financial_report import ProjectedReport
+from amlit.utilities.feature_summary import ProjectedReport
 
 
 class ProjectedReportAPI(APIView):
@@ -25,4 +25,4 @@ class ProjectedReportAPI(APIView):
         except ValueError:
             return HttpResponseBadRequest('Year is not integer')
 
-        return Response(ProjectedReport(date).get())
+        return Response(ProjectedReport(date).summary_all())
