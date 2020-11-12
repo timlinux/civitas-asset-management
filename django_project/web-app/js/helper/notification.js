@@ -5,7 +5,7 @@ define([
     return Backbone.View.extend({
         el: '#notification',
         initialize: function () {
-            this.listenTo(dispatcher, 'notification:add', this.addNotification);
+            event.register(this, evt.NOTIFICATION_ADD, this.addNotification);
             this.template = _.template($('#-notification').html());
             this.templateContent = _.template($('#-notification-content').html());
         },

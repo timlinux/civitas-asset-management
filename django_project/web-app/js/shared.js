@@ -1,4 +1,4 @@
-let dispatcher;
+let event;
 let Request;
 let csrfmiddlewaretoken;
 

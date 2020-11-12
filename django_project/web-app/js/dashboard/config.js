@@ -1,5 +1,5 @@
 let map;
-let Style;
+
 require.config({
     paths: {
         'jquery': '../../libs/jquery.js/3.4.1/jquery.min',
@@ -36,19 +36,27 @@ require([
     'underscore',
     'leaflet',
     'leafletDraw',
+    'map',
+    '../event',
     '../request',
-    'view/map',
-    'view/side-panel',
-    'view/style',
-    '../helper/notification'
-], function ($, bootstrap, Backbone, _, L, LDraw, _Request, Map, SidePanel, _Style, Notification) {
+    'community/controller',
+    'system/controller',
+    'dashboard-style/controller',
+    'side-panel/controller',
+], function (
+    $, bootstrap, Backbone, _, L, LDraw, Map, _Event, _Request,
+    CommunityConstroller, SystemConstroller, DashboardStyleController, SidePanelController) {
     csrfmiddlewaretoken = $('input[name ="csrfmiddlewaretoken"]').val();
-    dispatcher = _.extend({}, Backbone.Events);
+    event = new _Event();
     Request = new _Request();
-    Style = new _Style()
 
     // initiate all view
     let mapiew = new Map();
     map = mapiew.map;
-    new SidePanel();
+
+    // init system/community controller
+    new DashboardStyleController();
+    new CommunityConstroller();
+    new SystemConstroller();
+    new SidePanelController();
 });

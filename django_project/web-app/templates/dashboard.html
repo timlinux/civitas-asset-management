@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Map
+{% endblock %}
+
+{% block stylesheet %}
+    <link href="{% static 'libs/leaflet/1.5.1/leaflet.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'libs/leaflet.draw/1.0.4/leaflet.draw.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'css/dashboard/main.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+{% endblock stylesheet %}
+
+{% block content %}
+    {% csrf_token %}
+    <div id="map"></div>
+
+    {# town name and logo#}
+    <div id="left-top" class="ui-overlay box-overlay">
+        <div id="community" class="section">
+            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+            <div class="detail" style="display: none">
+                <div class="selection">
+                    <span class="name"></span>
+                    <span class="arrow pull-right" style="opacity: 0">▼</span>
+                    <ul style="display: none"></ul>
+                </div>
+                <div class="region"></div>
+                <div class="province"></div>
+            </div>
+        </div>
+        <div id="system" class="section" style="display: none">
+            <div class="title">System
+                <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                <span class="arrow pull-right" style="opacity: 0">▼</span>
+            </div>
+            <div class="detail" style="display: none">
+                <ul></ul>
+            </div>
+        </div>
+    </div>
+    <div id="top-center" class="ui-overlay box-overlay">
+        <div id="styles">
+            <div class="selection">
+                <span class="name"></span>
+                <span class="arrow pull-right" style="opacity: 0">▼</span>
+                <ul style="display: none"></ul>
+            </div>
+        </div>
+    </div>
+    <div id="side-panel">
+        <div class="inner full">
+            <div class="toggle-button"></div>
+            <div class="content full">
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
+    <script data-main="{% static 'js/dashboard/config.js' %}" src="{% static 'libs/require.js/2.3.6/require.min.js' %}"></script>
+
+    <script type='text/template' id='_system'>
+        <h3 data-system-id="<%= id %>" class="system-header"><%= name %></h3>
+        <div id="system-<%= id %>">
+            <div class="content">
+                <table>
+                    <tr>
+                        <td>Province</td>
+                        <td><%= community.community %></td>
+                    </tr>
+                    <tr>
+                        <td>Region</td>
+                        <td><%= community.region %></td>
+                    </tr>
+                    <tr>
+                        <td>Community</td>
+                        <td><%= community.province %></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </script>
+{% endblock javascript %}
