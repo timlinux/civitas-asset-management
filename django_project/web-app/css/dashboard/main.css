@@ -252,8 +252,14 @@ li {
     transform: translate(-50%, -50%);
     font-size: 14px;
     opacity: 0.8;
-    animation: blinker 2s linear infinite;
+}
 
+#side-panel .loading .blink {
+    animation: blinker 2s linear infinite;
+}
+
+#side-panel .loading .error {
+    color: red;
 }
 
 @keyframes blinker {

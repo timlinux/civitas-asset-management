@@ -4,6 +4,7 @@ define([
     '../widget/financial-estimation-donut-chart'], function (Base, Quantity, FinancialEstimationDonutChart) {
     return Base.extend({
         name: 'Inventory View',
+        data: null,
         initialize: function () {
             this.widgets = [new Quantity(), new FinancialEstimationDonutChart()];
             this.listener();
@@ -13,18 +14,21 @@ define([
          */
         rendered: function () {
             const that = this;
-            if (this.data) {
-                this.widgets.forEach(function (widget) {
-                    widget.render(that.data)
-                });
-            }
+            this.widgets.forEach(function (widget) {
+                widget.render(that.data)
+            });
         },
         /**
          *  This is abstract function that called after render
          */
         systemChanged: function (systems) {
             const that = this;
-            Request.get(
+            this.data = null;
+            this.rendered();
+            if (this.request) {
+                this.request.abort()
+            }
+            this.request = Request.get(
                 '/api/feature/summary',
                 {
                     'systems': systems.join(',')

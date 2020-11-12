@@ -44,10 +44,6 @@ class _FeatureSummaryBase(object):
                 reports[_class.id]['details'][_sub_class.id]['details'][_type.id] = self.template(_type.name)
         return reports
 
-    def query(self):
-        """ Return query of feature calculation """
-        return FeatureCalculation.objects.all()
-
     def summary_all(self):
         """
         Return Financial Report Per Class, SubClass and Type
@@ -58,7 +54,7 @@ class _FeatureSummaryBase(object):
         output = self.base_reports()
 
         # get report data
-        for model in self.query():
+        for model in FeatureCalculation.objects.all():
             try:
                 # class report
                 _class = model.feature.the_class
@@ -84,7 +80,7 @@ class _FeatureSummaryBase(object):
 
         return output
 
-    def summary(self):
+    def summary(self, systems=None):
         """
         Return Financial Report Per Class, SubClass and Type that is just has data
 
@@ -94,8 +90,11 @@ class _FeatureSummaryBase(object):
         output = {}
 
         # get report data
-        for model in self.query():
+        for model in FeatureCalculation.objects.all():
             try:
+                if systems is not None and str(model.feature.system.id) not in systems:
+                    continue
+
                 # class report
                 _class = model.feature.the_class
                 if _class.id not in output:

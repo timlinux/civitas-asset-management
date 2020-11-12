@@ -17,10 +17,15 @@ define([
             }
 
             // if data is null, show loading
-            if (!data) {
+            if (data == null) {
                 this.$content.html(
                     '<div class="loading">' +
-                    '   <p>Loading Data</p>' +
+                    '   <p class="blink">Loading Data</p>' +
+                    '</div>')
+            } else if (Object.keys(data).length === 0) {
+                this.$content.html(
+                    '<div class="loading">' +
+                    '   <p class="error">No data found</p>' +
                     '</div>')
             } else {
                 this.$content.html('');

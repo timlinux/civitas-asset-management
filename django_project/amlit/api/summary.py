@@ -14,5 +14,6 @@ class SummaryAPI(APIView):
 
     def get(self, request):
         """ Return data of features """
+        systems = request.GET.get('systems', '').split(',')
         return Response(
-            SummaryReport().summary())
+            SummaryReport().summary(systems))
