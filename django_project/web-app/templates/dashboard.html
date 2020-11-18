@@ -82,4 +82,37 @@
             </div>
         </div>
     </script>
+
+    <script type='text/template' id='_quantity-widget_row'>
+        <div class="row">
+            <div class="col col-6">
+                <% if(open) { %>
+                <a data-toggle="collapse" href="#quantity-<%- id %>" role="button" aria-expanded="true" aria-controls="sub-1" style="margin-left: <%- margin %>px">
+                    <%- name %>
+                </a>
+                <% }else{ %>
+                <a data-toggle="collapse" href="#quantity-<%- id %>" role="button" aria-expanded="false" aria-controls="sub-1" style="margin-left: <%- margin %>px">
+                    <%- name %>
+                </a>
+                <% } %>
+            </div>
+            <div class="col"><%- quantity %> <%- unit %></div>
+{#            <% if(percent !== undefined) { %>#}
+{#            <div class="col-6">#}
+{#                <% if(percent !== 0) { %>#}
+{#                <div class="bar"></div>#}
+{#                <% } %>#}
+{#            </div>#}
+{#            <% } %>#}
+        </div>
+        <% if(open) { %>
+        <div id="quantity-<%- id %>" class="sub collapse show">
+            <%= rows %>
+        </div>
+        <% }else{ %>
+        <div id="quantity-<%- id %>" class="sub collapse">
+            <%= rows %>
+        </div>
+        <% } %>
+    </script>
 {% endblock javascript %}

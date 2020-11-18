@@ -35,7 +35,7 @@ define([
                 community.get('systems').forEach(function (system) {
                     $ul.append(`
                         <li>
-                            <input type="checkbox" value="${system.id}">${system.name}
+                            <input type="checkbox" value="${system.id}" checked>${system.name}
                             <div class="description">${system.description}</div>
                         </li>`
                     )
