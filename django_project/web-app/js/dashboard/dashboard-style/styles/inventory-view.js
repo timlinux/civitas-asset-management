@@ -15,7 +15,10 @@ define([
         rendered: function () {
             const that = this;
             this.widgets.forEach(function (widget) {
-                widget.render(that.data)
+                widget.updateData(that.data);
+                if (that.active) {
+                    widget.render()
+                }
             });
         },
         /**

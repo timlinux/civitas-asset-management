@@ -6,18 +6,17 @@ define([
         name: 'Quantity',
         /** Function called when data is presented
          */
-        renderData: function (data) {
+        renderData: function () {
             this.template = _.template($('#_quantity-widget_row').html());
-            this.data = cloneObject(data);
-            this.$content.addClass('box-overlay');
             this.$content.html(
-                this.renderRows(data, 0)
+                this.renderRows(this.data, 0)
             );
 
         },
         renderRows: function (rows, tree) {
             const that = this;
             let html = '';
+            this.$content.addClass('box-overlay');
             $.each(rows, function (key, row) {
                 row['id'] = `${tree}-${key}`;
                 row['rows'] = '';

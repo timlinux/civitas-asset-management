@@ -21,9 +21,7 @@ define([
         },
         /** listen When the system changes **/
         systemChangedListener(systems) {
-            if (this.active) {
-                this.systemChanged(systems)
-            }
+            this.systemChanged(systems)
         },
         /**
          *  This is abstract function that called after render

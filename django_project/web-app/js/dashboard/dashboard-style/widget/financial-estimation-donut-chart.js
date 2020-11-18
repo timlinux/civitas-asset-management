@@ -45,10 +45,8 @@ define([
         },
         /** Function called when data is presented
          */
-        renderData: function (data) {
-            this.data = data;
+        renderData: function () {
             this.tree = [];
-
             this.$content.html(
                 _.template($('#_financial-estimation-donut-chart').html())
             );
@@ -58,7 +56,7 @@ define([
             this.$navigation = this.$el.find('.navigation')
 
             // render chart with data
-            this.updateCharts(data)
+            this.updateCharts(this.data)
         },
         /***
          * Update chart

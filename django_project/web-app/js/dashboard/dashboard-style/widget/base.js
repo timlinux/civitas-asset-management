@@ -4,7 +4,11 @@ define([
         initialize: function () {
             this.$wrapper = $('#side-panel .content');
         },
-        render: function (data) {
+        updateData: function (data) {
+            this.data = cloneObject(data);
+        },
+        render: function () {
+            // append to wrapper
             if (this.$wrapper.find(`#${this.id}`).length === 0) {
                 this.$wrapper.append(`
                     <div id="${this.id}" class="widget">
@@ -17,19 +21,19 @@ define([
             }
 
             // if data is null, show loading
-            if (data == null) {
+            if (this.data == null) {
                 this.$content.html(
                     '<div class="loading">' +
                     '   <p class="blink">Loading Data</p>' +
                     '</div>')
-            } else if (Object.keys(data).length === 0) {
+            } else if (Object.keys(this.data).length === 0) {
                 this.$content.html(
                     '<div class="loading">' +
                     '   <p class="error">No data found</p>' +
                     '</div>')
             } else {
                 this.$content.html('');
-                this.renderData(data);
+                this.renderData()
             }
         },
         destroy: function () {
@@ -38,7 +42,7 @@ define([
         },
         /** Abstract function called when data is presented
          */
-        renderData: function (data) {
+        renderData: function () {
 
         },
         /** Abstract function called when widget destroyed
