@@ -4,22 +4,8 @@ define([
     '../widget/financial-estimation-donut-chart'], function (Base, Quantity, FinancialEstimationDonutChart) {
     return Base.extend({
         name: 'Inventory View',
-        data: null,
-        initialize: function () {
+        init: function () {
             this.widgets = [new Quantity(), new FinancialEstimationDonutChart()];
-            this.listener();
-        },
-        /**
-         *  This is function that called after render
-         */
-        rendered: function () {
-            const that = this;
-            this.widgets.forEach(function (widget) {
-                widget.updateData(that.data);
-                if (that.active) {
-                    widget.render()
-                }
-            });
         },
         /**
          *  This is abstract function that called after render
@@ -27,7 +13,7 @@ define([
         systemChanged: function (systems) {
             const that = this;
             this.data = null;
-            this.rendered();
+            this.renderWidgets();
             if (this.request) {
                 this.request.abort()
             }
@@ -40,7 +26,7 @@ define([
                 function (data) {
                     /** success **/
                     that.data = data;
-                    that.rendered();
+                    that.renderWidgets();
                 },
                 function () {
                     /**fail**/

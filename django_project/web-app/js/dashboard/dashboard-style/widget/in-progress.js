@@ -4,9 +4,9 @@ define([
     return Base.extend({
         id: 'in-progress',
         name: 'In progress',
-        /** Function called when data is presented
+        /** Abstract function called when data is presented
          */
-        renderData: function () {
+        postRender: function () {
             this.$content.html(
                 '<div>coming soon</div>'
             );

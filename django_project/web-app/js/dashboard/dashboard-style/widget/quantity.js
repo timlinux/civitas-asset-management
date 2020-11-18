@@ -4,19 +4,19 @@ define([
     return Base.extend({
         id: 'widget-quantity',
         name: 'Quantity',
-        /** Function called when data is presented
+        /** Abstract function called when data is presented
          */
-        renderData: function () {
+        postRender: function () {
             this.template = _.template($('#_quantity-widget_row').html());
             this.$content.html(
-                this.renderRows(this.data, 0)
+                `<div class="box-overlay">${this.renderRows(this.data, 0)}</div>`
             );
-
         },
+        /** Rendering rows from data
+         */
         renderRows: function (rows, tree) {
             const that = this;
             let html = '';
-            this.$content.addClass('box-overlay');
             $.each(rows, function (key, row) {
                 row['id'] = `${tree}-${key}`;
                 row['rows'] = '';

@@ -12,7 +12,6 @@ define([
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             })
         },
-        communityLayer: null,
         /** Initialization
          */
         initialize: function () {
@@ -24,27 +23,32 @@ define([
             // add basemap
             this.basemaps['OSM'].addTo(this.map);
 
-            // add community layer
-            this.communityLayer = L.geoJSON(null, {
-                fillOpacity: 0,
-                "color": "#f44a52",
-                "weight": 2,
-                "opacity": 1
-            }).addTo(this.map);
-
             // add listener
             this.listener()
         },
         /** Init listener for map
          */
         listener: function () {
+            event.register(this, evt.MAP_ADD_LAYER, this.addLayer);
+            event.register(this, evt.MAP_REMOVE_LAYER, this.removeLayer);
             event.register(this, evt.MAP_PAN, this.panTo);
-            event.register(this, evt.COMMUNITY_GEOJSON_CHANGE, this.communityLayerChanged);
+            event.register(this, evt.MAP_FLY, this.flyTo);
         },
-        communityLayerChanged: function (geojson) {
-            this.communityLayer.clearLayers();
-            this.communityLayer.addData(geojson);
-            this.map.flyToBounds(this.communityLayer.getBounds(), {'duration': 1});
+        /**
+         * Add layer to map
+         */
+        addLayer: function (layer) {
+            layer.addTo(this.map)
+        },
+        /**
+         * Remove layer from map
+         */
+        removeLayer: function (layer) {
+            try {
+                this.map.removeLayer(layer)
+            } catch (e) {
+
+            }
         },
         /**
          * Pan map to lat lng
@@ -60,6 +64,14 @@ define([
             } else {
                 this.map.panTo(new L.LatLng(lat, lng));
             }
-        }
+        },
+        /**
+         * Pan map to lat lng
+         * @param bound
+         * @param duration
+         */
+        flyTo: function (bound, duration = 1) {
+            this.map.flyToBounds(bound, {'duration': duration});
+        },
     });
 });

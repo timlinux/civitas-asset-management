@@ -4,10 +4,8 @@ define([
         initialize: function () {
             this.$wrapper = $('#side-panel .content');
         },
-        updateData: function (data) {
+        render: function (data) {
             this.data = cloneObject(data);
-        },
-        render: function () {
             // append to wrapper
             if (this.$wrapper.find(`#${this.id}`).length === 0) {
                 this.$wrapper.append(`
@@ -33,21 +31,21 @@ define([
                     '</div>')
             } else {
                 this.$content.html('');
-                this.renderData()
+                this.postRender()
             }
         },
         destroy: function () {
-            this.destroyData()
+            this.postDestroy()
             this.$el.remove()
         },
         /** Abstract function called when data is presented
          */
-        renderData: function () {
+        postRender: function () {
 
         },
         /** Abstract function called when widget destroyed
          */
-        destroyData: function () {
+        postDestroy: function () {
 
         },
     });

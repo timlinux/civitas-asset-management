@@ -3,31 +3,41 @@ define([
     return Backbone.View.extend({
         widgets: [],
         active: false,
-        listener: function () {
-            event.register(this, evt.SYSTEM_CHANGE, this.systemChangedListener);
+        data: null,
+        layer: null,
+        initialize: function () {
+            event.register(this, evt.SYSTEM_CHANGE, this.systemChanged);
+            this.init();
         },
-        render: function () {
-            this.widgets.forEach(function (widget) {
-                widget.render()
-            });
+        /**
+         *  This is abstract function that called after initialize
+         */
+        init: function () {
+
+        },
+        /** Activate the view
+         */
+        activate: function () {
             this.active = true;
-            this.rendered();
+            this.renderWidgets();
         },
+        /** Render widgets of style
+         */
+        renderWidgets: function () {
+            if (this.active) {
+                const that = this;
+                this.widgets.forEach(function (widget) {
+                    widget.render(that.data)
+                });
+            }
+        },
+        /** destroy view
+         * **/
         destroy: function () {
             this.widgets.forEach(function (widget) {
                 widget.destroy()
             });
             this.active = false;
-        },
-        /** listen When the system changes **/
-        systemChangedListener(systems) {
-            this.systemChanged(systems)
-        },
-        /**
-         *  This is abstract function that called after render
-         */
-        rendered: function () {
-
         },
         /**
          *  This is abstract function that called after render

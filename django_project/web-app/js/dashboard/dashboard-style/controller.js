@@ -39,7 +39,7 @@ define([
             this.views.forEach(function (view, idx) {
                 view.destroy()
             });
-            style.render()
+            style.activate();
         },
     });
 });

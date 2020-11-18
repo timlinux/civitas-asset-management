@@ -13,7 +13,21 @@ define([
         // tree data
         labels: [],
         tree: [],
+        /** Abstract function called when data is presented
+         */
+        postRender: function () {
+            this.tree = [];
+            this.$content.html(
+                _.template($('#_financial-estimation-donut-chart').html())
+            );
+            this.renewalChart = this.initChart($('#renewal-cost-donut'))
+            this.maintenanceChart = this.initChart($('#maintenance-cost-donut'))
+            this.reserveChart = this.initChart($('#annual-reserve-donut'))
+            this.$navigation = this.$el.find('.navigation')
 
+            // render chart with data
+            this.updateCharts(this.data)
+        },
         /** Initiate chart into variable
          */
         initChart: function ($canvas) {
@@ -43,21 +57,6 @@ define([
                     }
                 });
         },
-        /** Function called when data is presented
-         */
-        renderData: function () {
-            this.tree = [];
-            this.$content.html(
-                _.template($('#_financial-estimation-donut-chart').html())
-            );
-            this.renewalChart = this.initChart($('#renewal-cost-donut'))
-            this.maintenanceChart = this.initChart($('#maintenance-cost-donut'))
-            this.reserveChart = this.initChart($('#annual-reserve-donut'))
-            this.$navigation = this.$el.find('.navigation')
-
-            // render chart with data
-            this.updateCharts(this.data)
-        },
         /***
          * Update chart
          */
@@ -72,6 +71,8 @@ define([
             };
             chart.update()
         },
+        /** Update all chart from data
+         */
         updateCharts: function () {
             // render data
             const that = this;
