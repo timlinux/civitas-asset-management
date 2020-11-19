@@ -6,6 +6,7 @@ const evt = {
     MAP_FLY: 'map:fly', // fly the map
     MAP_ADD_LAYER: 'map:layer:add', // add layer to map
     MAP_REMOVE_LAYER: 'map:layer:remove', // add layer to map
+    MAP_DRAW_DONE: 'map:draw:done', // draw done
     NOTIFICATION_ADD: 'notification:add', // add a notification
     SYSTEM_CHANGE: 'system:change', // when system change
 }

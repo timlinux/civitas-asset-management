@@ -10,7 +10,7 @@ class FeatureGeometry(models.Model):
     Geometry of feature base
     """
 
-    feature = models.ForeignKey(
+    feature = models.OneToOneField(
         FeatureBase,
         on_delete=models.CASCADE
     )
@@ -27,3 +27,12 @@ class FeatureGeometry(models.Model):
     class Meta:
         managed = False
         db_table = 'feature_geometry'
+
+    def geometry(self):
+        """ return geometry of feature """
+        if self.geom_point:
+            return self.geom_point
+        if self.geom_line:
+            return self.geom_line
+        if self.geom_polygon:
+            return self.geom_polygon

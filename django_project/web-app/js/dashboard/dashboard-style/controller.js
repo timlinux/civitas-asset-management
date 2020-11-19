@@ -6,8 +6,8 @@ define([
 ], function (
     Backbone, InventoryView, PrioritizationView, ProjectView) {
     return Backbone.View.extend({
-        style: null,
         el: '#styles',
+        style: null,
         initialize: function () {
             const that = this;
             const $ul = that.$el.find('ul');
@@ -32,6 +32,12 @@ define([
         },
         /** Change dashboard style **/
         change: function (style) {
+            // render layer to map
+            // remove previous style
+            if (this.style) {
+                event.trigger(evt.MAP_REMOVE_LAYER, style.layer);
+            }
+
             this.style = style;
             this.$el.find('.name').html(style.name);
 
@@ -40,6 +46,9 @@ define([
                 view.destroy()
             });
             style.activate();
+
+            // add layer
+            event.trigger(evt.MAP_ADD_LAYER, style.layer);
         },
     });
 });

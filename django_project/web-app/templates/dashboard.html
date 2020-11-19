@@ -24,7 +24,7 @@
                 <div class="selection">
                     <span class="name"></span>
                     <span class="arrow pull-right" style="opacity: 0">▼</span>
-                    <ul style="display: none"></ul>
+                    <ul class="main-ul" style="display: none"></ul>
                 </div>
                 <div class="region"></div>
                 <div class="province"></div>
@@ -36,7 +36,7 @@
                 <span class="arrow pull-right" style="opacity: 0">▼</span>
             </div>
             <div class="detail" style="display: none">
-                <ul></ul>
+                <ul class="main-ul"></ul>
             </div>
         </div>
     </div>
@@ -45,7 +45,7 @@
             <div class="selection">
                 <span class="name"></span>
                 <span class="arrow pull-right" style="opacity: 0">▼</span>
-                <ul style="display: none"></ul>
+                <ul class="main-ul" style="display: none"></ul>
             </div>
         </div>
     </div>
@@ -97,13 +97,13 @@
                 <% } %>
             </div>
             <div class="col"><%- quantity %> <%- unit %></div>
-{#            <% if(percent !== undefined) { %>#}
-{#            <div class="col-6">#}
-{#                <% if(percent !== 0) { %>#}
-{#                <div class="bar"></div>#}
-{#                <% } %>#}
-{#            </div>#}
-{#            <% } %>#}
+            {#            <% if(percent !== undefined) { %>#}
+            {#            <div class="col-6">#}
+            {#                <% if(percent !== 0) { %>#}
+            {#                <div class="bar"></div>#}
+            {#                <% } %>#}
+            {#            </div>#}
+            {#            <% } %>#}
         </div>
         <% if(open) { %>
         <div id="quantity-<%- id %>" class="sub collapse show">

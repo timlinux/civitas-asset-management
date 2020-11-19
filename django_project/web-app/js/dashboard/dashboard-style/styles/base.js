@@ -7,6 +7,7 @@ define([
         layer: null,
         initialize: function () {
             event.register(this, evt.SYSTEM_CHANGE, this.systemChanged);
+            event.register(this, evt.MAP_DRAW_DONE, this.mapDrawDone);
             this.init();
         },
         /**
@@ -45,5 +46,10 @@ define([
         systemChanged: function (systems) {
 
         },
+        /** When map done on drawing
+         */
+        mapDrawDone: function (layer) {
+
+        }
     });
 });

@@ -25,6 +25,30 @@ define([
 
             // add listener
             this.listener()
+
+            // Draw layer
+            var drawnItems = new L.FeatureGroup();
+            this.map.addLayer(drawnItems);
+            var drawControl = new L.Control.Draw({
+                position: 'bottomleft',
+                draw: {
+                    polygon: true,
+                    marker: false,
+                    polyline: false,
+                    rectangle: false,
+                    circle: false,
+                    circlemarker: false,
+                },
+                edit: {
+                    featureGroup: drawnItems,
+                    edit: false,
+                    remove: false
+                }
+            });
+            this.map.addControl(drawControl);
+            this.map.on(L.Draw.Event.CREATED, function (e) {
+                event.trigger(evt.MAP_DRAW_DONE, e.layer);
+            });
         },
         /** Init listener for map
          */
@@ -38,7 +62,11 @@ define([
          * Add layer to map
          */
         addLayer: function (layer) {
-            layer.addTo(this.map)
+            try {
+                layer.addTo(this.map)
+            } catch (e) {
+
+            }
         },
         /**
          * Remove layer from map

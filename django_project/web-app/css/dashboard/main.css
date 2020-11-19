@@ -55,13 +55,13 @@ html, body {
     border-top: 1px solid #ddd;
 }
 
-ul {
+.main-ul {
     padding: 0;
     font-size: 14px;
     margin: 0;
 }
 
-li {
+.main-ul li {
     padding: 5px 10px;
     list-style-type: none;
     width: 100%;

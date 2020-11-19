@@ -5,7 +5,7 @@ from django.conf.urls import url, include
 from amlit.api import (
     ProjectedReportAPI,
     CommunityAPI, CommunityDetailAPI,
-    SummaryAPI)
+    SummaryAPI, FeaturesGeojsonAPI)
 from amlit.view.dashboard import DashboardView
 from amlit.view.report import ReportPageView
 
@@ -14,9 +14,12 @@ API = [
     url(r'^report/projected/(?P<year>\d+)$',
         ProjectedReportAPI.as_view(),
         name='amlit-projected-report'),
-    url(r'^feature/summary$',
+    url(r'^features/summary$',
         SummaryAPI.as_view(),
-        name='amlit-feature-summary'),
+        name='amlit-features-summary'),
+    url(r'^features/geojson$',
+        FeaturesGeojsonAPI.as_view(),
+        name='amlit-features-geojson'),
 
     # community
     url(r'^community/(?P<id>\d+)$',

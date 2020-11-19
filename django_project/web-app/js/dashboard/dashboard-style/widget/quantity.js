@@ -9,7 +9,7 @@ define([
         postRender: function () {
             this.template = _.template($('#_quantity-widget_row').html());
             this.$content.html(
-                `<div class="box-overlay">${this.renderRows(this.data, 0)}</div>`
+                `<div class="box-overlay">${this.renderRows(cloneObject(this.data), 0)}</div>`
             );
         },
         /** Rendering rows from data
@@ -25,12 +25,21 @@ define([
                 if (tree === 0) {
                     row['unit'] = '';
                     row['quantity'] = '';
-                }
-                if (tree >= 1) {
+                } else {
                     row['open'] = false;
+                    // this is when feature selected
+                    if (that.featureSelected) {
+                        if (row.selected) {
+                            row['quantity'] = row.selected.quantity + ' / ' + row.quantity
+                        } else {
+                            row['quantity'] = 0 + ' / ' + row.quantity
+                        }
+                    }
                 }
-                if (row['details']) {
-                    row['rows'] = that.renderRows(row['details'], tree + 1)
+
+                // render every details
+                if (row.details) {
+                    row['rows'] = that.renderRows(row.details, tree + 1)
                 }
                 html += that.template(row)
             });

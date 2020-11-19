@@ -26,7 +26,9 @@ define([
             this.$navigation = this.$el.find('.navigation')
 
             // render chart with data
-            this.updateCharts(this.data)
+            this.updateCharts(
+                cloneObject(this.data)
+            )
         },
         /** Initiate chart into variable
          */
@@ -112,9 +114,22 @@ define([
                 labels.push(value.name);
                 backgroundColours.push(COLOURS[idx]);
 
-                renewals.push(value.renewal);
-                maintenances.push(value.maintenance);
-                reserves.push(value.annual_reserve);
+                // this is when feature selected
+                if (that.featureSelected) {
+                    if (value.selected) {
+                        renewals.push(value.selected.renewal);
+                        maintenances.push(value.selected.maintenance);
+                        reserves.push(value.selected.annual_reserve);
+                    } else {
+                        renewals.push(0);
+                        maintenances.push(0);
+                        reserves.push(0);
+                    }
+                } else {
+                    renewals.push(value.renewal);
+                    maintenances.push(value.maintenance);
+                    reserves.push(value.annual_reserve);
+                }
                 idx += 1;
             });
 

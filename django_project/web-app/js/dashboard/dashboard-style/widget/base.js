@@ -5,7 +5,7 @@ define([
             this.$wrapper = $('#side-panel .content');
         },
         render: function (data) {
-            this.data = cloneObject(data);
+            this.data = data;
             // append to wrapper
             if (this.$wrapper.find(`#${this.id}`).length === 0) {
                 this.$wrapper.append(`

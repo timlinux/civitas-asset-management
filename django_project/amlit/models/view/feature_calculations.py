@@ -8,7 +8,7 @@ from amlit.models.feature.feature_base import FeatureBase
 
 class FeatureCalculation(models.Model):
     """ This is the calculation view of feature"""
-    feature = models.ForeignKey(
+    feature = models.OneToOneField(
         FeatureBase,
         on_delete=models.CASCADE,
         primary_key=True
@@ -36,15 +36,17 @@ class FeatureCalculation(models.Model):
     remaining_years_age_based = models.FloatField(
         null=True, blank=True
     )
-    remaining_percent_age_based = models.FloatField(
-        null=True, blank=True
+    remaining_percent_age_based = models.CharField(
+        null=True, blank=True,
+        max_length=512
     )
     # Condition based
     remaining_years_condition_based = models.FloatField(
         null=True, blank=True
     )
-    remaining_percent_condition_based = models.FloatField(
-        null=True, blank=True
+    remaining_percent_condition_based = models.CharField(
+        null=True, blank=True,
+        max_length=512
     )
 
     # Risk

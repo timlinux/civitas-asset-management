@@ -1,5 +1,7 @@
 define([
-    'backbone', './collection'], function (Backbone, Community) {
+    'backbone',
+    'leaflet',
+    './collection'], function (Backbone, L, Community) {
     return Backbone.View.extend({
         community: null,
         layer: null,
