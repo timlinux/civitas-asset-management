@@ -39,10 +39,11 @@ AMLIT_DATABASE = 'amlit'
 DATABASES[AMLIT_DATABASE] = {
     'ENGINE': 'django.contrib.gis.db.backends.postgis',
     'NAME': os.environ['DATABASE_AIM_NAME'],
-    'USER': os.environ['DATABASE_USERNAME'],
-    'PASSWORD': os.environ['DATABASE_PASSWORD'],
-    'HOST': os.environ['DATABASE_HOST'],
-    'PORT': 5432,
+    'USER': os.environ['DATABASE_AIM_USERNAME'],
+    'PASSWORD': os.environ['DATABASE_AIM_PASSWORD'],
+    'HOST': os.environ['DATABASE_AIM_HOST'],
+    'PORT': os.environ['DATABASE_AIM_PORT'],
+    'OPTIONS': {'sslmode': 'require'},
     'TEST_NAME': 'unittests',
 }
 DATABASE_ROUTERS = ['amlit.router.Router']
