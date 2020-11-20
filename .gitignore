@@ -20,6 +20,7 @@ deployment/pg
 deployment/sftp_backup/
 deployment/sftp_credential.env
 deployment/static
+deployment/volumes
 /static
 deployment/sql
 
