@@ -146,41 +146,44 @@ define([
             if (this.sumRequest) {
                 this.sumRequest.abort()
             }
-            this.sumRequest = Request.get(
-                '/api/features/summary',
-                {
-                    'systems': systems.join(',')
-                },
-                null,
-                function (data) {
-                    /** success **/
-                    that.data = data;
-                    that.originalData = cloneObject(data);
-                    that.renderWidgets();
-                },
-                function () {
-                    /**fail**/
-                })
+            that.layer.clearLayers();
+            if (systems.length > 0) {
+                this.sumRequest = Request.get(
+                    '/api/features/summary',
+                    {
+                        'systems': systems.join(',')
+                    },
+                    null,
+                    function (data) {
+                        /** success **/
+                        that.data = data;
+                        that.originalData = cloneObject(data);
+                        that.renderWidgets();
+                    },
+                    function () {
+                        /**fail**/
+                    })
 
-            // call layer
-            this.layer.clearLayers();
-            if (this.layerRequest) {
-                this.layerRequest.abort()
+                // call layer
+                this.layer.clearLayers();
+                if (this.layerRequest) {
+                    this.layerRequest.abort()
+                }
+                this.layerRequest = Request.get(
+                    '/api/features/geojson',
+                    {
+                        'systems': systems.join(',')
+                    },
+                    null,
+                    function (geojson) {
+                        /** success **/
+                        that.layer.addData(geojson);
+                        event.trigger(evt.MAP_FLY, that.layer.getBounds());
+                    },
+                    function () {
+                        /**fail**/
+                    })
             }
-            this.layerRequest = Request.get(
-                '/api/features/geojson',
-                {
-                    'systems': systems.join(',')
-                },
-                null,
-                function (geojson) {
-                    /** success **/
-                    that.layer.clearLayers();
-                    that.layer.addData(geojson);
-                },
-                function () {
-                    /**fail**/
-                })
 
         },
         /** When map done on drawing

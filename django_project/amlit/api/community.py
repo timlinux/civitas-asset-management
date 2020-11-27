@@ -17,7 +17,7 @@ class CommunityAPI(APIView):
         """ Return data of features """
         return Response(
             CommunitySerializer(
-                Community.objects.filter(geometry__isnull=False).order_by('name'), many=True
+                Community.objects.order_by('name'), many=True
             ).data
         )
 

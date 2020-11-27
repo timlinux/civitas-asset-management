@@ -5,10 +5,12 @@ define([
         initialize: function () {
             this.on('sync', this.fetched, this);
             this.on('error', this.fetchError, this);
+            this.fetchedDone = false
         },
         selected: function () {
-            if (!this.get('geometry')) {
+            if (!this.fetchedDone) {
                 this.fetch();
+                this.fetchedDone = true;
                 return
             }
             event.trigger(evt.COMMUNITY_GEOJSON_CHANGE, {

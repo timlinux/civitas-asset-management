@@ -99,7 +99,9 @@ define([
          * @param duration
          */
         flyTo: function (bound, duration = 1) {
-            this.map.flyToBounds(bound, {'duration': duration});
+            if (bound._southWest) {
+                this.map.flyToBounds(bound, {'duration': duration});
+            }
         },
     });
 });
