@@ -3,3 +3,4 @@ __date__ = '14/08/20'
 
 from .feature import *
 from .identifier import *
+from .views import *

@@ -85,7 +85,8 @@ ADMIN_GROUP = {
         'feature': [
             'System',
             'FeatureBase',
-            'FeatureGeometry'
+            'FeatureGeometry',
+            'FeatureCalculation'
         ]
     }
 }

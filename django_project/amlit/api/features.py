@@ -16,7 +16,7 @@ class FeaturesGeojsonAPI(APIView):
     def get(self, request):
         """ Return data of features """
         systems = request.GET.get('systems', '').split(',')
-        query =  FeatureCalculation.objects.filter(feature__system__id__in=systems)
+        query = FeatureCalculation.objects.filter(feature__system__id__in=systems)
         return Response(
             FeatureGeoSerializer(query, many=True).data
         )
