@@ -36,7 +36,7 @@ define([
                     $ul.append(`
                         <li>
                             <input type="checkbox" value="${system.id}" checked>${system.name}
-                            <div class="description">${system.description}</div>
+                            <div class="description">${system.description ? system.description : ''}</div>
                         </li>`
                     )
                     that.systems[system.id] = system;

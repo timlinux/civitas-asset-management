@@ -50,12 +50,14 @@ class FeatureCalculation(models.Model):
     )
 
     # Risk
-    risk_value = models.FloatField(
-        null=True, blank=True
-    )
-    risk_level = models.TextField(
-        null=True, blank=True
-    )
+    # TODO:
+    #  open it after the column has been added
+    # risk_value = models.FloatField(
+    #     null=True, blank=True
+    # )
+    # risk_level = models.TextField(
+    #     null=True, blank=True
+    # )
 
     class Meta:
         managed = False
