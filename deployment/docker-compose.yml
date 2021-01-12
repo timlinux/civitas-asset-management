@@ -94,6 +94,8 @@ services:
   qgis-server:
     image: openquake/qgis-server:3.16.2-ubuntu
     environment:
+      # Do not run the embedded copy of nginx
+      SKIP_NGINX: "true"
       # Improve rendering performance
       QGIS_SERVER_PARALLEL_RENDERING: "true"
       QGIS_SERVER_MAX_THREADS: 4
