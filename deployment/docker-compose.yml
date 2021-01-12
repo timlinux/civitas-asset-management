@@ -90,6 +90,26 @@ services:
       - "${HTTP_HOST}:8080"
     restart: on-failure:5
 
+  # QGIS openquake
+  qgis-server:
+    image: openquake/qgis-server:3.16.2-ubuntu
+    environment:
+      # Improve rendering performance
+      QGIS_SERVER_PARALLEL_RENDERING: "true"
+      QGIS_SERVER_MAX_THREADS: 4
+      # Limit the maximum size returned by a GetMap
+      QGIS_SERVER_WMS_MAX_HEIGHT: 5000
+      QGIS_SERVER_WMS_MAX_WIDTH: 5000
+      # Verbose logging
+      QGIS_SERVER_LOG_LEVEL: 0
+    volumes:
+      - ./volumes/qgis-server/data:/io/data:ro
+      - ./qgis-server/pg_service.conf:/etc/postgresql-common/pg_service.conf:ro
+    ports:
+      - "9993:9993"
+      - "9990:80"
+    restart: on-failure:5
+
   # django application for development
   dev:
     <<: *default-common-django
@@ -101,7 +121,8 @@ services:
       - "6002:8080"
       # for ssh
       - "6003:22"
-
+    depends_on:
+      - qgis-server
 volumes:
   database:
   rabbitmq:
