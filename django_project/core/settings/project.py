@@ -20,6 +20,15 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'core',
     'amlit',
     'web-app',
+
+    # helpdesk
+    'bootstrap4form',
+
+    'account',  # Required by pinax-teams
+    'pinax.invitations',  # required by pinax-teams
+    'pinax.teams',  # team support
+    'helpdesk',  # This is us!
+    'reversion',  # required by pinax-teams
 )
 
 # databases

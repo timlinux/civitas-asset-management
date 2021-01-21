@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     'django.contrib.flatpages',
     'django.contrib.messages',
+    'django.contrib.humanize',
 )
 
 LOGIN_URL = '/login'

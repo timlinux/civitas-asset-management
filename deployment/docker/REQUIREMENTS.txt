@@ -8,3 +8,17 @@ requests
 # third party
 pyexcel-xls
 pyexcel-xlsx
+
+# for django help desk
+django-bootstrap4-form
+celery
+email-reply-parser
+akismet
+markdown
+beautifulsoup4
+lxml
+simplejson
+pytz
+six
+django-model-utils
+pinax-teams>=2.0
