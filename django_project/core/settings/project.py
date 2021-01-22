@@ -15,13 +15,15 @@ INSTALLED_APPS = INSTALLED_APPS + (
     # 3rd party
     'rest_framework',
     'rest_framework_gis',
+    'sass_processor',
 
     # apps
     'core',
     'amlit',
     'web-app',
 )
-
+SASS_PROCESSOR_ROOT = STATIC_ROOT
+STATICFILES_FINDERS += ('sass_processor.finders.CssFinder',)
 # databases
 DATABASES = {
     'default': {
@@ -61,6 +63,9 @@ LANGUAGES = (
 
 # Create APP as the key, after that group it by it's model
 ADMIN_GROUP = {
+    'core': {
+        'Authentication and authorization': ['User', 'UserTitle']
+    },
     'amlit': {
         'config': [
             'Unit',
@@ -90,3 +95,4 @@ ADMIN_GROUP = {
         ]
     }
 }
+AUTH_USER_MODEL = 'core.User'

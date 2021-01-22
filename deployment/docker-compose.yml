@@ -43,7 +43,7 @@ services:
     image: kartoza/postgis:11.5-2.8
     volumes:
       - ./backups:/backups
-      - database:/var/lib/postgresql/data/
+      - database:/var/lib/postgresql/
     environment:
       - ALLOW_IP_RANGE=0.0.0.0/0
       - USERNAME=${DATABASE_USERNAME}

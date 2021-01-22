@@ -1,6 +1,4 @@
 html, body {
-    font-size: 12px;
-    font-family: Roboto, Arial, sans-serif;
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -31,12 +29,19 @@ html, body {
 }
 
 /* ---------------- */
+#navbar {
+    z-index: 9999;
+}
+
+#content {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    padding-bottom: var(--navbar-height);
+}
 
 #map {
     height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
     width: 100%;
 }
 
@@ -102,15 +107,15 @@ html, body {
 }
 
 /* TOP LEFT INDICATOR */
-#left-top .selection ul {
-    top: 100%;
-    left: 0;
-}
-
 #left-top {
     left: 8px;
     position: absolute;
     top: 8px;
+}
+
+#left-top .selection ul {
+    top: 100%;
+    left: 0;
 }
 
 #left-top .title {
@@ -152,7 +157,7 @@ html, body {
     top: 8px;
     left: 50%;
     position: absolute;
-    z-index: 9999;
+    z-index: 999;
     border-radius: 0;
     width: 220px;
     margin-left: -100px;
@@ -216,7 +221,7 @@ html, body {
 
 #side-panel .toggle-button {
     position: absolute;
-    left: -22px;
+    left: -26px;
     top: 8px;
     padding: 5px 5px;
     cursor: pointer;

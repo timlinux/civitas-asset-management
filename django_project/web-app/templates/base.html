@@ -1,4 +1,5 @@
 {% load static %}
+{% load sass_tags %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +12,7 @@
     <link href="{% static 'libs/bootstrap/4.5.2/bootstrap.min.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
     <link href="{% static 'libs/font-awesome/4.7.0/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
     <link href="{% static 'libs/jquery-ui/1.12.1/jquery-ui.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
-    <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% sass_src 'css/base.scss' %}" rel="stylesheet" type="text/css"/>
 
     <script type="text/javascript" src="{% static 'libs/jquery.js/3.4.1/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'libs/jquery-ui/1.12.1/jquery-ui.js' %}"></script>
@@ -19,7 +20,12 @@
 </head>
 
 <body class="body">
-{% block content %}{% endblock content %}
-{% block javascript %}{% endblock javascript %}
+{% include "navbar.html" %}
+<div id="content">
+    {% block container %}
+        <div class="container">{% block content %}{% endblock content %}</div>
+    {% endblock container %}
+</div>
+{% block extrascripts %}{% endblock extrascripts %}
 </body>
 </html>

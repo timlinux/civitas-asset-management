@@ -8,11 +8,11 @@
 {% block stylesheet %}
     <link href="{% static 'libs/leaflet/1.5.1/leaflet.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
     <link href="{% static 'libs/leaflet.draw/1.0.4/leaflet.draw.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
-    <link href="{% static 'css/dashboard/main.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
-    <link href="{% static 'css/dashboard/widget.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'css/home/main.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'css/home/widget.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
 {% endblock stylesheet %}
 
-{% block content %}
+{% block container %}
     {% csrf_token %}
     <div id="map"></div>
 
@@ -58,7 +58,7 @@
     </div>
 {% endblock %}
 
-{% block javascript %}
+{% block extrascripts %}
     <script type="text/javascript" src="{% static 'libs/chart.js/2.8.0.chart.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
     <script data-main="{% static 'js/dashboard/config.js' %}" src="{% static 'libs/require.js/2.3.6/require.min.js' %}"></script>
@@ -108,4 +108,4 @@
         </div>
         <% } %>
     </script>
-{% endblock javascript %}
+{% endblock extrascripts %}

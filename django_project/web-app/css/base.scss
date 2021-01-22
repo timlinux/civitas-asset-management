@@ -1,0 +1,62 @@
+:root {
+  --navbar-height: 40px;
+  --white: #ffffff;
+  --primary-color: #555;
+}
+
+html, body {
+  font-family: Roboto, Arial, sans-serif;
+}
+
+#navbar {
+  height: var(--navbar-height);
+  background-color: var(--primary-color);
+  color: white;
+
+  .title {
+    font-size: 16px;
+    height: 100%;
+    margin-left: 20px;
+    padding-top: 8px;
+    display: inline-block;
+
+    a {
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .navbar-options {
+    height: 100%;
+    margin-right: 20px;
+    padding-top: 8px;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+#content {
+  position: relative;
+  width: 100%;
+}
+
+#login-model {
+  color: black;
+}
+
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 20px;
+}

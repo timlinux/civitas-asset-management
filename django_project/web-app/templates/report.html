@@ -9,7 +9,7 @@
     <link href="{% static 'css/report.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
 {% endblock stylesheet %}
 
-{% block content %}
+{% block container %}
     {% csrf_token %}
     <div id="navigation" class="row">
         <div class="col-12" data-report="summary">Summary</div>
@@ -38,14 +38,14 @@
     </script>
 {% endblock %}
 
-{% block javascript %}
+{% block extrascripts %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
     <script data-main="{% static 'js/report/config.js' %}" src="{% static 'libs/require.js/2.3.6/require.min.js' %}"></script>
     <script>
         let reports = {
             'summary':{{ reports |safe}},
-            'projected-graph':{}
+            'projected-graph': {}
         }
     </script>
-{% endblock javascript %}
+{% endblock extrascripts %}

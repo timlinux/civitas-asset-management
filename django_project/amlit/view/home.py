@@ -4,5 +4,5 @@ __date__ = '13/09/19'
 from django.views.generic import TemplateView
 
 
-class DashboardView(TemplateView):
-    template_name = 'dashboard.html'
+class HomeView(TemplateView):
+    template_name = 'home.html'

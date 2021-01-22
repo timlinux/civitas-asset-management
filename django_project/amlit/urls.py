@@ -6,7 +6,7 @@ from amlit.api import (
     ProjectedReportAPI,
     CommunityAPI, CommunityDetailAPI,
     SummaryAPI, FeaturesGeojsonAPI)
-from amlit.view.dashboard import DashboardView
+from amlit.view.home import HomeView
 from amlit.view.report import ReportPageView
 
 API = [
@@ -31,7 +31,7 @@ API = [
 ]
 
 urlpatterns = [
-    url(r'^$', DashboardView.as_view(), name='dahboard'),
+    url(r'^$', HomeView.as_view(), name='home'),
     url(r'^api/', include(API)),
     url(r'^report$', ReportPageView.as_view(), name='amlit-report')
 ]
