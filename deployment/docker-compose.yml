@@ -95,7 +95,7 @@ services:
 
   # QGIS openquake
   qgis-server:
-    image: openquake/qgis-server:3.16.2-ubuntu
+    image: openquake/qgis-server:3.16.1-ubuntu
     environment:
       # Do not run the embedded copy of nginx
       SKIP_NGINX: "true"
