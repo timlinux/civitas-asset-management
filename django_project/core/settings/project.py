@@ -21,6 +21,15 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'core',
     'amlit',
     'web-app',
+
+    # helpdesk
+    'bootstrap4form',
+
+    'account',  # Required by pinax-teams
+    'pinax.invitations',  # required by pinax-teams
+    'pinax.teams',  # team support
+    'helpdesk',  # This is us!
+    'reversion',  # required by pinax-teams
 )
 SASS_PROCESSOR_ROOT = STATIC_ROOT
 STATICFILES_FINDERS += ('sass_processor.finders.CssFinder',)

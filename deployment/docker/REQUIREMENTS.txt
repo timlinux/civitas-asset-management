@@ -14,3 +14,17 @@ pyexcel-xlsx
 libsass==0.20.1
 django-compressor==2.4
 django-sass-processor==0.8.2
+
+# for django help desk
+django-bootstrap4-form
+celery
+email-reply-parser
+akismet
+markdown
+beautifulsoup4
+lxml
+simplejson
+pytz
+six
+django-model-utils
+pinax-teams>=2.0

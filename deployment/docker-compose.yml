@@ -3,7 +3,8 @@ version: '3.4'
 x-common-django:
   &default-common-django
   build:
-    context: docker
+    context: ../
+    dockerfile: deployment/docker/Dockerfile
   environment:
     - DATABASE_NAME=${DATABASE_NAME}
     - DATABASE_HOST=${DATABASE_HOST}
@@ -24,8 +25,10 @@ x-common-django:
     - DJANGO_SETTINGS_MODULE=core.settings.prod
     - VIRTUAL_HOST=amlit.com
     - VIRTUAL_PORT=8080
+    - PYTHONPATH=/django-helpdesk
   volumes:
     - ../django_project:/home/web/django_project
+    - ../django-helpdesk/helpdesk:/django-helpdesk/helpdesk
     - ./volumes/static:/home/web/static
     - ./volumes/media:/home/web/media
     - ./volumes/logs:/var/log/
@@ -116,8 +119,8 @@ services:
   dev:
     <<: *default-common-django
     build:
-      context: ./docker/
-      dockerfile: Dockerfile-dev
+      context: ../
+      dockerfile: deployment/docker/Dockerfile-dev
     ports:
       # for django test server
       - "6002:8080"

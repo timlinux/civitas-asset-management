@@ -10,7 +10,7 @@ RUN apt-get install -y python3-pip python3-dev gdal-bin gettext libcurl4-openssl
 
 ENV PATH /usr/local/bin:$PATH
 
-ADD uwsgi.conf /uwsgi.conf
+ADD deployment/docker/uwsgi.conf /uwsgi.conf
 
 #RUN dpkg-divert --local --rename --add /sbin/initctl
 
@@ -21,15 +21,19 @@ ENV LANG en_ZA.UTF-8
 ENV LANGUAGE en_ZA:en
 ENV LC_ALL en_ZA.UTF-8
 
-ADD REQUIREMENTS.txt /REQUIREMENTS.txt
+ADD deployment/docker/REQUIREMENTS.txt /REQUIREMENTS.txt
 RUN pip3 install --upgrade pip && pip install --upgrade pip
 RUN pip install -r /REQUIREMENTS.txt
 RUN pip install uwsgi==2.0.18
 
 RUN ln -s /usr/bin/python3 /usr/local/bin/python
 
-ADD entrypoint.sh /entrypoint.sh
-ADD initialize.py /initialize.py
+ADD django-helpdesk/helpdesk /django-helpdesk/helpdesk
+ADD django_project /home/web/django_project
+ADD deployment/docker/entrypoint.sh /entrypoint.sh
+ADD deployment/docker/initialize.py /initialize.py
+
+ENV PATH /django-helpdesk:$PATH
 
 # Open port 8080 as we will be running our uwsgi socket on that
 EXPOSE 8080
