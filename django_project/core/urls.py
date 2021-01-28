@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'^auth/', include('django.contrib.auth.urls')),
     url(r'^user/', include(USER_URL)),
     url(r'^helpdesk/', include('helpdesk.urls')),
-    url(r'^', include('amlit.urls')),
+    url(r'^', include('civitas.urls')),
 
 ]
 

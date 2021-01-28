@@ -29,7 +29,7 @@ define([
                 return;
             }
             Request.get(
-                '/amlit/api/report/projected/' + year,
+                '/api/report/projected/' + year,
                 {}, {},
                 function (data) {
                     // success

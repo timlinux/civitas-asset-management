@@ -19,7 +19,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
 
     # apps
     'core',
-    'amlit',
+    'civitas',
     'web-app',
 
     # helpdesk
@@ -45,19 +45,19 @@ DATABASES = {
         'TEST_NAME': 'unittests',
     }
 }
-# AMLIT database
-AMLIT_DATABASE = 'amlit'
-DATABASES[AMLIT_DATABASE] = {
+# CIVITAS database
+CIVITAS_DATABASE = 'civitas'
+DATABASES[CIVITAS_DATABASE] = {
     'ENGINE': 'django.contrib.gis.db.backends.postgis',
-    'NAME': os.environ['DATABASE_AIM_NAME'],
-    'USER': os.environ['DATABASE_AIM_USERNAME'],
-    'PASSWORD': os.environ['DATABASE_AIM_PASSWORD'],
-    'HOST': os.environ['DATABASE_AIM_HOST'],
-    'PORT': os.environ['DATABASE_AIM_PORT'],
+    'NAME': os.environ['DATABASE_CIVITAS_NAME'],
+    'USER': os.environ['DATABASE_CIVITAS_USERNAME'],
+    'PASSWORD': os.environ['DATABASE_CIVITAS_PASSWORD'],
+    'HOST': os.environ['DATABASE_CIVITAS_HOST'],
+    'PORT': os.environ['DATABASE_CIVITAS_PORT'],
     'OPTIONS': {'sslmode': 'require'},
     'TEST_NAME': 'unittests',
 }
-DATABASE_ROUTERS = ['amlit.router.Router']
+DATABASE_ROUTERS = ['civitas.router.Router']
 
 # Admins and allowed hosts
 ADMINS = (
@@ -75,7 +75,7 @@ ADMIN_GROUP = {
     'core': {
         'Authentication and authorization': ['User', 'UserTitle']
     },
-    'amlit': {
+    'civitas': {
         'config': [
             'Unit',
             'Condition',
