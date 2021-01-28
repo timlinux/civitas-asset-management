@@ -7,7 +7,7 @@ from django.contrib.flatpages.models import FlatPage
 from django.contrib.flatpages.models import Site
 from django.contrib.redirects.models import Redirect
 from django.utils.translation import ugettext_lazy as _
-from core.models import User, UserTitle
+from amlit.models import User, UserTitle
 
 admin.site.unregister(FlatPage)
 admin.site.unregister(Site)

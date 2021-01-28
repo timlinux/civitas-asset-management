@@ -2,7 +2,7 @@ __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '11/11/20'
 
 from rest_framework import serializers
-from core.models import User
+from amlit.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):

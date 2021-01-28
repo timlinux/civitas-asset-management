@@ -1,37 +1,20 @@
-__author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
-__date__ = '19/08/20'
-
+# coding=utf-8
+"""Project level url handler."""
 from django.conf.urls import url, include
-from civitas.api import (
-    ProjectedReportAPI,
-    CommunityAPI, CommunityDetailAPI,
-    SummaryAPI, FeaturesGeojsonAPI)
-from civitas.view.home import HomeView
-from civitas.view.report import ReportPageView
+from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+from amlit.views.user import UserDetailView
 
-API = [
-    # API
-    url(r'^report/projected/(?P<year>\d+)$',
-        ProjectedReportAPI.as_view(),
-        name='civitas-projected-report'),
-    url(r'^features/summary$',
-        SummaryAPI.as_view(),
-        name='civitas-features-summary'),
-    url(r'^features/geojson$',
-        FeaturesGeojsonAPI.as_view(),
-        name='civitas-features-geojson'),
+admin.autodiscover()
 
-    # community
-    url(r'^community/(?P<id>\d+)$',
-        CommunityDetailAPI.as_view(),
-        name='community-detail'),
-    url(r'^community$',
-        CommunityAPI.as_view(),
-        name='community'),
+USER_URL = [
+    url(r'^(?P<username>[\w\+%_& ]+)', UserDetailView.as_view(), name='user-detail'),
 ]
-
 urlpatterns = [
-    url(r'^$', HomeView.as_view(), name='home'),
-    url(r'^api/', include(API)),
-    url(r'^report$', ReportPageView.as_view(), name='civitas-report')
+    url(r'^user/', include(USER_URL)),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

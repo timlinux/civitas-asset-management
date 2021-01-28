@@ -19,6 +19,7 @@ INSTALLED_APPS = INSTALLED_APPS + (
 
     # apps
     'core',
+    'amlit',
     'civitas',
     'web-app',
 
@@ -72,7 +73,7 @@ LANGUAGES = (
 
 # Create APP as the key, after that group it by it's model
 ADMIN_GROUP = {
-    'core': {
+    'amlit': {
         'Authentication and authorization': ['User', 'UserTitle']
     },
     'civitas': {
@@ -104,4 +105,4 @@ ADMIN_GROUP = {
         ]
     }
 }
-AUTH_USER_MODEL = 'core.User'
+AUTH_USER_MODEL = 'amlit.User'

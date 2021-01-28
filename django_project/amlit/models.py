@@ -16,9 +16,6 @@ class UserTitle(models.Model):
     def __str__(self):
         return self.name
 
-    class Meta:
-        db_table = 'amlit_user_title'
-
 
 class User(AbstractUser):
     """
@@ -36,6 +33,3 @@ class User(AbstractUser):
     )
     phone = PhoneField(
         blank=True, help_text=_('Contact phone number'))
-
-    class Meta:
-        db_table = 'amlit_user'

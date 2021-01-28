@@ -4,7 +4,7 @@ __date__ = '22/01/21'
 from django.contrib.auth import get_user_model
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
-from core.serializer.user import UserSerializer
+from amlit.serializer.user import UserSerializer
 
 User = get_user_model()
 
