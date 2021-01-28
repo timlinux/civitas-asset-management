@@ -49,6 +49,9 @@ services:
       - database:/var/lib/postgresql/
     environment:
       - ALLOW_IP_RANGE=0.0.0.0/0
+      - POSTGRES_DB=${DATABASE_NAME}
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
       - USERNAME=${DATABASE_USERNAME}
       - PASS=${DATABASE_PASSWORD}
     ports:
