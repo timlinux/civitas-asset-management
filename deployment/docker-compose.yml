@@ -43,7 +43,7 @@ services:
     restart: on-failure
 
   db:
-    image: kartoza/postgis:11.5-2.8
+    image: kartoza/postgis:13.0
     volumes:
       - ./backups:/backups
       - database:/var/lib/postgresql/

@@ -1,6 +1,7 @@
 __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '04/09/20'
 
+from civitas.models.feature.feature_base import FeatureBase
 from civitas.models.feature.identifier import FeatureTypeCombination
 from civitas.models.feature.identifier import (
     FeatureClass, FeatureSubClass, FeatureType
@@ -121,6 +122,7 @@ class _FeatureSummaryBase(object):
             except (
                     KeyError,
                     AttributeError,
+                    FeatureBase.DoesNotExist,
                     FeatureClass.DoesNotExist,
                     FeatureSubClass.DoesNotExist,
                     FeatureType.DoesNotExist):
