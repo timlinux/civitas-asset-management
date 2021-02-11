@@ -12,16 +12,54 @@ define([
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             })
         },
+        layers: {
+            "Water Network": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
+                format: 'image/png',
+                transparent: true,
+                layers: 'Water Network'
+            }),
+            "Wastewater Network": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
+                format: 'image/png',
+                transparent: true,
+                layers: 'Wastewater Network'
+            }),
+            "Stormwater Network": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
+                format: 'image/png',
+                transparent: true,
+                layers: 'Stormwater Network'
+            }),
+            "Transportation Network": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
+                format: 'image/png',
+                transparent: true,
+                layers: 'Transportation Network'
+            }),
+            "Structures": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
+                format: 'image/png',
+                transparent: true,
+                layers: 'Structures'
+            }),
+            "Fleet and Equipment": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
+                format: 'image/png',
+                transparent: true,
+                layers: 'Fleet and Equipment'
+            }),
+            "Natural": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
+                format: 'image/png',
+                transparent: true,
+                layers: 'Natural'
+            }),
+        },
         /** Initialization
          */
         initialize: function () {
-            this.map = L.map('map', {zoomControl: false}).fitBounds(this.initBounds);
+            this.map = L.map('map', { zoomControl: false }).fitBounds(this.initBounds);
 
             // init control
-            L.control.zoom({position: 'bottomleft'}).addTo(this.map);
+            L.control.zoom({ position: 'bottomleft' }).addTo(this.map);
 
             // add basemap
             this.basemaps['OSM'].addTo(this.map);
+            Object.keys(this.layers).forEach(key => this.layers[key].addTo(this.map));
 
             // add listener
             this.listener()
@@ -49,6 +87,9 @@ define([
             this.map.on(L.Draw.Event.CREATED, function (e) {
                 event.trigger(evt.MAP_DRAW_DONE, e.layer);
             });
+
+            L.control.layers(this.basemaps, this.layers, { position: 'bottomleft', }).addTo(this.map);
+
         },
         /** Init listener for map
          */
@@ -100,7 +141,7 @@ define([
          */
         flyTo: function (bound, duration = 1) {
             if (bound._southWest) {
-                this.map.flyToBounds(bound, {'duration': duration});
+                this.map.flyToBounds(bound, { 'duration': duration });
             }
         },
     });
