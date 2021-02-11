@@ -13,6 +13,26 @@ define([
             })
         },
         layers: {
+            "Natural": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
+                format: 'image/png',
+                transparent: true,
+                layers: 'Natural'
+            }),
+            "Fleet and Equipment": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
+                format: 'image/png',
+                transparent: true,
+                layers: 'Fleet and Equipment'
+            }),
+            "Structures": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
+                format: 'image/png',
+                transparent: true,
+                layers: 'Structures'
+            }),
+            "Transportation Network": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
+                format: 'image/png',
+                transparent: true,
+                layers: 'Transportation Network'
+            }),
             "Water Network": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
                 format: 'image/png',
                 transparent: true,
@@ -27,26 +47,6 @@ define([
                 format: 'image/png',
                 transparent: true,
                 layers: 'Stormwater Network'
-            }),
-            "Transportation Network": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
-                format: 'image/png',
-                transparent: true,
-                layers: 'Transportation Network'
-            }),
-            "Structures": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
-                format: 'image/png',
-                transparent: true,
-                layers: 'Structures'
-            }),
-            "Fleet and Equipment": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
-                format: 'image/png',
-                transparent: true,
-                layers: 'Fleet and Equipment'
-            }),
-            "Natural": L.tileLayer.wms('/map/?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
-                format: 'image/png',
-                transparent: true,
-                layers: 'Natural'
             }),
         },
         /** Initialization
