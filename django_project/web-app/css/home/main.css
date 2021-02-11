@@ -64,6 +64,8 @@ html, body {
     padding: 0;
     font-size: 14px;
     margin: 0;
+    max-height: 500px;
+    overflow-y: scroll;
 }
 
 .main-ul li {
