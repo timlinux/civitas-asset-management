@@ -7,6 +7,6 @@ CAM is a GIS-integrated asset management application developed to address the un
 
 CAM includes a web-interface for application users and a configured QGIS interface for application technicians. LandInfo Technologies and Kartoza are the official maintainers of CAM.
 
-[Check out a Civitas Asset Management](https://github.com/landinfotech/civitas-asset-management/wiki)
+[Check out a Civitas Asset Management wiki](https://github.com/landinfotech/civitas-asset-management/wiki)
 
 If you would like to become involved in this project, please send us message!
