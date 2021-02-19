@@ -28,15 +28,16 @@ RUN pip install uwsgi==2.0.18
 
 RUN ln -s /usr/bin/python3 /usr/local/bin/python
 
-ADD django-helpdesk/helpdesk /django-helpdesk/helpdesk
+ADD django-helpdesk /home/web/django-helpdesk
 ADD django_project /home/web/django_project
 ADD deployment/docker/entrypoint.sh /entrypoint.sh
 ADD deployment/docker/initialize.py /initialize.py
 
-ENV PATH /django-helpdesk:$PATH
+ENV PATH /home/web/django-helpdesk:$PATH
 
 # Open port 8080 as we will be running our uwsgi socket on that
 EXPOSE 8080
 
 WORKDIR /home/web/django_project
+#ENTRYPOINT ["/entrypoint.sh"]
 CMD ["uwsgi", "--ini", "/uwsgi.conf"]

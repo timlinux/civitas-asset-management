@@ -25,10 +25,10 @@ x-common-django:
     - DJANGO_SETTINGS_MODULE=core.settings.prod
     - VIRTUAL_HOST=amlit.com
     - VIRTUAL_PORT=8080
-    - PYTHONPATH=/django-helpdesk
+    - PYTHONPATH=/home/web/django-helpdesk
   volumes:
     - ../django_project:/home/web/django_project
-    - ../django-helpdesk/helpdesk:/django-helpdesk/helpdesk
+    - ../django-helpdesk:/home/web/django-helpdesk
     - ./volumes/static:/home/web/static
     - ./volumes/media:/home/web/media
     - ./volumes/logs:/var/log/
@@ -79,9 +79,8 @@ services:
   django:
     <<: *default-common-django
     command: 'uwsgi --ini /uwsgi.conf'
-
-# TODO:
-#  Can't run the entrypoint
+# Todo:
+#  error : ModuleNotFoundError: No module named 'core'
 #    entrypoint: ["/entrypoint.sh"]
 
   web:
