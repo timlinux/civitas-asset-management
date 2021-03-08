@@ -68,3 +68,29 @@
 #widget-quantity .sub {
     background: rgba(220, 220, 220, 0.3);
 }
+
+/* TICKET LIST */
+.ticket-detail {
+    border: 1px solid #ddd;
+    margin-bottom: -1px;
+    padding: 10px;
+    cursor: pointer;
+    display: block;
+}
+
+.ticket-detail:hover {
+    background-color: #eee;
+    text-decoration: none;
+}
+
+.ticket-detail .title {
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+.ticket-detail .description {
+    font-size: 14px;
+    font-style: italic;
+    color: gray;
+
+}

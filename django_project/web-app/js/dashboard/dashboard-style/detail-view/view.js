@@ -1,15 +1,15 @@
 define([
     'leaflet',
     '../style-base',
-    '../detail-view/widgets/create-ticket',], function (L, Base, CreateTicket) {
+    '../detail-view/widgets/ticket-list',
+    '../detail-view/widgets/create-ticket',], function (L, Base, TicketList, CreateTicket) {
     return Base.extend({
         name: 'Detail View',
         lastLayer: null,
         init: function () {
             // create layer
             const that = this;
-            this.createTicket = new CreateTicket();
-            this.widgets = [this.createTicket];
+            this.widgets = [new TicketList(), new CreateTicket()];
 
             // non point style
             const nonMarker = {
@@ -89,7 +89,7 @@ define([
             const that = this;
 
             // make everything default
-            this.data = { id: 173 }; // use feature id
+            this.data = null;
             this.lastLayer = null;
             this.rerenderWidgets();
 

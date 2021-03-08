@@ -66,13 +66,15 @@
         const urls = {
             feature_summary: "{% url 'civitas-features-summary'%}",
             feature_geojson: "{% url 'civitas-features-geojson'%}",
-            feature_ticket_list: "{% url 'amlit_helpdesk:feature-ticket-list' id=0 %}"
+            feature_ticket_list: "{% url 'amlit_helpdesk:feature-ticket-list' id=0 %}",
+            ticket_detail: "{% url 'helpdesk:view' ticket_id=0 %}"
         }
     </script>
 
     {% include 'widget/_financial-estimation-donut-chart.html' %}
     {% include 'widget/_quantity-widget_row.html' %}
     {% include 'widget/_create-ticket.html' %}
+    {% include 'widget/_ticket-detail.html' %}
     {% include 'widget/_please_select_feature.html' %}
 
 {% endblock extrascripts %}
