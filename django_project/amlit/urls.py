@@ -6,8 +6,8 @@ from civitas.api import (
     ProjectedReportAPI,
     CommunityAPI, CommunityDetailAPI,
     SummaryAPI, FeaturesGeojsonAPI)
-from civitas.view.home import HomeView
-from civitas.view.report import ReportPageView
+from amlit.views.home import HomeView
+from amlit.views.report import ReportPageView
 
 API = [
     # API
@@ -33,5 +33,6 @@ API = [
 urlpatterns = [
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^api/', include(API)),
-    url(r'^report$', ReportPageView.as_view(), name='civitas-report')
+    url(r'^report$', ReportPageView.as_view(), name='civitas-report'),
+    url(r'^amlit/helpdesk/', include('amlit_helpdesk.urls'))
 ]

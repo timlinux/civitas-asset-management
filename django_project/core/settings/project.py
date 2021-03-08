@@ -31,9 +31,12 @@ INSTALLED_APPS = INSTALLED_APPS + (
     'pinax.teams',  # team support
     'helpdesk',  # This is us!
     'reversion',  # required by pinax-teams
+
+    'amlit_helpdesk'  # this is customized helpdesk for amlit
 )
 SASS_PROCESSOR_ROOT = STATIC_ROOT
 STATICFILES_FINDERS += ('sass_processor.finders.CssFinder',)
+
 # databases
 DATABASES = {
     'default': {
@@ -46,6 +49,7 @@ DATABASES = {
         'TEST_NAME': 'unittests',
     }
 }
+
 # CIVITAS database
 CIVITAS_DATABASE = 'civitas'
 DATABASES[CIVITAS_DATABASE] = {
@@ -106,3 +110,6 @@ ADMIN_GROUP = {
     }
 }
 AUTH_USER_MODEL = 'amlit.User'
+
+# Helpdesk settings
+HELPDESK_KB_ENABLED = False

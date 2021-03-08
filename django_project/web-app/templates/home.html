@@ -63,49 +63,9 @@
     <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
     <script data-main="{% static 'js/dashboard/config.js' %}" src="{% static 'libs/require.js/2.3.6/require.min.js' %}"></script>
 
-    <script type='text/template' id='_financial-estimation-donut-chart'>
-        <div>
-            <div class="navigation">
-                <span><i class="fa fa-pie-chart" aria-hidden="true"></i></span> ► <span>Wastewater Collection</span> ► <span>Pump</span>
-            </div>
-            <div class="section">
-                <canvas id="renewal-cost-donut"></canvas>
-                <div class="sub-title">Estimated Renewal Cost</div>
-            </div>
-            <div class="section">
-                <canvas id="maintenance-cost-donut"></canvas>
-                <div class="sub-title">Estimated Annual Maintenance Cost</div>
-            </div>
-            <div class="section">
-                <canvas id="annual-reserve-donut"></canvas>
-                <div class="sub-title">Estimated Annual Reserve</div>
-            </div>
-        </div>
-    </script>
+    {% include 'widget/_financial-estimation-donut-chart.html' %}
+    {% include 'widget/_quantity-widget_row.html' %}
+    {% include 'widget/_create-ticket.html' %}
+    {% include 'widget/_please_select_feature.html' %}
 
-    <script type='text/template' id='_quantity-widget_row'>
-        <div class="row">
-            <div class="col col-6">
-                <% if(open) { %>
-                <a data-toggle="collapse" href="#quantity-<%- id %>" role="button" aria-expanded="true" aria-controls="sub-1" style="margin-left: <%- margin %>px">
-                    <%- name %>
-                </a>
-                <% }else{ %>
-                <a data-toggle="collapse" href="#quantity-<%- id %>" role="button" aria-expanded="false" aria-controls="sub-1" style="margin-left: <%- margin %>px">
-                    <%- name %>
-                </a>
-                <% } %>
-            </div>
-            <div class="col"><%- quantity %> <%- unit %></div>
-        </div>
-        <% if(open) { %>
-        <div id="quantity-<%- id %>" class="sub collapse show">
-            <%= rows %>
-        </div>
-        <% }else{ %>
-        <div id="quantity-<%- id %>" class="sub collapse">
-            <%= rows %>
-        </div>
-        <% } %>
-    </script>
 {% endblock extrascripts %}

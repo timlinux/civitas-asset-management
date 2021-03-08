@@ -29,15 +29,10 @@ html, body {
 }
 
 /* ---------------- */
-#navbar {
-    z-index: 9999;
-}
-
 #content {
     height: 100%;
     width: 100%;
     overflow: hidden;
-    padding-bottom: var(--navbar-height);
 }
 
 #map {
@@ -112,7 +107,8 @@ html, body {
 #left-top {
     left: 8px;
     position: absolute;
-    top: 8px;
+    top: var(--navbar-height);
+    margin-top: 8px;
 }
 
 #left-top .selection ul {
@@ -156,7 +152,8 @@ html, body {
 
 /* TOP CENTER */
 #top-center {
-    top: 8px;
+    top: var(--navbar-height);
+    margin-top: 8px;
     left: 50%;
     position: absolute;
     z-index: 999;
@@ -208,6 +205,7 @@ html, body {
     position: absolute;
     top: 0;
     right: 0;
+    padding-top: var(--navbar-height);
     z-index: 999;
     background: white;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);

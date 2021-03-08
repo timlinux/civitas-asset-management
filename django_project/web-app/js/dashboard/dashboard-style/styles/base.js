@@ -5,8 +5,9 @@ define([
         active: false,
         data: null,
         layer: null,
+        systems: null,
         initialize: function () {
-            event.register(this, evt.SYSTEM_CHANGE, this.systemChanged);
+            event.register(this, evt.SYSTEM_CHANGE, this.systemChangedParent);
             event.register(this, evt.MAP_DRAW_DONE, this.mapDrawDone);
             this.init();
         },
@@ -21,6 +22,11 @@ define([
         activate: function () {
             this.active = true;
             this.renderWidgets();
+
+            // call system changed when it's activated
+            if (this.systems) {
+                this.systemChanged(this.systems)
+            }
         },
         /** Render widgets of style
          */
@@ -41,7 +47,16 @@ define([
             this.active = false;
         },
         /**
-         *  This is abstract function that called after render
+         *  This is abstract function that calls when the style activated
+         */
+        systemChangedParent: function (systems) {
+            this.systems = systems;
+            if (this.active) {
+                this.systemChanged(systems)
+            }
+        },
+        /**
+         *  This is abstract function that called after system changed
          */
         systemChanged: function (systems) {
 

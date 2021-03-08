@@ -3,7 +3,13 @@
     <div class="title"><a href="/">Civitas Asset Management Application (CAM)</a></div>
     <div class="pull-right navbar-options">
         {% if user.is_authenticated %}
-            Welcome, <b><a href="{% url 'user-detail' user.get_username %}">{{ user.get_username }}</a></b> | <a href="{% url 'logout' %}?next=/">Logout</a>
+            <a href="{% url 'user-detail' user.get_username %}">
+                {{ user.get_username }}
+            </a>
+            &nbsp;|&nbsp;
+            <a href="{% url 'helpdesk:dashboard' %}">helpdesk</a>
+            &nbsp;|&nbsp;
+            <a href="{% url 'logout' %}?next=/">Logout</a>
         {% else %}
             <a href="{% url 'login' %}?next=/">Login</a>
         {% endif %}

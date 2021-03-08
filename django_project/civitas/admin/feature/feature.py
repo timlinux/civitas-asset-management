@@ -10,6 +10,7 @@ from civitas.models.feature.feature_property import FeatureProperty
 
 class FeaturePropertyPropertyInline(admin.TabularInline):
     model = FeatureProperty
+    extra = 0
 
 
 class FeatureBaseAdmin(admin.ModelAdmin):
