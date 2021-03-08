@@ -1,8 +1,8 @@
 define([
     'leaflet',
-    './base',
-    '../widget/quantity',
-    '../widget/financial-estimation-donut-chart'], function (L, Base, Quantity, FinancialEstimationDonutChart) {
+    '../style-base',
+    '../inventory-view/widgets/quantity',
+    '../inventory-view/widgets/financial-estimation-donut-chart'], function (L, Base, Quantity, FinancialEstimationDonutChart) {
     return Base.extend({
         name: 'Inventory View',
         layerSelected: [],
@@ -124,6 +124,8 @@ define([
             this.widgets.forEach(function (widget) {
                 widget.featureSelected = (that.layerSelected.length >= 1)
             });
+
+            // render widgets
             that.renderWidgets();
         },
         /**
@@ -136,6 +138,7 @@ define([
             this.data = null;
             this.layerSelected = [];
             this.widgets.forEach(function (widget) {
+                widget.data = that.data;
                 widget.featureSelected = (that.layerSelected.length >= 1)
             });
 
@@ -149,7 +152,7 @@ define([
             that.layer.clearLayers();
             if (systems.length > 0) {
                 this.sumRequest = Request.get(
-                    '/api/features/summary',
+                    urls.feature_summary,
                     {
                         'systems': systems.join(',')
                     },
@@ -157,7 +160,9 @@ define([
                     function (data) {
                         /** success **/
                         that.data = data;
-                        that.originalData = cloneObject(data);
+                        that.widgets.forEach(function (widget) {
+                            widget.data = data;
+                        });
                         that.renderWidgets();
                     },
                     function () {
@@ -170,7 +175,7 @@ define([
                     this.layerRequest.abort()
                 }
                 this.layerRequest = Request.get(
-                    '/api/features/geojson',
+                    urls.feature_geojson,
                     {
                         'systems': systems.join(',')
                     },

@@ -1,6 +1,6 @@
 define([
     'underscore',
-    './base'], function (_, Base) {
+    '../dashboard-style/widget-base'], function (_, Base) {
     return Base.extend({
         id: 'in-progress',
         name: 'In progress',

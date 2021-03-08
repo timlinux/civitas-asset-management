@@ -1,6 +1,6 @@
 define([
     'underscore',
-    './base'], function (_, Base) {
+    '../widgets/base'], function (_, Base) {
     return Base.extend({
         id: 'financial-estimation-donut-chart',
         name: 'Financial Estimate Donut Charts',
@@ -13,9 +13,7 @@ define([
         // tree data
         labels: [],
         tree: [],
-        /** Abstract function called when data is presented
-         */
-        postRender: function () {
+        renderData: function () {
             this.tree = [];
             this.$content.html(
                 _.template($('#_financial-estimation-donut-chart').html())

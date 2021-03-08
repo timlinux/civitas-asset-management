@@ -1,14 +1,15 @@
 define([
     'leaflet',
-    './base',
-    '../widget/create-ticket',], function (L, Base, CreateTicket) {
+    '../style-base',
+    '../detail-view/widgets/create-ticket',], function (L, Base, CreateTicket) {
     return Base.extend({
         name: 'Detail View',
         lastLayer: null,
         init: function () {
             // create layer
             const that = this;
-            this.widgets = [new CreateTicket()];
+            this.createTicket = new CreateTicket();
+            this.widgets = [this.createTicket];
 
             // non point style
             const nonMarker = {
@@ -75,7 +76,7 @@ define([
         rerenderWidgets: function () {
             const that = this;
             this.widgets.forEach(function (widget) {
-                widget.featureSelected = that.lastLayer;
+                widget.featureSelectedFunction(that.lastLayer);
             });
 
             // render widgets
@@ -90,7 +91,7 @@ define([
             // make everything default
             this.data = { id: 173 }; // use feature id
             this.lastLayer = null;
-            this.rerenderWidgets()
+            this.rerenderWidgets();
 
             // call API
             if (this.sumRequest) {
@@ -100,11 +101,11 @@ define([
             if (systems.length > 0) {
                 // call layer
                 this.layer.clearLayers();
-                if (this.layerRequest) {
-                    this.layerRequest.abort()
+                if (this.request) {
+                    this.request.abort()
                 }
-                this.layerRequest = Request.get(
-                    '/api/features/geojson',
+                this.request = Request.get(
+                    urls.feature_geojson,
                     {
                         'systems': systems.join(',')
                     },

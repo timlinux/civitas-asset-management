@@ -1,13 +1,12 @@
 define([
     'underscore',
-    './base'], function (_, Base) {
+    '../widgets/base'], function (_, Base) {
     return Base.extend({
         id: 'create-ticket',
         name: 'Create Ticket',
         /** Abstract function called when data is presented
          */
         postRender: function () {
-            console.log(this.featureSelected)
             if (this.featureSelected) {
                 const template = _.template($('#_create-ticket').html())
                 this.$content.html(

@@ -1,12 +1,10 @@
 define([
     'underscore',
-    './base'], function (_, Base) {
+    '../widgets/base'], function (_, Base) {
     return Base.extend({
         id: 'widget-quantity',
         name: 'Quantity',
-        /** Abstract function called when data is presented
-         */
-        postRender: function () {
+        renderData: function () {
             this.template = _.template($('#_quantity-widget_row').html());
             this.$content.html(
                 `<div class="box-overlay">${this.renderRows(cloneObject(this.data), 0)}</div>`

@@ -32,9 +32,8 @@ define([
          */
         renderWidgets: function () {
             if (this.active) {
-                const that = this;
                 this.widgets.forEach(function (widget) {
-                    widget.render(that.data)
+                    widget.render()
                 });
             }
         },

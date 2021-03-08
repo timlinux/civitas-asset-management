@@ -1,6 +1,6 @@
 define([
     'underscore',
-    './base'], function (_, Base) {
+    '../../widget-base'], function (_, Base) {
     return Base.extend({
         id: 'consequence-of-failure-donut-graph',
         name: 'Consequence of Failure Donut Graph',

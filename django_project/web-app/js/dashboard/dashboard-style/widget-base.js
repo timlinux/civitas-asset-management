@@ -4,8 +4,7 @@ define([
         initialize: function () {
             this.$wrapper = $('#side-panel .content');
         },
-        render: function (data) {
-            this.data = data;
+        render: function () {
             // append to wrapper
             if (this.$wrapper.find(`#${this.id}`).length === 0) {
                 this.$wrapper.append(`
@@ -17,7 +16,15 @@ define([
                 this.$content = $(`#${this.id} .content-widget`)
                 this.$el = $(`#${this.id}`)
             }
-
+            this.postRender();
+        },
+        destroy: function () {
+            this.postDestroy()
+            this.$el.remove()
+        },
+        /** Abstract function called after render
+         */
+        postRender: function () {
             // if data is null, show loading
             if (this.data == null) {
                 this.$content.html(
@@ -31,17 +38,7 @@ define([
                     '</div>')
             } else {
                 this.$content.html('');
-                this.postRender()
             }
-        },
-        destroy: function () {
-            this.postDestroy()
-            this.$el.remove()
-        },
-        /** Abstract function called when data is presented
-         */
-        postRender: function () {
-
         },
         /** Abstract function called when widget destroyed
          */

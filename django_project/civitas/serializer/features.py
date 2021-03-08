@@ -8,7 +8,7 @@ from civitas.models.feature.feature_geometry import FeatureGeometry
 from civitas.models.view.feature_calculations import FeatureCalculation
 
 
-class FeatureGeoSerializer(GeoFeatureModelSerializer):
+class FeatureCalculationGeoSerializer(GeoFeatureModelSerializer):
     id = serializers.SerializerMethodField()
     geometry = GeometrySerializerMethodField()
     cls = serializers.SerializerMethodField()
@@ -88,3 +88,21 @@ class FeatureGeoSerializer(GeoFeatureModelSerializer):
             'remaining_years_age_based', 'remaining_percent_age_based', 'remaining_years_condition_based',
             'remaining_percent_condition_based'
         ]
+
+
+class FeatureGeometryGeoSerializer(GeoFeatureModelSerializer):
+    geometry = GeometrySerializerMethodField()
+
+    def get_geometry(self, obj):
+        """ Get geometry
+        :type obj: FeatureGeometry
+        """
+        try:
+            return obj.geometry()
+        except FeatureGeometry.DoesNotExist:
+            return None
+
+    class Meta:
+        model = FeatureGeometry
+        geo_field = 'geometry'
+        fields = ('id',)

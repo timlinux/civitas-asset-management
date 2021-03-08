@@ -62,6 +62,13 @@
     <script type="text/javascript" src="{% static 'libs/chart.js/2.8.0.chart.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
     <script data-main="{% static 'js/dashboard/config.js' %}" src="{% static 'libs/require.js/2.3.6/require.min.js' %}"></script>
+    <script>
+        const urls = {
+            feature_summary: "{% url 'civitas-features-summary'%}",
+            feature_geojson: "{% url 'civitas-features-geojson'%}",
+            feature_ticket_list: "{% url 'amlit_helpdesk:feature-ticket-list' id=0 %}"
+        }
+    </script>
 
     {% include 'widget/_financial-estimation-donut-chart.html' %}
     {% include 'widget/_quantity-widget_row.html' %}

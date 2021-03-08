@@ -1,9 +1,9 @@
 define([
     'backbone',
-    './styles/detail-view',
-    './styles/inventory-view',
-    './styles/prioritization-view',
-    './styles/project-view'
+    './detail-view/view',
+    './inventory-view/view',
+    './prioritization-view/view',
+    './project-view/view'
 ], function (
     Backbone, DetailView, InventoryView, PrioritizationView, ProjectView) {
     return Backbone.View.extend({
