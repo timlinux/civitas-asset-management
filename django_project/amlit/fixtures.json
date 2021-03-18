@@ -1,0 +1,34 @@
+[
+  {
+    "model": "amlit.userrole",
+    "pk": 1,
+    "fields": {
+      "name": "Admin",
+      "description": "- Add new users\r\n- Set user rights for all other users\r\n- Have full user rights\r\n\r\n- Assign user accounts for CMMS team\r\n- Create/edit/delete WOs.\r\n- Assign WO to CMMS operator \r\n- View all reports and set filters"
+    }
+  },
+  {
+    "model": "amlit.userrole",
+    "pk": 2,
+    "fields": {
+      "name": "CMMS Operator",
+      "description": "- Accept/Reject WO\r\n- Assign/edit WO info and dates assign to Operator\r\n- Sign-off WO when completed \r\n- View reports and set filters"
+    }
+  },
+  {
+    "model": "amlit.userrole",
+    "pk": 3,
+    "fields": {
+      "name": "CMMS Viewer",
+      "description": "- View WOs, reports and set filters \r\n- Cannot edit"
+    }
+  },
+  {
+    "model": "amlit.userrole",
+    "pk": 4,
+    "fields": {
+      "name": "Dashboard  Viewer",
+      "description": "- View/query maps and reports \r\n- Set filters"
+    }
+  }
+]

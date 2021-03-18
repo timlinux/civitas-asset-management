@@ -78,7 +78,16 @@ LANGUAGES = (
 # Create APP as the key, after that group it by it's model
 ADMIN_GROUP = {
     'amlit': {
-        'Authentication and authorization': ['User', 'UserTitle']
+        'Authentication and authorization': [
+            'User',
+            'UserTitle'
+        ],
+        'Organisation': [
+            'Organisation',
+            'UserOrganisation',
+            'UserRole',
+            'RolePermission'
+        ]
     },
     'civitas': {
         'config': [
