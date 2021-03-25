@@ -35,3 +35,8 @@ class User(AbstractUser):
     )
     phone = PhoneField(
         blank=True, help_text=_('Contact phone number'))
+
+    def get_organisations_as_admin(self):
+        """ Return organisation that has admin role or owner """
+        from amlit.models.organisation import Organisation
+        return Organisation.by_user.admin_role(self)

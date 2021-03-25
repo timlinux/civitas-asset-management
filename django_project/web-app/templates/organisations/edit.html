@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Map
+{% endblock %}
+
+{% block stylesheet %}
+    <link href="{% static 'libs/leaflet/1.5.1/leaflet.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'libs/leaflet.draw/1.0.4/leaflet.draw.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'css/home/main.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'css/home/widget.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <style>
+        #organisation-form label {
+            display: block;
+            font-weight: 700;
+        }
+
+        .save {
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        input, select {
+            height: 40px;
+            padding: 5px;
+            background-color: white;
+        }
+
+        input, select, textarea {
+            border: 1px solid #aaa;
+            width: 100%;
+        }
+
+        input:focus, select:focus, input:active, select:active {
+            outline: none;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        form {
+            color: #111;
+        }
+
+        #form {
+            margin-right: 50px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block container %}
+    <div class="container">
+        <h2>Edit Organisation</h2>
+        <hr>
+        <div class="row">
+            <div id="form" class="col-sm">
+                <form method="POST" class="org-form post-form">
+                    {% csrf_token %}
+                    <div id="organisation-form">
+                        {{ form.as_p }}
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm">
+                <h3>User permission</h3>
+                <br>
+                <table>
+                    <tr>
+                        <th>User</th>
+                        <th>Role</th>
+                        <th></th>
+                    </tr>
+                    {% for data in users.data %}
+                        <tr data-id="{{ data.instance.id }}">
+                            <th>{{ data.user }}</th>
+                            <th>{{ data.role }}</th>
+                            <th>
+                                <button>X</button>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                    <template>
+                        <tr>
+                            <th>{{ users.form.user }}</th>
+                            <th>{{ users.form.role }}</th>
+                            <th>
+                                <button>X</button>
+                            </th>
+                        </tr>
+                    </template>
+                </table>
+            </div>
+        </div>
+        <button type="submit" class="save btn btn-primary">Save</button>
+    </div>
+{% endblock %}
+
+{% block extrascripts %}
+{% endblock extrascripts %}

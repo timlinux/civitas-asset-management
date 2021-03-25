@@ -2,6 +2,7 @@
     --navbar-height: 56px;
     --white: #ffffff;
     --primary-color: #343a40;
+    --box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
 }
 
 html, body {
@@ -22,7 +23,6 @@ html, body {
 
 #navbar .navbar-options {
     height: 100%;
-    margin-right: 20px;
     padding-top: 8px;
     color: rgba(255, 255, 255, .5);
     cursor: default;
@@ -30,6 +30,63 @@ html, body {
 
 #navbar .navbar-options a {
     color: rgba(255, 255, 255, .5);
+}
+
+.dropdown-menu {
+    top: 18px !important;
+    margin-top: 5px;
+    box-shadow: var(--box-shadow);
+    padding: 0 !important;
+}
+
+.dropdown-menu li {
+    border-bottom: 1px solid #eee;
+}
+
+.dropdown-menu li a {
+    width: 100%;
+    display: block;
+    padding: 5px 15px;
+    color: black !important;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #eee;
+}
+
+
+.dropdown-menu .profile {
+    width: 100%;
+    text-align: center;
+}
+
+.dropdown-menu .profile a {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+}
+
+.dropdown-menu .profile a:hover {
+    background-color: white !important;
+    opacity: 0.8;
+}
+
+.dropdown-menu .profile img {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.dropdown-button {
+    padding: 5px !important;
+    font-size: 12px;
+    display: inline !important;
+    border: 1px solid #ccc;
+    background: #eee;
+    margin-bottom: 20px;
+}
+
+.dropdown-button:hover {
+    opacity: 0.5;
 }
 
 #navbar .title {
@@ -65,9 +122,11 @@ html, body {
 }
 
 .container {
-    padding-right: 15px;
-    padding-left: 15px;
     margin-right: auto;
     margin-left: auto;
-    padding-top: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
 }

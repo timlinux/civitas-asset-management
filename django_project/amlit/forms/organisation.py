@@ -3,7 +3,7 @@ __date__ = '18/03/21'
 
 from django import forms
 from django.contrib.auth import get_user_model
-from amlit.models.organisation import Organisation
+from amlit.models.organisation import Organisation, UserOrganisation
 from civitas.models.community import Community
 
 User = get_user_model()
@@ -35,3 +35,9 @@ class OrganisationForm(forms.ModelForm):
         if community:
             cleaned_data['community_code'] = community.code
         return cleaned_data
+
+
+class UserOrganisationForm(forms.ModelForm):
+    class Meta:
+        model = UserOrganisation
+        fields = ('id', 'user', 'organisation', 'role')
