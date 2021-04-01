@@ -1,3 +1,3 @@
 [submodule "django-helpdesk"]
 	path = django-helpdesk
-	url = https://github.com/meomancer/django-helpdesk.git
+	url = https://github.com/django-helpdesk/django-helpdesk.git
