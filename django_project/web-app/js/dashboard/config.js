@@ -6,16 +6,12 @@ require.config({
         'jqueryUI': '../../libs/jquery-ui/1.12.1/jquery-ui',
         'backbone': '../../libs/backbone.js/1.4.0/backbone-min',
         'leaflet': '../../libs/leaflet/1.5.1/leaflet-src',
-        'bootstrap': '../../libs/bootstrap/4.5.2/bootstrap.bundle.min',
         'underscore': '../../libs/underscore.js/1.9.1/underscore-min',
         'leafletDraw': '../../libs/leaflet.draw/1.0.4/leaflet.draw'
     },
     shim: {
         leaflet: {
             exports: ['L']
-        },
-        bootstrap: {
-            deps: ["jquery"]
         },
         jqueryUI: {
             deps: ["jquery"]
@@ -31,7 +27,6 @@ require.config({
 });
 require([
     'jquery',
-    'bootstrap',
     'backbone',
     'underscore',
     'leaflet',
@@ -44,7 +39,7 @@ require([
     'community/controller',
     'system/controller',
 ], function (
-    $, bootstrap, Backbone, _, L, LDraw, Map, _Event, _Request,
+    $, Backbone, _, L, LDraw, Map, _Event, _Request,
     DashboardStyleController, SidePanelController, CommunityConstroller, SystemConstroller) {
     csrfmiddlewaretoken = $('input[name ="csrfmiddlewaretoken"]').val();
     event = new _Event();
