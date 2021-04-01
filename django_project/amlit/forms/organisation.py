@@ -1,8 +1,10 @@
 __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '18/03/21'
 
+import json
 from django import forms
 from django.contrib.auth import get_user_model
+from django.utils.translation import ugettext_lazy as _
 from amlit.models.organisation import Organisation, UserOrganisation
 from civitas.models.community import Community
 
@@ -11,7 +13,8 @@ User = get_user_model()
 
 class OrganisationForm(forms.ModelForm):
     community_code = forms.ModelChoiceField(
-        Community.objects.all()
+        Community.objects.all(),
+        label=_('Community')
     )
 
     class Meta:
@@ -34,6 +37,23 @@ class OrganisationForm(forms.ModelForm):
         community = cleaned_data.get('community_code', None)
         if community:
             cleaned_data['community_code'] = community.code
+
+        # check access
+        access_data = json.loads(self.data.get('access', '[]'))
+        users = UserOrganisation.objects.filter(organisation=self.instance)
+        ids = list(users.values_list('id', flat=True))
+        for access in access_data:
+            try:
+                obj = users.get(user__id=access['user'])
+                ids.remove(obj.id)
+            except UserOrganisation.DoesNotExist:
+                obj = UserOrganisation(
+                    user_id=access['user'], organisation=self.instance,
+                    role_id=access['role'])
+            obj.role_id = access['role']
+            obj.save()
+
+        users.filter(id__in=ids).delete()
         return cleaned_data
 
 

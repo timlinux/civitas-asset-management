@@ -8,8 +8,6 @@
 {% block stylesheet %}
     <link href="{% static 'libs/leaflet/1.5.1/leaflet.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
     <link href="{% static 'libs/leaflet.draw/1.0.4/leaflet.draw.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
-    <link href="{% static 'css/home/main.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
-    <link href="{% static 'css/home/widget.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
     <style>
         #organisation-form label {
             display: block;
@@ -28,7 +26,7 @@
         }
 
         input, select, textarea {
-            border: 1px solid #aaa;
+            border: 1px solid #ddd;
             width: 100%;
         }
 
@@ -53,8 +51,27 @@
         }
 
         table th, table td {
-            border: 1px solid #ddd;
+            border: 1px solid #eee;
             padding: 8px 15px;
+        }
+
+        .remove, .add {
+            color: red;
+            cursor: pointer;
+        }
+
+        .remove:hover, .add:hover {
+            opacity: 0.5;
+        }
+
+        .add {
+            color: green;
+        }
+
+        .info {
+            color: grey;
+            font-size: 14px;
+            font-style: italic;
         }
     </style>
 {% endblock stylesheet %}
@@ -73,20 +90,26 @@
                 </form>
             </div>
             <div class="col-sm">
-                <h3>User permission</h3>
+                <h5>User access
+                    <span class="add"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>
+                </h5>
+                <div class="info">The subscription allow user access up to <span id="max-user"></span></div>
                 <br>
                 <table>
+                    <thead>
                     <tr>
                         <th>User</th>
                         <th>Role</th>
                         <th></th>
                     </tr>
+                    </thead>
+                    <tbody>
                     {% for data in users.data %}
-                        <tr data-id="{{ data.instance.id }}">
+                        <tr>
                             <th>{{ data.user }}</th>
                             <th>{{ data.role }}</th>
                             <th>
-                                <button>X</button>
+                                <div class="remove"><i class="fa fa-times" aria-hidden="true"></i></div>
                             </th>
                         </tr>
                     {% endfor %}
@@ -95,16 +118,75 @@
                             <th>{{ users.form.user }}</th>
                             <th>{{ users.form.role }}</th>
                             <th>
-                                <button>X</button>
+                                <div class="remove"><i class="fa fa-times" aria-hidden="true"></i></div>
                             </th>
                         </tr>
                     </template>
+                    </tbody>
                 </table>
             </div>
         </div>
-        <button type="submit" class="save btn btn-primary">Save</button>
+        <button id="submit-button" type="submit" class="save btn btn-primary">Save</button>
     </div>
 {% endblock %}
 
 {% block extrascripts %}
+    <script>
+        $(document).ready(function () {
+            const $table = $('table');
+            const template = $('template')[0];
+            const MAX = 5;
+            $('#max-user').html(MAX)
+            $('.add').click(function () {
+                let $tbody = $table.find('tbody');
+                $tbody.append(template.content.cloneNode(true));
+                let $row = $tbody.find('tr').last();
+                $row.find('.remove').click(function () {
+                    $(this).closest('tr').remove()
+                })
+            })
+            $table.find('.remove').click(function () {
+                $(this).closest('tr').remove()
+            })
+            $('#submit-button').click(function () {
+                $('form').submit();
+            })
+            $('form').submit(function () {
+                $('#form-submit').attr("disabled", true);
+                let access = [];
+                $table.find('tbody tr').each(function () {
+                    let rowAccess = {};
+                    $(this).find('select').each(function () {
+                        rowAccess[$(this).attr('name')] = $(this).val();
+                    })
+                    access.push(rowAccess)
+                })
+                event.preventDefault();
+
+                {# submit the data #}
+                const form = $(this);
+                let data = form.serialize();
+                data += `&access=${JSON.stringify(access)}`;
+                const CSRFToken = $(this).find('*[name=csrfmiddlewaretoken]').val()
+                $.ajax({
+                    url: window.location,
+                    type: "POST",
+                    data: data,
+                    beforeSend: function (xhr, settings) {
+                        if (!/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type) && !this.crossDomain) {
+                            xhr.setRequestHeader("X-CSRFToken", CSRFToken);
+                        }
+                    },
+                    success: function (data) {
+                        window.location.href = window.location.href;
+                    },
+                    error: function (error) {
+                        $('#form-submit').attr("disabled", false);
+                        alert(error['responseText'])
+                    }
+                });
+                return false;
+            });
+        })
+    </script>
 {% endblock extrascripts %}
