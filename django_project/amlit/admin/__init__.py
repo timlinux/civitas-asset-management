@@ -1,1 +1,2 @@
+from amlit.admin.organisation import *
 from amlit.admin.user import *

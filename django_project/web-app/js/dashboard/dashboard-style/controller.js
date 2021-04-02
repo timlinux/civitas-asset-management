@@ -1,10 +1,11 @@
 define([
     'backbone',
-    './styles/inventory-view',
-    './styles/prioritization-view',
-    './styles/project-view'
+    './detail-view/view',
+    './inventory-view/view',
+    './prioritization-view/view',
+    './project-view/view'
 ], function (
-    Backbone, InventoryView, PrioritizationView, ProjectView) {
+    Backbone, DetailView, InventoryView, PrioritizationView, ProjectView) {
     return Backbone.View.extend({
         el: '#styles',
         style: null,
@@ -16,7 +17,7 @@ define([
             })
 
             // render views as list
-            this.views = [new InventoryView(), new PrioritizationView(), new ProjectView()];
+            this.views = [new DetailView(), new InventoryView(), new PrioritizationView(), new ProjectView()];
             this.views.forEach(function (view, idx) {
                 $ul.append(`<li value="${idx}">${view.name}</li>`)
             });

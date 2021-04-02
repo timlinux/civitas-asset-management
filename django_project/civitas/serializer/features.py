@@ -4,10 +4,11 @@ from rest_framework import serializers
 from rest_framework_gis.serializers import (
     GeoFeatureModelSerializer, GeometrySerializerMethodField)
 
+from civitas.models.feature.feature_geometry import FeatureGeometry
 from civitas.models.view.feature_calculations import FeatureCalculation
 
 
-class FeatureGeoSerializer(GeoFeatureModelSerializer):
+class FeatureCalculationGeoSerializer(GeoFeatureModelSerializer):
     id = serializers.SerializerMethodField()
     geometry = GeometrySerializerMethodField()
     cls = serializers.SerializerMethodField()
@@ -28,13 +29,19 @@ class FeatureGeoSerializer(GeoFeatureModelSerializer):
         """ Get geometry
         :type obj: FeatureCalculation
         """
-        return obj.feature.featuregeometry.geometry()
+        try:
+            return obj.feature.featuregeometry.geometry()
+        except FeatureGeometry.DoesNotExist:
+            return None
 
     def get_cls(self, obj):
         """
         :type obj: FeatureCalculation
         """
-        return obj.feature.the_class.id
+        try:
+            return obj.feature.the_class.id
+        except AttributeError:
+            return None
 
     def get_sub_cls(self, obj):
         """
@@ -79,5 +86,23 @@ class FeatureGeoSerializer(GeoFeatureModelSerializer):
             'estimated_renewal_cost', 'estimated_annual_maintenance_cost', 'estimated_annual_reserve',
             'lifespan', 'age',
             'remaining_years_age_based', 'remaining_percent_age_based', 'remaining_years_condition_based',
-            'remaining_percent_condition_based', 'risk_value', 'risk_level'
+            'remaining_percent_condition_based'
         ]
+
+
+class FeatureGeometryGeoSerializer(GeoFeatureModelSerializer):
+    geometry = GeometrySerializerMethodField()
+
+    def get_geometry(self, obj):
+        """ Get geometry
+        :type obj: FeatureGeometry
+        """
+        try:
+            return obj.geometry()
+        except FeatureGeometry.DoesNotExist:
+            return None
+
+    class Meta:
+        model = FeatureGeometry
+        geo_field = 'geometry'
+        fields = ('id',)

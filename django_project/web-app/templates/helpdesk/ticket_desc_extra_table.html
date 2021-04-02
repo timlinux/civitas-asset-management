@@ -1,0 +1,32 @@
+{% load i18n %}
+{% load static %}
+<link href="{% static 'libs/leaflet/1.5.1/leaflet.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+<script type="text/javascript" src="{% static 'libs/leaflet/1.5.1/leaflet.js' %}"></script>
+<h4>{% trans "Asset" %}</h4>
+<div id="map-wrapper">
+    <i>loading</i>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $.get("{% url 'amlit_helpdesk:feature-ticket-detail' id=ticket.id %}", function (data) {
+            $('#map-wrapper').html('')
+            $('#map-wrapper').css("width", "100%");
+            $('#map-wrapper').css("height", "400px");
+
+            {# setup map #}
+            var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            });
+            var layer = L.geoJSON(data.geometry);
+            const map = L.map('map-wrapper', {
+                center: [39.73, -104.99],
+                zoom: 10,
+                layers: [osm, layer]
+            });
+            map.fitBounds(layer.getBounds());
+        });
+
+    });
+</script>

@@ -1,17 +1,19 @@
 __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
-__date__ = '22/01/21'
+__date__ = '18/03/21'
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from phone_field import PhoneField
+from core.models.term import TermModel
 
 
-class UserTitle(models.Model):
-    name = models.CharField(_('title'), max_length=150, blank=True)
-    description = models.TextField(
-        _('description'),
-        null=True, blank=True)
+class UserTitle(TermModel):
+    """
+    Contains title of an user specification
+    """
+    name = models.CharField(
+        _('title'), max_length=512, unique=True)
 
     def __str__(self):
         return self.name
@@ -33,3 +35,8 @@ class User(AbstractUser):
     )
     phone = PhoneField(
         blank=True, help_text=_('Contact phone number'))
+
+    def get_organisations_as_admin(self):
+        """ Return organisation that has admin role or owner """
+        from amlit.models.organisation import Organisation
+        return Organisation.by_user.admin_role(self)

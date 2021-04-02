@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load amlit_organisation %}
+{% load static %}
+
+{% block title %}
+    Map
+{% endblock %}
+
+{% block stylesheet %}
+    <link href="{% static 'libs/leaflet/1.5.1/leaflet.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'libs/leaflet.draw/1.0.4/leaflet.draw.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <style>
+        table {
+            width: 100%;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block container %}
+    <div class="container">
+        <h2> Organisation List</h2>
+        <hr>
+        <table>
+            <tr>
+                <th>Organisation</th>
+                <th>Role</th>
+                <th></th>
+            </tr>
+            {% for org in object_list %}
+                {% user_role org user as role %}
+                <tr>
+                    <td>{{ org.name }}</td>
+                    <td>{{ role }}</td>
+                    <td>{% if role == 'Admin' %}<a href="{% url "organisation_form" org.id %}">Edit</a>{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+
+{% block extrascripts %}
+{% endblock extrascripts %}

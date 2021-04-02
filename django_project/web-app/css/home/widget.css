@@ -1,6 +1,7 @@
 .widget {
     padding: 10px 20px;
     border-top: 1px solid #ddd;
+    font-size: 14px;
 }
 
 .widget:first-child {
@@ -8,9 +9,9 @@
 }
 
 .widget .title {
-    font-size: 14px;
+    font-size: 20px;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 /* FINANCIAL ESTIMATE DONUT CHARTS */
@@ -66,4 +67,30 @@
 
 #widget-quantity .sub {
     background: rgba(220, 220, 220, 0.3);
+}
+
+/* TICKET LIST */
+.ticket-detail {
+    border: 1px solid #ddd;
+    margin-bottom: -1px;
+    padding: 10px;
+    cursor: pointer;
+    display: block;
+}
+
+.ticket-detail:hover {
+    background-color: #eee;
+    text-decoration: none;
+}
+
+.ticket-detail .title {
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+.ticket-detail .description {
+    font-size: 14px;
+    font-style: italic;
+    color: gray;
+
 }

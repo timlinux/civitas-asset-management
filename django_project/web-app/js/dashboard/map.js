@@ -52,7 +52,15 @@ define([
         /** Initialization
          */
         initialize: function () {
-            this.map = L.map('map', { zoomControl: false }).fitBounds(this.initBounds);
+            this.map = L.map('map',
+                {
+                    attributionControl: false,
+                    zoomControl: false
+                }
+            ).fitBounds(this.initBounds);
+            L.control.attribution({
+                position: 'bottomleft'
+            }).addTo(this.map);
 
             // init control
             L.control.zoom({ position: 'bottomleft' }).addTo(this.map);
