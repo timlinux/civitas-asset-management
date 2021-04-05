@@ -73,6 +73,38 @@
             font-size: 14px;
             font-style: italic;
         }
+
+        .helptext {
+            color: grey;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        #subscription {
+            max-width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 10px;
+        }
+
+        .card {
+            vertical-align: top;
+            border: 1px solid #ddd;
+            padding: 20px;
+            display: inline-block;
+            height: 300px;
+            width: 24%;
+            text-align: center;
+        }
+
+        .card .title {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .subscription-btn {
+            margin-bottom: 10px;
+        }
     </style>
 {% endblock stylesheet %}
 
@@ -86,6 +118,12 @@
                     {% csrf_token %}
                     <div id="organisation-form">
                         {{ form.as_p }}
+                        <p>
+                            <label style="font-weight: 300">Owner:</label> <input type="text" value="{{ object.owner }}" maxlength="512" disabled="">
+                        </p>
+                        <p>
+                            <label style="font-weight: 300">Community:</label> <input type="text" value="{{ object.community_code }}" maxlength="512" disabled="">
+                        </p>
                     </div>
                 </form>
             </div>
@@ -127,6 +165,39 @@
             </div>
         </div>
         <button id="submit-button" type="submit" class="save btn btn-primary">Save</button>
+        <hr>
+        {# SUBSCRIPTION #}
+        <div>
+            <h2>Subscription plan</h2>
+            <div id="subscription">
+                {% for plan in plans %}
+                    <div class="card">
+                        <div class="title">{{ plan.name }}</div>
+                        <i>{{ plan.description }}</i>
+                        <br>
+                        <div>
+                            Allowing up to {{ plan.max_user }} users <br>
+                            to the organisation.
+                        </div>
+                        <br>
+                        <br>
+                        {% for subscription_plan in plan.subscriptionplan_set.all %}
+                            <div class="subscription-btn">
+                                {% if object.subscription.subscription_plan == subscription_plan %}
+                                    <button class="btn" style="color: green">
+                                        <i>Subscribed</i>
+                                    </button>
+                                {% else %}
+                                    <button class="btn btn-info">
+                                        {{ subscription_plan.currency.code }} {{ subscription_plan.price }} {{ subscription_plan.time_plan }}
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}
 

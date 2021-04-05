@@ -6,7 +6,9 @@ from django.forms.models import model_to_dict
 from django.views.generic import ListView
 from django.views.generic.edit import UpdateView
 from amlit.models.organisation import Organisation, UserOrganisation
-from amlit.forms.organisation import OrganisationForm, UserOrganisationForm
+from amlit.forms.organisation import OrganisationFormForOwner, UserOrganisationForm
+
+from amlit.models.subscription import Plan
 
 
 class OrganisationListView(ListView):
@@ -20,7 +22,7 @@ class OrganisationListView(ListView):
 class OrganisationView(UpdateView):
     model = Organisation
     template_name = 'organisations/edit.html'
-    form_class = OrganisationForm
+    form_class = OrganisationFormForOwner
     success_url = '/'
 
     def get_context_data(self, **kwargs):
@@ -37,4 +39,7 @@ class OrganisationView(UpdateView):
                 UserOrganisationForm(initial=model_to_dict(user_org), instance=user_org)
             )
         context['users'] = users
+
+        # context plan
+        context['plans'] = Plan.objects.all()
         return context

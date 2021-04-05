@@ -19,7 +19,8 @@ class OrganisationForm(forms.ModelForm):
 
     class Meta:
         model = Organisation
-        fields = ('name', 'description', 'owner', 'community_code')
+        fields = (
+            'name', 'description', 'owner', 'community_code', 'subscription')
 
     def __init__(self, *args, **kwargs):
         super(OrganisationForm, self).__init__(*args, **kwargs)
@@ -37,23 +38,41 @@ class OrganisationForm(forms.ModelForm):
         community = cleaned_data.get('community_code', None)
         if community:
             cleaned_data['community_code'] = community.code
+        return cleaned_data
+
+
+class OrganisationFormForOwner(forms.ModelForm):
+    class Meta:
+        model = Organisation
+        fields = (
+            'name', 'description')
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        community = cleaned_data.get('community_code', None)
+        if community:
+            cleaned_data['community_code'] = community.code
 
         # check access
-        access_data = json.loads(self.data.get('access', '[]'))
-        users = UserOrganisation.objects.filter(organisation=self.instance)
-        ids = list(users.values_list('id', flat=True))
-        for access in access_data:
-            try:
-                obj = users.get(user__id=access['user'])
-                ids.remove(obj.id)
-            except UserOrganisation.DoesNotExist:
-                obj = UserOrganisation(
-                    user_id=access['user'], organisation=self.instance,
-                    role_id=access['role'])
-            obj.role_id = access['role']
-            obj.save()
+        access_data = self.data.get('access', None)
 
-        users.filter(id__in=ids).delete()
+        # if it has access data, check the user access
+        if access_data:
+            access_data = json.loads(access_data)
+            users = UserOrganisation.objects.filter(organisation=self.instance)
+            ids = list(users.values_list('id', flat=True))
+            for access in access_data:
+                try:
+                    obj = users.get(user__id=access['user'])
+                    ids.remove(obj.id)
+                except UserOrganisation.DoesNotExist:
+                    obj = UserOrganisation(
+                        user_id=access['user'], organisation=self.instance,
+                        role_id=access['role'])
+                obj.role_id = access['role']
+                obj.save()
+
+            users.filter(id__in=ids).delete()
         return cleaned_data
 
 

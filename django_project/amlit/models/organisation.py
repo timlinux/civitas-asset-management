@@ -48,6 +48,15 @@ class Organisation(TermModel):
     )
     by_user = OrganisationByUser()
 
+    # check current active subscription
+    subscription = models.ForeignKey(
+        'amlit.Subscription',
+        on_delete=models.SET_NULL,
+        verbose_name=_('Subscription'),
+        null=True, blank=True,
+        related_name='organisation_subscription'
+    )
+
     def is_admin(self, user):
         """ Return user is admin role
         :type user: User
