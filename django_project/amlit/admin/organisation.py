@@ -12,7 +12,8 @@ class UserOrganisationInline(admin.TabularInline):
 
 
 class OrganisationAdmin(admin.ModelAdmin):
-    list_display = ('name', 'owner', 'community_code')
+    list_display = (
+        'name', 'owner', 'community_code')
     inlines = (UserOrganisationInline,)
     form = OrganisationForm
 

@@ -87,6 +87,12 @@ ADMIN_GROUP = {
             'UserOrganisation',
             'UserRole',
             'RolePermission'
+        ],
+        'Subscription': [
+            'Currency',
+            'Plan',
+            'SubscriptionPlan',
+            'Subscription'
         ]
     },
     'civitas': {
