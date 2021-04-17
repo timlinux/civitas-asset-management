@@ -4,6 +4,7 @@ __date__ = '18/03/21'
 import json
 from django import forms
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from amlit.models.organisation import Organisation, UserOrganisation
 from civitas.models.community import Community
@@ -41,7 +42,26 @@ class OrganisationForm(forms.ModelForm):
         return cleaned_data
 
 
-class OrganisationFormForOwner(forms.ModelForm):
+class OrganisationCreateForm(OrganisationForm):
+    class Meta:
+        model = Organisation
+        fields = (
+            'name', 'description', 'community_code', 'owner')
+
+    def __init__(self, *args, **kwargs):
+        super(OrganisationCreateForm, self).__init__(*args, **kwargs)
+        self.fields['owner'].required = False
+
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        try:
+            Organisation.objects.get(name=name)
+            raise ValidationError("This name already exist")
+        except Organisation.DoesNotExist:
+            return name
+
+
+class OrganisationEditForm(forms.ModelForm):
     class Meta:
         model = Organisation
         fields = (
@@ -55,11 +75,10 @@ class OrganisationFormForOwner(forms.ModelForm):
 
         # check access
         access_data = self.data.get('access', None)
-
-        # if it has access data, check the user access
-        max_user = self.instance.get_max_user()
-
         if access_data:
+            # if it has access data, check the user access
+            max_user = self.instance.get_max_user()
+
             access_data = json.loads(access_data)
             users = UserOrganisation.objects.filter(organisation=self.instance)
             ids = list(users.values_list('id', flat=True))

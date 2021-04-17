@@ -5,13 +5,14 @@ import stripe
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.forms.models import model_to_dict
-from django.http import JsonResponse
-from django.views.generic import ListView, DetailView
+from django.http import JsonResponse, HttpResponseRedirect
+from django.urls import reverse
+from django.views.generic import DetailView, ListView, FormView
 from django.views.generic.edit import UpdateView
 
 from amlit.models.organisation import Organisation, UserOrganisation
 from amlit.forms.organisation import (
-    OrganisationFormForOwner, UserOrganisationForm)
+    OrganisationCreateForm, OrganisationEditForm, UserOrganisationForm)
 from amlit.utils import AmlitStripe
 
 
@@ -25,12 +26,28 @@ class OrganisationListView(LoginRequiredMixin, ListView):
         return Organisation.by_user.all_role(self.request.user)
 
 
+class OrganisationCreateView(LoginRequiredMixin, FormView):
+    """ Showing Organisation view to be updated
+    """
+    model = Organisation
+    template_name = 'organisations/create.html'
+    form_class = OrganisationCreateForm
+    success_url = '/'
+
+    def form_valid(self, form):
+        org = form.save(commit=False)
+        org.owner = self.request.user
+        org.save()
+        return HttpResponseRedirect(
+            reverse('organisation_subscription', args=(org.pk,)))
+
+
 class OrganisationEditView(LoginRequiredMixin, UpdateView):
     """ Showing Organisation view to be updated
     """
     model = Organisation
     template_name = 'organisations/edit.html'
-    form_class = OrganisationFormForOwner
+    form_class = OrganisationEditForm
     success_url = '/'
 
     def get_context_data(self, **kwargs):

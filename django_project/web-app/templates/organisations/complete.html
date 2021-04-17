@@ -18,6 +18,6 @@
         <br><br><br><br>
         <h3>Organisation subscription is now active!</h3>
         <br><br>
-        <a class="btn btn-primary text-light" href="{% url "organisation_edit" pk=object.id %}">Return To Organisation</a>
+        <a class="btn btn-primary text-light" href="{% url "organisation_edit" pk=object.id %}">Return to {{ object.name }}</a>
     </div>
 {% endblock %}

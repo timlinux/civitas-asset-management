@@ -96,6 +96,20 @@
         #max-user-errors {
             display: none;
         }
+
+        h2 {
+            position: relative;
+        }
+
+        h2 a {
+            position: absolute;
+            left: 0;
+            top: 10px;
+            display: block;
+            font-size: 14px;
+            font-weight: 300;
+            cursor: pointer;
+        }
     </style>
 {% endblock stylesheet %}
 
@@ -103,7 +117,10 @@
     <script src="https://js.stripe.com/v3/"></script>
 
     <div class="container">
-        <h2>Subscription plan</h2>
+        <h2>
+            <a href='{% url "organisation_edit" pk=object.id %}'>Back to {{ object.name }}</a>
+            Subscription plan
+        </h2>
         <hr>
         <div id="subscription">
             {% for p in products %}

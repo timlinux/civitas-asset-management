@@ -47,6 +47,8 @@ class Organisation(TermModel):
         help_text=_('Community code for this organisation'),
         null=True, blank=True,
     )
+
+    objects = models.Manager()
     by_user = OrganisationByUser()
 
     # check current active subscription
@@ -83,7 +85,7 @@ class Organisation(TermModel):
         :type user: User
         """
         if self.owner == user:
-            return UserRole.ADMIN
+            return UserRole.OWNER
         try:
             return UserOrganisation.objects.get(user=user, organisation=self).role.name
         except UserOrganisation.DoesNotExist:
@@ -114,6 +116,7 @@ class UserRole(TermModel):
     Role for user in organisation
     """
     ADMIN = 'Admin'
+    OWNER = 'Owner'
     UNKNOWN = 'Unknown'
 
     permissions = models.ManyToManyField(

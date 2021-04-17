@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Create Organisation
+{% endblock %}
+
+{% block stylesheet %}
+    <link href="{% static 'libs/leaflet/1.5.1/leaflet.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <link href="{% static 'libs/leaflet.draw/1.0.4/leaflet.draw.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
+    <style>
+        #organisation-form label {
+            display: block;
+            font-weight: 700;
+        }
+
+        .save {
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        input, select, textarea {
+            padding: 5px;
+
+        }
+
+        input, select {
+            height: 40px;
+            background-color: white;
+        }
+
+        input, select, textarea {
+            border: 1px solid #ddd;
+            width: 100%;
+        }
+
+        input:focus, select:focus, input:active, select:active {
+            outline: none;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        form {
+            color: #111;
+        }
+
+        #form {
+            margin-right: 50px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        table th, table td {
+            border: 1px solid #eee;
+            padding: 8px 15px;
+        }
+
+        select:disabled {
+            border: none;
+            color: black;
+        }
+
+        .errorlist {
+            color: red;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block container %}
+    <div class="container">
+        <h2>Create Organisation</h2>
+        <hr>
+        <div class="row">
+            <div id="form" class="col-sm">
+                <form action="{% url "organisation_create" %}" method="POST" class="org-form post-form">
+                    {% csrf_token %}
+                    <div id="organisation-form">
+                        {{ form.as_p }}
+                    </div>
+                    <button id="submit-button" type="submit" class="save btn btn-primary">Create</button>
+                </form>
+            </div>
+        </div>
+        <hr>
+    </div>
+{% endblock %}
+
+{% block extrascripts %}
+    <script>
+        $(document).ready(function () {
+            $('#id_owner').val({{ user.id }})
+            $('#id_owner').attr("disabled", true);
+        })
+    </script>
+{% endblock extrascripts %}

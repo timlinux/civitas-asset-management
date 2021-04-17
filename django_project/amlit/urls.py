@@ -5,6 +5,7 @@ from django.conf.urls import url, include
 from amlit.views.home import HomeView
 from amlit.views.report import ReportPageView
 from amlit.views.organisations import (
+    OrganisationCreateView,
     OrganisationEditView,
     OrganisationListView,
     SubscriptionView,
@@ -25,6 +26,9 @@ organisation_url = [
     url(r'^(?P<pk>\d+)/subscription',
         SubscriptionView.as_view(),
         name='organisation_subscription'),
+    url(r'^create',
+        view=OrganisationCreateView.as_view(),
+        name='organisation_create'),
     url(r'',
         view=OrganisationListView.as_view(),
         name='organisation_list'),
