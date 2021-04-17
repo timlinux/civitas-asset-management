@@ -26,6 +26,13 @@ x-common-django:
     - VIRTUAL_HOST=amlit.com
     - VIRTUAL_PORT=8080
     - PYTHONPATH=/home/web/django-helpdesk
+    # for stripe
+    - STRIPE_LIVE_PUBLIC_KEY=${STRIPE_LIVE_PUBLIC_KEY}
+    - STRIPE_LIVE_SECRET_KEY=${STRIPE_LIVE_SECRET_KEY}
+    - STRIPE_TEST_PUBLIC_KEY=${STRIPE_TEST_PUBLIC_KEY}
+    - STRIPE_TEST_SECRET_KEY=${STRIPE_TEST_SECRET_KEY}
+    - STRIPE_LIVE_MODE=${STRIPE_LIVE_MODE}
+    - DJSTRIPE_WEBHOOK_SECRET=${DJSTRIPE_WEBHOOK_SECRET}
   volumes:
     - ../django_project:/home/web/django_project
     - ../django-helpdesk:/home/web/django-helpdesk
@@ -79,9 +86,9 @@ services:
   django:
     <<: *default-common-django
     command: 'uwsgi --ini /uwsgi.conf'
-# Todo:
-#  error : ModuleNotFoundError: No module named 'core'
-#    entrypoint: ["/entrypoint.sh"]
+  # Todo:
+  #  error : ModuleNotFoundError: No module named 'core'
+  #    entrypoint: ["/entrypoint.sh"]
 
   web:
     image: nginx

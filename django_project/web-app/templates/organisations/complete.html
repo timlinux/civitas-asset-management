@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Subscription Complete
+{% endblock %}
+
+{% block stylesheet %}
+    <style>
+        .container {
+            text-align: center;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block container %}
+    <div class="container">
+        <br><br><br><br>
+        <h3>Organisation subscription is now active!</h3>
+        <br><br>
+        <a class="btn btn-primary text-light" href="{% url "organisation_edit" pk=object.id %}">Return To Organisation</a>
+    </div>
+{% endblock %}

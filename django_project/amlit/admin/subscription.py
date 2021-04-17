@@ -1,32 +1,25 @@
 __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
-__date__ = '14/08/20'
+__date__ = '18/03/21'
 
 from django.contrib import admin
-from amlit.models import Subscription, SubscriptionPlan, Plan, Currency
+from djstripe.admin import ProductAdmin
+from djstripe.models import Product
+from amlit.models.subscription import AmlitProduct
+
+admin.site.unregister(Product)
 
 
-class CurrencyAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name', 'description')
+class AmlitProductInline(admin.StackedInline):
+    model = AmlitProduct
+    extra = 0
 
 
-class SubscriptionPlanInline(admin.TabularInline):
-    list_display = ('price', 'currency', 'time_plan')
-    model = SubscriptionPlan
-    extra = 1
+class AmlitProductAdmin(ProductAdmin):
+    list_display = ("name", "type", "active", "url", "statement_descriptor", "max_user")
+    inlines = (AmlitProductInline,)
+
+    def max_user(self, obj):
+        return obj.amlitproduct.max_user
 
 
-class PlanAdmin(admin.ModelAdmin):
-    inlines = (SubscriptionPlanInline,)
-    list_display = ('name', 'description', 'max_user')
-
-
-class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = (
-        'organisation', 'status', 'subscription_plan',
-        'date_subscribed', 'date_expired')
-    list_filter = ('organisation',)
-
-
-admin.site.register(Currency, CurrencyAdmin)
-admin.site.register(Plan, PlanAdmin)
-admin.site.register(Subscription, SubscriptionAdmin)
+admin.site.register(Product, AmlitProductAdmin)

@@ -16,6 +16,7 @@ class OrganisationAdmin(admin.ModelAdmin):
         'name', 'owner', 'community_code')
     inlines = (UserOrganisationInline,)
     form = OrganisationForm
+    readonly_fields = ('subscription',)
 
 
 class UserRoleAdmin(admin.ModelAdmin):

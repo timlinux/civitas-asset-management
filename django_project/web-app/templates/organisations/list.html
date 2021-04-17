@@ -36,7 +36,7 @@
                 <tr>
                     <td>{{ org.name }}</td>
                     <td>{{ role }}</td>
-                    <td>{% if role == 'Admin' %}<a href="{% url "organisation_form" org.id %}">Edit</a>{% endif %}</td>
+                    <td>{% if role == 'Admin' %}<a href="{% url "organisation_edit" org.id %}">Edit</a>{% endif %}</td>
                 </tr>
             {% endfor %}
         </table>

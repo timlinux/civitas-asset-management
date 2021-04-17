@@ -57,20 +57,23 @@ class OrganisationFormForOwner(forms.ModelForm):
         access_data = self.data.get('access', None)
 
         # if it has access data, check the user access
+        max_user = self.instance.get_max_user()
+
         if access_data:
             access_data = json.loads(access_data)
             users = UserOrganisation.objects.filter(organisation=self.instance)
             ids = list(users.values_list('id', flat=True))
-            for access in access_data:
-                try:
-                    obj = users.get(user__id=access['user'])
-                    ids.remove(obj.id)
-                except UserOrganisation.DoesNotExist:
-                    obj = UserOrganisation(
-                        user_id=access['user'], organisation=self.instance,
-                        role_id=access['role'])
-                obj.role_id = access['role']
-                obj.save()
+            for idx, access in enumerate(access_data):
+                if idx + 1 <= max_user:
+                    try:
+                        obj = users.get(user__id=access['user'])
+                        ids.remove(obj.id)
+                    except UserOrganisation.DoesNotExist:
+                        obj = UserOrganisation(
+                            user_id=access['user'], organisation=self.instance,
+                            role_id=access['role'])
+                    obj.role_id = access['role']
+                    obj.save()
 
             users.filter(id__in=ids).delete()
         return cleaned_data

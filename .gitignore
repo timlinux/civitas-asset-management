@@ -1,4 +1,5 @@
 .idea
+deployment/.env
 deployment/backups
 deployment/qgis-server/qgis-auth.db
 deployment/qgis-server/qgis-auth-pwd.txt

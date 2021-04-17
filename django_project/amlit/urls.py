@@ -2,18 +2,29 @@ __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '19/08/20'
 
 from django.conf.urls import url, include
+from amlit.views.home import HomeView
+from amlit.views.report import ReportPageView
+from amlit.views.organisations import (
+    OrganisationEditView,
+    OrganisationListView,
+    SubscriptionView,
+    SubscriptionCompleteView
+)
 from civitas.api import (
     ProjectedReportAPI,
     CommunityAPI, CommunityDetailAPI,
     SummaryAPI, FeaturesGeojsonAPI)
-from amlit.views.home import HomeView
-from amlit.views.report import ReportPageView
-from amlit.views.organisations import OrganisationView, OrganisationListView
 
 organisation_url = [
     url(r'^(?P<pk>\d+)/edit',
-        view=OrganisationView.as_view(),
-        name='organisation_form'),
+        view=OrganisationEditView.as_view(),
+        name='organisation_edit'),
+    url(r'^(?P<pk>\d+)/subscription/complete',
+        SubscriptionCompleteView.as_view(),
+        name='organisation_subscription_complete'),
+    url(r'^(?P<pk>\d+)/subscription',
+        SubscriptionView.as_view(),
+        name='organisation_subscription'),
     url(r'',
         view=OrganisationListView.as_view(),
         name='organisation_list'),

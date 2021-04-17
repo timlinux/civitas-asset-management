@@ -29,3 +29,6 @@ pytz
 six
 django-model-utils
 pinax-teams>=2.0
+
+# subscription
+dj-stripe==2.4.3

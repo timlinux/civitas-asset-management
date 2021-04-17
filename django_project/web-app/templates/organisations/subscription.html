@@ -1,0 +1,333 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Checkout
+{% endblock %}
+
+{% block stylesheet %}
+    <style>
+
+        .container {
+            box-shadow: none;
+            border: none;
+            background-color: #eee;
+            text-align: center;
+        }
+
+        #subscription {
+            max-width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 10px;
+        }
+
+        .card {
+            vertical-align: top;
+            border: 1px solid #ddd;
+            box-shadow: var(--box-shadow);
+            display: inline-block;
+            height: 400px;
+            position: relative;
+            width: 24%;
+            text-align: center;
+            margin: 10px;
+        }
+
+        .card .desc {
+            color: #aaa;
+        }
+
+        .card .content {
+            padding: 20px;
+        }
+
+        .card .title {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .subscription-btn, .subscribed {
+            margin-bottom: 10px;
+            padding: 0 30px;
+        }
+
+        .subscription-btn-wrapper {
+            position: absolute;
+            bottom: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .subscription-btn button, .subscribed div {
+            width: 100%;
+            font-weight: 700;
+        }
+
+        .checkout {
+            margin-right: auto;
+            margin-left: auto;
+            box-shadow: var(--box-shadow);
+            width: 50%;
+            background: white;
+            padding: 20px;
+            text-align: left;
+
+        }
+
+        #spinner {
+            display: inline-block;
+        }
+
+        .error {
+            color: #fa755a;
+        }
+
+        button:disabled {
+            cursor: not-allowed;
+        }
+
+        .subscribed div {
+            cursor: not-allowed !important;
+            border: 1px solid green;
+            color: green !important;
+        }
+
+        #max-user-errors {
+            display: none;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block container %}
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <div class="container">
+        <h2>Subscription plan</h2>
+        <hr>
+        <div id="subscription">
+            {% for p in products %}
+                <div class="card">
+                    <div class="content">
+                        <div class="title">{{ p.name }}</div>
+                        {% if p.description %}
+                            <div>
+                                <i class="desc">
+                                    <svg class="bi bi-check" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                              d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.236.236 0 0 1 .02-.022z"/>
+                                    </svg>
+                                    {{ p.description }}
+                                </i>
+                            </div>
+                        {% endif %}
+                        <br>
+                        <div>
+                            Allowing up to {{ p.amlitproduct.max_user }} users <br>
+                            to the organisation.
+                        </div>
+                    </div>
+                    <div class="subscription-btn-wrapper">
+                        {% for plan in p.plan_set.all %}
+                            {% if object.subscription and object.subscription.plan == plan %}
+                                <div class="subscribed">
+                                    <div class="btn">
+                                        Subscribed
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="subscription-btn">
+                                    <button class="btn btn-primary" value="{{ p.id }}"
+                                            onclick="planSelect(this, '{{ p.name }}' ,'{{ plan.human_readable_price }}', '{{ plan.id }}', {{ p.amlitproduct.max_user }})">
+                                        {{ plan.human_readable_price }}
+                                    </button>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <hr>
+        <div class="checkout">
+            <h5 class="card-title font-weight-bold">Checkout</h5>
+            <div id="max-user-errors" role="alert" class="error">
+                The current plan max user access is more than new plan.<br>
+                Please remove it on organisation edit page first before subscribe.<br>
+                The exceeded user access will be removed automatically after subscribed.
+                <br>
+                <br>
+            </div>
+            <div class="row">
+                <div class="col-6 text-muted">
+                    <p>Plan:</p>
+                    <p>Total:</p>
+                </div>
+                <div class="col-6 text-right">
+                    <p id="plan-indicator"></p>
+                    <p id="price-indicator"></p>
+                    <p hidden id="price-id"></p>
+                </div>
+            </div>
+            <hr>
+            <form id="subscription-form">
+                <div id="card-element">
+                </div>
+                <div id="card-errors" role="alert" class="error"></div>
+                <br>
+                <button id="submit" type="submit" class="btn btn-primary" disabled>
+                    <div id="spinner" class="spinner-border spinner-border-sm text-light hidden" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <span id="button-text">Subscribe</span>
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extrascripts %}
+    <script>
+        let MAX_USER = 0;
+        {% if object.subscription%}
+            MAX_USER = {{ object.subscription.plan.product.amlitproduct.max_user }};
+        {% endif %}
+
+        const stripe = Stripe('{{ STRIPE_PUBLIC_KEY }}');
+        const $cardError = $('#card-errors');
+        const $submitButton = $(':input[type="submit"]');
+        let subSelected = false;
+        let cardOk = false;
+
+        /** Initiate card input
+         */
+        $('#spinner').hide();
+        $(document).ready(function () {
+            let elements = stripe.elements();
+
+            // Card Element styles
+            let style = {
+                base: {
+                    color: "#32325d",
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                    fontSmoothing: "antialiased",
+                    fontSize: "16px",
+                    "::placeholder": {
+                        color: "#aab7c4"
+                    }
+                },
+                invalid: {
+                    color: "#fa755a",
+                    iconColor: "#fa755a"
+                }
+            };
+
+
+            card = elements.create('card', { style: style });
+            card.mount('#card-element');
+
+            card.on('focus', function () {
+                let el = document.getElementById('card-errors');
+                el.classList.add('focused');
+            });
+
+            card.on('blur', function () {
+                let el = document.getElementById('card-errors');
+                el.classList.remove('focused');
+            });
+
+            card.on('change', function (event) {
+                $cardError.html('')
+                cardOk = true;
+                if (event.error) {
+                    cardOk = false;
+                    displayError(event.error)
+                }
+
+                if (subSelected && cardOk) {
+                    $submitButton.prop('disabled', false);
+                }
+            });
+            $("#subscription-form").submit(function (event) {
+                subscribe(card);
+                event.preventDefault();
+            });
+        });
+
+        function displayError(error) {
+            $('button').prop('disabled', false);
+            if (error) {
+                $cardError.html(error.message)
+                $submitButton.prop('disabled', true);
+            }
+        }
+
+        /** Function when plan selected
+         * Update checkout indicator
+         */
+        function planSelect(element, name, price, priceId, maxUser) {
+            {# toggle other button #}
+            const $otherButton = $('.btn-success')
+            $otherButton.addClass('btn-primary');
+            $otherButton.removeClass('btn-success');
+            $(element).addClass('btn-success');
+            $(element).removeClass('btn-primary');
+
+            $('#plan-indicator').html(name)
+            $('#price-indicator').html(price)
+            $('#price-id').html(priceId);
+
+            subSelected = true;
+            if (subSelected && cardOk) {
+                $submitButton.prop('disabled', false);
+            }
+            $('#max-user-errors').hide()
+            if (MAX_USER !== 0 && maxUser < MAX_USER) {
+                $('#max-user-errors').show()
+            }
+        }
+
+        function subscribe(card) {
+            $('button').prop('disabled', true);
+            $('#spinner').show();
+
+            let billingName = '{{user.username}}';
+            stripe.createPaymentMethod({
+                type: 'card',
+                card: card,
+                billing_details: {
+                    name: billingName,
+                },
+            }).then((result) => {
+                if (result.error) {
+                    displayError(result.error);
+                } else {
+                    const paymentParams = {
+                        price_id: $('#price-id').html(),
+                        payment_method: result.paymentMethod.id,
+                    };
+                    fetch("{% url "organisation_subscription" pk=object.id %}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}',
+                        },
+                        credentials: 'same-origin',
+                        body: JSON.stringify(paymentParams),
+                    }).then((response) => {
+                        return response.json();
+                    }).then((result) => {
+                        if (result.error) {
+                            throw result;
+                        }
+                        window.location.href =
+                            '{% url "organisation_subscription_complete" pk=object.id %}';
+                    }).catch(function (result) {
+                        displayError(result.error.message);
+
+                    });
+                }
+            });
+        }
+    </script>
+{% endblock %}

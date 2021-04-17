@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    Map
+    Edit Organisation
 {% endblock %}
 
 {% block stylesheet %}
@@ -19,9 +19,13 @@
             width: 100%;
         }
 
+        input, select, textarea {
+            padding: 5px;
+
+        }
+
         input, select {
             height: 40px;
-            padding: 5px;
             background-color: white;
         }
 
@@ -74,35 +78,13 @@
             font-style: italic;
         }
 
-        .helptext {
-            color: grey;
-            font-style: italic;
-            font-size: 14px;
+        input:disabled {
+            border: none;
         }
 
-        #subscription {
-            max-width: 100%;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding-bottom: 10px;
-        }
-
-        .card {
-            vertical-align: top;
-            border: 1px solid #ddd;
-            padding: 20px;
-            display: inline-block;
-            height: 300px;
-            width: 24%;
-            text-align: center;
-        }
-
-        .card .title {
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .subscription-btn {
+        .subscription {
+            padding: 10px;
+            border: 1px solid green;
             margin-bottom: 10px;
         }
     </style>
@@ -128,93 +110,88 @@
                 </form>
             </div>
             <div class="col-sm">
-                <h5>User access
-                    <span class="add"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>
-                </h5>
-                <div class="info">The subscription allow user access up to <span id="max-user"></span></div>
+                {% if object.owner == user %}
+                    <div class="subscription">
+                        {% if object.subscription %}
+                            Organisation subscribed : <b>{{ object.subscription.plan.product.name }}</b><br>
+                            <a href="{% url "organisation_subscription" pk=object.id %}">Change subscription</a>
+                        {% else %}
+                            Subscribe to be able to give user access to the organisation. <a href="{% url "organisation_subscription" pk=object.id %}">Subscriptions</a>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    {% if not object.subscription %}
+                        <div class="subscription">
+                            Organisation is in free tier. Please contact owner to subscribe to be able to give user access to the organisation.
+                        </div>
+                    {% endif %}
+                {% endif %}
+
                 <br>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>User</th>
-                        <th>Role</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for data in users.data %}
+                {% if object.subscription %}
+                    <h5>User access
+                        <span class="add"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>
+                    </h5>
+                    <div class="info">The subscription allow user access up to <span id="max-user"></span></div>
+                    <br>
+                    <table>
+                        <thead>
                         <tr>
-                            <th>{{ data.user }}</th>
-                            <th>{{ data.role }}</th>
-                            <th>
-                                <div class="remove"><i class="fa fa-times" aria-hidden="true"></i></div>
-                            </th>
+                            <th>User</th>
+                            <th>Role</th>
+                            <th></th>
                         </tr>
-                    {% endfor %}
-                    <template>
-                        <tr>
-                            <th>{{ users.form.user }}</th>
-                            <th>{{ users.form.role }}</th>
-                            <th>
-                                <div class="remove"><i class="fa fa-times" aria-hidden="true"></i></div>
-                            </th>
-                        </tr>
-                    </template>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {% for data in users.data %}
+                            <tr>
+                                <th>{{ data.user }}</th>
+                                <th>{{ data.role }}</th>
+                                <th>
+                                    <div class="remove"><i class="fa fa-times" aria-hidden="true"></i></div>
+                                </th>
+                            </tr>
+                        {% endfor %}
+                        <template>
+                            <tr>
+                                <th>{{ users.form.user }}</th>
+                                <th>{{ users.form.role }}</th>
+                                <th>
+                                    <div class="remove"><i class="fa fa-times" aria-hidden="true"></i></div>
+                                </th>
+                            </tr>
+                        </template>
+                        </tbody>
+                    </table>
+                {% endif %}
             </div>
         </div>
         <button id="submit-button" type="submit" class="save btn btn-primary">Save</button>
         <hr>
-        {# SUBSCRIPTION #}
-        <div>
-            <h2>Subscription plan</h2>
-            <div id="subscription">
-                {% for plan in plans %}
-                    <div class="card">
-                        <div class="title">{{ plan.name }}</div>
-                        <i>{{ plan.description }}</i>
-                        <br>
-                        <div>
-                            Allowing up to {{ plan.max_user }} users <br>
-                            to the organisation.
-                        </div>
-                        <br>
-                        <br>
-                        {% for subscription_plan in plan.subscriptionplan_set.all %}
-                            <div class="subscription-btn">
-                                {% if object.subscription.subscription_plan == subscription_plan %}
-                                    <button class="btn" style="color: green">
-                                        <i>Subscribed</i>
-                                    </button>
-                                {% else %}
-                                    <button class="btn btn-info">
-                                        {{ subscription_plan.currency.code }} {{ subscription_plan.price }} {{ subscription_plan.time_plan }}
-                                    </button>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
     </div>
 {% endblock %}
 
 {% block extrascripts %}
     <script>
+        let MAX_USER = 0;
+        {% if object.subscription%}
+            MAX_USER = {{ object.subscription.plan.product.amlitproduct.max_user }};
+        {% endif %}
         $(document).ready(function () {
             const $table = $('table');
             const template = $('template')[0];
-            const MAX = 5;
-            $('#max-user').html(MAX)
+            $('#max-user').html(MAX_USER)
+
+            {# create new row #}
             $('.add').click(function () {
                 let $tbody = $table.find('tbody');
-                $tbody.append(template.content.cloneNode(true));
-                let $row = $tbody.find('tr').last();
-                $row.find('.remove').click(function () {
-                    $(this).closest('tr').remove()
-                })
+                if ($tbody.find('tr').length < MAX_USER) {
+                    $tbody.append(template.content.cloneNode(true));
+                    let $row = $tbody.find('tr').last();
+                    $row.find('.remove').click(function () {
+                        $(this).closest('tr').remove()
+                    })
+                }
             })
             $table.find('.remove').click(function () {
                 $(this).closest('tr').remove()
