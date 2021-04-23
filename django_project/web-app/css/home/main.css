@@ -272,3 +272,7 @@ html, body {
         opacity: 0.3;
     }
 }
+
+.leaflet-control-layers, .leaflet-control-layers-overlays label {
+    cursor: pointer;
+}

@@ -94,3 +94,42 @@
     color: gray;
 
 }
+
+/* FEATURE DETAIL */
+#features-detail table {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+#features-detail table .extra-property {
+    display: none;
+}
+
+#features-detail table .button {
+    background-color: #eee;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 300;
+}
+
+#features-detail table .button.hidden:after {
+    content: "▼";
+}
+
+#features-detail table .button.expand:after {
+    content: "▲";
+}
+
+#features-detail table .button:hover {
+    opacity: 0.5;
+}
+
+#features-detail table th,
+#features-detail table td {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+}
+
+#features-detail table th {
+    background-color: #ddd;
+}

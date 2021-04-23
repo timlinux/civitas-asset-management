@@ -1,8 +1,8 @@
 define([
     'leaflet',
     '../style-base',
-    '../inventory-view/widgets/quantity',
-    '../inventory-view/widgets/financial-estimation-donut-chart'], function (L, Base, Quantity, FinancialEstimationDonutChart) {
+    '../inventory-view/widgets/quantity-coming-soon',
+    '../inventory-view/widgets/financial-estimation-donut-chart-coming-soon'], function (L, Base, Quantity, FinancialEstimationDonutChart) {
     return Base.extend({
         name: 'Inventory View',
         layerSelected: [],

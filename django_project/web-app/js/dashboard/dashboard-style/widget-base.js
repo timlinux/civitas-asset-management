@@ -3,9 +3,11 @@ define([
     return Backbone.View.extend({
         initialize: function () {
             this.$wrapper = $('#side-panel .content');
+            event.register(this, evt.MAP_CLICKED, this._mapClicked);
         },
         render: function () {
             // append to wrapper
+            this.active = true;
             if (this.$wrapper.find(`#${this.id}`).length === 0) {
                 this.$wrapper.append(`
                     <div id="${this.id}" class="widget">
@@ -19,8 +21,9 @@ define([
             this.postRender();
         },
         destroy: function () {
-            this.postDestroy()
-            this.$el.remove()
+            this.active = false;
+            this.postDestroy();
+            this.$el.remove();
         },
         /** Abstract function called after render
          */
@@ -45,5 +48,17 @@ define([
         postDestroy: function () {
 
         },
+        /** When map clicked and check if active
+         */
+        _mapClicked: function (latlng) {
+            if (this.active) {
+                this.mapClicked(latlng)
+            }
+        },
+        /** When map clicked
+         */
+        mapClicked: function (latlng) {
+
+        }
     });
 });

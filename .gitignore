@@ -9,3 +9,4 @@ __pycache__/
 
 django_project/.pycharm_helpers/
 django_project/core/settings/secret.py
+django_project/web-app/js/dashboard/env.js

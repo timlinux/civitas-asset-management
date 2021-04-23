@@ -1,3 +1,4 @@
+let mapView;
 let map;
 
 require.config({
@@ -37,21 +38,19 @@ require([
     'dashboard-style/controller',
     'side-panel/controller',
     'community/controller',
-    'system/controller',
 ], function (
     $, Backbone, _, L, LDraw, Map, _Event, _Request,
-    DashboardStyleController, SidePanelController, CommunityConstroller, SystemConstroller) {
+    DashboardStyleController, SidePanelController, CommunityConstroller) {
     csrfmiddlewaretoken = $('input[name ="csrfmiddlewaretoken"]').val();
     event = new _Event();
     Request = new _Request();
 
     // initiate all view
-    let mapiew = new Map();
-    map = mapiew.map;
+    mapView = new Map();
+    map = mapView.map;
 
     // init system/community controller
     new DashboardStyleController();
     new CommunityConstroller();
-    new SystemConstroller();
     new SidePanelController();
 });
