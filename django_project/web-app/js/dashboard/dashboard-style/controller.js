@@ -49,8 +49,10 @@ define([
             style.activate();
 
             // add layer
-            event.trigger(evt.MAP_ADD_LAYER, style.layer);
-            event.trigger(evt.MAP_FLY, style.layer.getBounds());
+            if (style.layer) {
+                event.trigger(evt.MAP_ADD_LAYER, style.layer);
+                event.trigger(evt.MAP_FLY, style.layer.getBounds());
+            }
         },
     });
 });

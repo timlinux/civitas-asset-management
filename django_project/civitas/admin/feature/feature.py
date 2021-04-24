@@ -8,8 +8,13 @@ from civitas.models.feature.feature_geometry import FeatureGeometry
 from civitas.models.feature.feature_property import FeatureProperty
 
 
-class FeaturePropertyPropertyInline(admin.TabularInline):
+class FeaturePropertyInline(admin.TabularInline):
     model = FeatureProperty
+    extra = 0
+
+
+class FeatureGeometryInline(admin.TabularInline):
+    model = FeatureGeometry
     extra = 0
 
 
@@ -21,7 +26,7 @@ class FeatureBaseAdmin(admin.ModelAdmin):
         'remaining_life', 'remaining_life_percent', 'annual_reserve_cost'
     )
     list_filter = ('the_class', 'sub_class', 'type')
-    inlines = [FeaturePropertyPropertyInline]
+    inlines = [FeaturePropertyInline, FeatureGeometryInline]
 
     # TODO:
     #  after these fields already uncommented, remove these

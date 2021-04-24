@@ -127,7 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
 )
 
-LOGIN_URL = '/login'
+LOGIN_URL = '/auth/login'
 SITE_ID = 1
 DEFAULT_FROM_EMAIL = 'meomancer@gmail.com'
 

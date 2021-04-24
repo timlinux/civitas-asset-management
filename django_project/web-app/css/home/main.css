@@ -272,3 +272,12 @@ html, body {
         opacity: 0.3;
     }
 }
+
+.leaflet-control-layers, .leaflet-control-layers-overlays label {
+    cursor: pointer;
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}

@@ -61,6 +61,7 @@
 {% block extrascripts %}
     <script type="text/javascript" src="{% static 'libs/chart.js/2.8.0.chart.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/shared.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/dashboard/env.js' %}"></script>
     <script data-main="{% static 'js/dashboard/config.js' %}" src="{% static 'libs/require.js/2.3.6/require.min.js' %}"></script>
     <script>
         const urls = {
@@ -70,11 +71,14 @@
             ticket_detail: "{% url 'helpdesk:view' ticket_id=0 %}"
         }
     </script>
+    {% include 'modal/_create-ticket.html' %}
 
     {% include 'widget/_financial-estimation-donut-chart.html' %}
     {% include 'widget/_quantity-widget_row.html' %}
-    {% include 'widget/_create-ticket.html' %}
     {% include 'widget/_ticket-detail.html' %}
     {% include 'widget/_please_select_feature.html' %}
+    {% include 'widget/_please_click_map.html' %}
+    {% include 'widget/_no_data_found.html' %}
+    {% include 'widget/_loading.html' %}
 
 {% endblock extrascripts %}

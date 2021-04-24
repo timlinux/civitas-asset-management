@@ -94,3 +94,83 @@
     color: gray;
 
 }
+
+/* FEATURE DETAIL */
+#features-detail table {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+#features-detail .tab-content,
+#features-detail .tab-pane {
+    width: 100%;
+}
+
+#features-detail .nav-tabs a {
+    padding: 10px;
+    display: block;
+    text-decoration: none;
+}
+
+#features-detail .nav-tabs a:hover {
+    color: #777;
+    background-color: #eee;
+    border-color: #eee #eee #ddd;
+}
+
+#features-detail .nav-tabs a.active,
+#features-detail .nav-tabs a.active:hover {
+    border-top: 1px solid #ccc;;
+    border-left: 1px solid #ccc;;
+    border-right: 1px solid #ccc;;
+    color: #555;
+    background-color: #fff;
+    cursor: default;
+}
+
+#features-detail .nav-tabs {
+    border: none;
+}
+
+#features-detail table .extra-property {
+    display: none;
+}
+
+#features-detail table .button {
+    background-color: #eee;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 300;
+}
+
+#features-detail table .button.hidden:after {
+    content: "▼";
+}
+
+#features-detail table .button.expand:after {
+    content: "▲";
+}
+
+#features-detail table .button:hover {
+    opacity: 0.5;
+}
+
+#features-detail table th,
+#features-detail table td {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+}
+
+#features-detail table th {
+    background-color: #ddd;
+}
+
+.fa-ticket {
+    color: green;
+    cursor: pointer;
+    margin-top: 3px;
+}
+
+.fa-ticket:hover {
+    opacity: 0.5;
+}

@@ -9,6 +9,10 @@ html, body {
     font-family: Roboto, Arial, sans-serif;
 }
 
+body {
+    background-color: #eee;
+}
+
 #navbar {
     height: var(--navbar-height);
     width: 100%;
@@ -128,5 +132,6 @@ html, body {
     margin-bottom: 20px;
     border: 1px solid #ddd;
     padding: 20px;
-    box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
+    box-shadow: var(--box-shadow);
+    background-color: white;
 }

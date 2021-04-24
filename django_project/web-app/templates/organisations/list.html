@@ -18,28 +18,62 @@
             border: 1px solid #ddd;
             padding: 8px 15px;
         }
+
+        h2 {
+            position: relative;
+        }
+
+        h2 a {
+            position: absolute;
+            right: 0;
+        }
     </style>
 {% endblock stylesheet %}
 
 {% block container %}
     <div class="container">
-        <h2> Organisation List</h2>
+        <h2> Organisation List
+            {% if object_list %}
+                <a href="{% url "organisation_create" %}">
+                    <button type="submit" class="btn btn-primary">
+                        Create organisation
+                    </button>
+                </a>
+            {% endif %}
+        </h2>
         <hr>
-        <table>
-            <tr>
-                <th>Organisation</th>
-                <th>Role</th>
-                <th></th>
-            </tr>
-            {% for org in object_list %}
-                {% user_role org user as role %}
+        {% if object_list %}
+            <table>
                 <tr>
-                    <td>{{ org.name }}</td>
-                    <td>{{ role }}</td>
-                    <td>{% if role == 'Admin' %}<a href="{% url "organisation_form" org.id %}">Edit</a>{% endif %}</td>
+                    <th>Organisation</th>
+                    <th>Role</th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-        </table>
+                {% for org in object_list %}
+                    {% user_role org user as role %}
+                    <tr>
+                        <td>{{ org.name }}</td>
+                        <td>{{ role }}</td>
+                        <td>{% if role == 'Admin' or role == 'Owner' %}<a href="{% url "organisation_edit" org.id %}">Edit</a>{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <div style="text-align: center">
+                <br>
+                <br>
+                You don't have organisation or in any organisation. <br>
+                You can create one in here.
+                <br>
+                <br>
+                <br>
+                <a href="{% url "organisation_create" %}">
+                    <button type="submit" class="btn btn-primary">
+                        Create organisation
+                    </button>
+                </a>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 

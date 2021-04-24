@@ -4,6 +4,7 @@ __date__ = '22/01/21'
 from django.contrib.gis.db import models
 from django.db.models import Q
 from django.utils.translation import ugettext_lazy as _
+from djstripe.models import Subscription
 from amlit.models.user import User
 from core.models.term import TermModel
 
@@ -46,16 +47,27 @@ class Organisation(TermModel):
         help_text=_('Community code for this organisation'),
         null=True, blank=True,
     )
+
+    objects = models.Manager()
     by_user = OrganisationByUser()
 
     # check current active subscription
     subscription = models.ForeignKey(
-        'amlit.Subscription',
+        Subscription,
         on_delete=models.SET_NULL,
         verbose_name=_('Subscription'),
-        null=True, blank=True,
+        null=True,
+        blank=True,
         related_name='organisation_subscription'
     )
+
+    def is_owner(self, user):
+        """ Return user is owner role
+        :type user: User
+        """
+        if self.owner == user:
+            return True
+        return False
 
     def is_admin(self, user):
         """ Return user is admin role
@@ -73,11 +85,23 @@ class Organisation(TermModel):
         :type user: User
         """
         if self.owner == user:
-            return UserRole.ADMIN
+            return UserRole.OWNER
         try:
             return UserOrganisation.objects.get(user=user, organisation=self).role.name
         except UserOrganisation.DoesNotExist:
             return UserRole.UNKNOWN
+
+    def save(self, *args, **kwargs):
+        super(Organisation, self).save(*args, **kwargs)
+        max_user = self.get_max_user()
+        for idx, access in enumerate(self.userorganisation_set.all().order_by('-pk')):
+            if idx + 1 > max_user:
+                access.delete()
+
+    def get_max_user(self):
+        if self.subscription:
+            return self.subscription.plan.product.amlitproduct.max_user
+        return 0
 
 
 class RolePermission(TermModel):
@@ -92,6 +116,7 @@ class UserRole(TermModel):
     Role for user in organisation
     """
     ADMIN = 'Admin'
+    OWNER = 'Owner'
     UNKNOWN = 'Unknown'
 
     permissions = models.ManyToManyField(
