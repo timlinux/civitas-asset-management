@@ -4,8 +4,9 @@
 <script type="text/javascript" src="{% static 'libs/leaflet/1.5.1/leaflet.js' %}"></script>
 <h4>{% trans "Asset" %}</h4>
 <div id="map-wrapper">
-    <i>loading</i>
+    <i>Loading</i>
 </div>
+
 
 <script>
     $(document).ready(function () {
@@ -26,6 +27,8 @@
                 layers: [osm, layer]
             });
             map.fitBounds(layer.getBounds());
+        }).fail(function () {
+            $('#map-wrapper').html('<i>Aset is not found</i>')
         });
 
     });

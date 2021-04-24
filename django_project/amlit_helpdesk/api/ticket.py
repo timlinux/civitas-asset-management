@@ -1,14 +1,14 @@
 __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '08/03/21'
 
-from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 
 from amlit_helpdesk.models.feature_ticket import FeatureTicket
-from civitas.models.feature.feature_geometry import FeatureGeometry
+from civitas.models.feature.feature_geometry import FeatureBase
 from civitas.serializer.features import FeatureGeometryGeoSerializer
 from helpdesk.serializers import DatatablesTicketSerializer
 
@@ -36,5 +36,5 @@ class FeatureTicketFeatureDetailAPI(APIView):
 
     def get(self, request, id, *args):
         feature_ticket = get_object_or_404(FeatureTicket, ticket_id=id)
-        feature = get_object_or_404(FeatureGeometry, id=feature_ticket.feature_id)
+        feature = get_object_or_404(FeatureBase, id=feature_ticket.feature_id)
         return JsonResponse(FeatureGeometryGeoSerializer(feature).data)

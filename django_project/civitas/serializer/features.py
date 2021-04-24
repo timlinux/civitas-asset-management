@@ -1,10 +1,11 @@
 __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '18/11/20'
+
 from rest_framework import serializers
 from rest_framework_gis.serializers import (
     GeoFeatureModelSerializer, GeometrySerializerMethodField)
 
-from civitas.models.feature.feature_geometry import FeatureGeometry
+from civitas.models.feature.feature_geometry import FeatureBase, FeatureGeometry
 from civitas.models.view.feature_calculations import FeatureCalculation
 
 
@@ -95,14 +96,14 @@ class FeatureGeometryGeoSerializer(GeoFeatureModelSerializer):
 
     def get_geometry(self, obj):
         """ Get geometry
-        :type obj: FeatureGeometry
+        :type obj: FeatureBase
         """
         try:
-            return obj.geometry()
+            return obj.featuregeometry.geometry()
         except FeatureGeometry.DoesNotExist:
             return None
 
     class Meta:
-        model = FeatureGeometry
+        model = FeatureBase
         geo_field = 'geometry'
-        fields = ('id',)
+        fields = '__all__'
