@@ -32,10 +32,12 @@ define([
                         if (Object.keys(feature.properties).length > 0) {
                             html += `
                                 <tr>
-                                    <td class="button hidden" colspan="2">Open attributes</td>
+                                    <td class="button hidden" colspan="2">Attributes</td>
                                 </tr>`;
                         }
-                        $.each(feature.properties, function (key, value) {
+                        const keys = Object.keys(feature.properties).sort();
+                        $.each(keys, function (value, key) {
+                            value = feature.properties[key];
                             if (key !== 'feature_id') {
                                 html += `
                                 <tr class="extra-property">
@@ -59,9 +61,11 @@ define([
                     })
                     this.$content.find('table').find('.fa-ticket').click(function () {
                         const ID = $(this).data('feature-id');
-                        $("#create-ticket-modal").find('select, inpu').val('');
+                        $("#create-ticket-modal").find('select, input, textarea').not('*[name="csrfmiddlewaretoken"]').val('');
                         $('.feature-id-title').html(ID);
                         $('#feature-id-input').val(ID);
+                        $('#id_priority').attr('required', true)
+                        $('#id_priority').val(3)
                     })
                 } else {
                     this.$content.html(

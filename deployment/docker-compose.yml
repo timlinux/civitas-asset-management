@@ -33,6 +33,10 @@ x-common-django:
     - STRIPE_TEST_SECRET_KEY=${STRIPE_TEST_SECRET_KEY}
     - STRIPE_LIVE_MODE=${STRIPE_LIVE_MODE}
     - DJSTRIPE_WEBHOOK_SECRET=${DJSTRIPE_WEBHOOK_SECRET}
+    # email
+    - EMAIL_HOST_USER="${EMAIL_HOST_USER}@${EMAIL_HOST_DOMAIN}"
+    - EMAIL_HOST_PASSWORD="${EMAIL_HOST_PASSWORD}"
+    - EMAIL_HOST=${EMAIL_HOST}
   volumes:
     - ../django_project:/home/web/django_project
     - ../django-helpdesk:/home/web/django-helpdesk
@@ -48,6 +52,14 @@ services:
     volumes:
       - rabbitmq:/var/lib/rabbitmq
     restart: on-failure
+
+  # postfix with smtp authentication (sasldb) TLS and OpenDKIM support are optional
+  smtp:
+    image: catatnight/postfix
+    environment:
+      maildomain: "${EMAIL_HOST_DOMAIN}"
+      smtp_user: "${EMAIL_HOST_USER}:${EMAIL_HOST_PASSWORD}"
+    restart: unless-stopped
 
   db:
     image: kartoza/postgis:13.0
@@ -86,9 +98,15 @@ services:
   django:
     <<: *default-common-django
     command: 'uwsgi --ini /uwsgi.conf'
-  # Todo:
-  #  error : ModuleNotFoundError: No module named 'core'
-  #    entrypoint: ["/entrypoint.sh"]
+    # Todo:
+    #  error : ModuleNotFoundError: No module named 'core'
+    #    entrypoint: ["/entrypoint.sh"]
+
+  # Celery worker that executes celery tasks created by Django.
+  worker:
+    <<: *default-common-django
+    command: celery -A core worker -B -l debug
+    entrypoint: []
 
   web:
     image: nginx

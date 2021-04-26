@@ -10,7 +10,6 @@ from django.utils.translation import ugettext_lazy as _
 from amlit.models import User, UserTitle
 
 admin.site.unregister(FlatPage)
-admin.site.unregister(Site)
 admin.site.unregister(Redirect)
 
 

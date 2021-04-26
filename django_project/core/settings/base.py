@@ -129,7 +129,7 @@ INSTALLED_APPS = (
 
 LOGIN_URL = '/auth/login'
 SITE_ID = 1
-DEFAULT_FROM_EMAIL = 'meomancer@gmail.com'
+DEFAULT_FROM_EMAIL = 'noreply@kartoza.com'
 
 # Due to profile page does not available,
 # this will redirect to home page after login

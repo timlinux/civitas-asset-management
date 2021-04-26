@@ -3,17 +3,41 @@
 <link href="{% static 'libs/leaflet/1.5.1/leaflet.css' %}" rel="stylesheet" type="text/css" media="screen, projection"/>
 <script type="text/javascript" src="{% static 'libs/leaflet/1.5.1/leaflet.js' %}"></script>
 <h4>{% trans "Asset" %}</h4>
+<style>
+    #map-attributes table td {
+        border: 1px solid #ddd;
+    }
+</style>
 <div id="map-wrapper">
-    <i>Loading</i>
+    <div id="map" style="float: left;">
+        <i>Loading</i>
+    </div>
+    <div id="map-attributes" style="width: 20%; max-height: 100%;float: left; display: none; overflow-y: auto">
+        <table style="width: 100%;">
+        </table>
+    </div>
 </div>
 
 
 <script>
+    function capitalize(string) {
+        //check if it is already has upper case
+        string = string.replaceAll('_', ' ')
+        if (/[A-Z]/.test(string)) {
+            return string;
+        }
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     $(document).ready(function () {
+        const $map = $('#map');
+        const $mapWrapper = $('#map-wrapper');
+        const $attributes = $('#map-attributes');
         $.get("{% url 'amlit_helpdesk:feature-ticket-detail' id=ticket.id %}", function (data) {
-            $('#map-wrapper').html('')
-            $('#map-wrapper').css("width", "100%");
-            $('#map-wrapper').css("height", "400px");
+            $map.html('')
+            $map.css("width", "80%");
+            $map.css("height", "100%");
+            $mapWrapper.css("height", "400px");
 
             {# setup map #}
             var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -21,14 +45,26 @@
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             });
             var layer = L.geoJSON(data.geometry);
-            const map = L.map('map-wrapper', {
+            const map = L.map('map', {
                 center: [39.73, -104.99],
                 zoom: 10,
                 layers: [osm, layer]
             });
             map.fitBounds(layer.getBounds());
+            $attributes.show()
+
+            const keys = Object.keys(data.properties).sort();
+            $.each(keys, function (value, key) {
+                value = data.properties[key];
+                $attributes.find('table').append(`
+               <tr>
+                  <td>${capitalize(key)}</td>
+                  <td>${value ? value : '-'}</td>
+               </tr>
+               `)
+            });
         }).fail(function () {
-            $('#map-wrapper').html('<i>Aset is not found</i>')
+            $map.html('<i>Aset is not found</i>')
         });
 
     });

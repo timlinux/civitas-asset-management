@@ -93,6 +93,13 @@ class FeatureCalculationGeoSerializer(GeoFeatureModelSerializer):
 
 class FeatureGeometryGeoSerializer(GeoFeatureModelSerializer):
     geometry = GeometrySerializerMethodField()
+    sub_class = serializers.SerializerMethodField()
+    system = serializers.SerializerMethodField()
+    type = serializers.SerializerMethodField()
+    cof = serializers.SerializerMethodField()
+    pof = serializers.SerializerMethodField()
+    condition = serializers.SerializerMethodField()
+    quantity = serializers.SerializerMethodField()
 
     def get_geometry(self, obj):
         """ Get geometry
@@ -103,7 +110,57 @@ class FeatureGeometryGeoSerializer(GeoFeatureModelSerializer):
         except FeatureGeometry.DoesNotExist:
             return None
 
+    def get_sub_class(self, obj):
+        """
+        :type obj: FeatureBase
+        """
+        return obj.sub_class.name
+
+    def get_system(self, obj):
+        """
+        :type obj: FeatureBase
+        """
+        return obj.system.name
+
+    def get_type(self, obj):
+        """
+        :type obj: FeatureBase
+        """
+        return obj.type.name
+
+    def get_cof(self, obj):
+        """
+        :type obj: FeatureBase
+        """
+        return obj.cof.name
+
+    def get_pof(self, obj):
+        """
+        :type obj: FeatureBase
+        """
+        return obj.pof.name
+
+    def get_condition(self, obj):
+        """
+        :type obj: FeatureBase
+        """
+        return obj.condition.name
+
+    def get_quantity(self, obj):
+        """
+        :type obj: FeatureBase
+        """
+        return '{} {}'.format(obj.quantity, obj.sub_class.unit.name)
+
+    def to_representation(self, instance):
+        """ Additional properties
+        :type instance: FeatureBase
+        """
+        data = super(FeatureGeometryGeoSerializer, self).to_representation(instance)
+        data['properties']['class'] = instance.the_class.name if instance.the_class else '-'
+        return data
+
     class Meta:
         model = FeatureBase
         geo_field = 'geometry'
-        fields = '__all__'
+        exclude = ('the_class', 'view_name')
