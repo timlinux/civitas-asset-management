@@ -34,10 +34,13 @@ define([
             // create layers
             let layers = {};
             QGISLayers.forEach(layer => {
-                const layerObj = L.tileLayer.wms(QGISUrl + '?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities?', {
-                    format: 'image/png',
-                    transparent: true,
-                    layers: layer
+                const layerObj = L.tileLayer.wms(QGISUrl, {
+                    SERVICE: 'WMS',
+                    VERSION: '1.3.0',
+                    REQUEST: 'GetMap',
+                    FORMAT: 'image/png',
+                    TRANSPARENT: true,
+                    LAYERS: layer
                 });
                 layers[layer] = layerObj;
                 layerObj.addTo(this.map);
