@@ -19,22 +19,25 @@ define([
                         `)
                         let html = `                            
                                 <tr>
-                                    <th colspan="2">${feature.id} 
-                                        <i class="fa fa-ticket pull-right" 
-                                        data-toggle="modal" data-target="#create-ticket-modal" data-feature-id="${ID}" aria-hidden="true"></i>
+                                    <th colspan="2">
+                                        <div class="feature-header">${feature.id}
+                                            <div class="feature-title"></div> 
+                                        </div>
                                     </th>
+                                </tr>                          
+                                <tr class="feature-create-ticket-row">
+                                    <td colspan="2">                                        
+                                        <div class="feature-create-ticket" data-toggle="modal" data-target="#create-ticket-modal" data-feature-id="${ID}" >
+                                            <i class="fa fa-ticket" aria-hidden="true"></i>
+                                            Create ticket
+                                        </div>
+                                    </td>
                                 </tr>`;
                         html += `
                             <tr>
                                 <td>ID</td>
                                 <td>${ID}</td>
                             </tr>`
-                        if (Object.keys(feature.properties).length > 0) {
-                            html += `
-                                <tr>
-                                    <td class="button hidden" colspan="2">Attributes</td>
-                                </tr>`;
-                        }
                         const keys = Object.keys(feature.properties).sort();
                         $.each(keys, function (value, key) {
                             value = feature.properties[key];
@@ -59,7 +62,7 @@ define([
                         $(this).toggleClass('expand');
                         $(this).closest('table').find('.extra-property').toggle();
                     })
-                    this.$content.find('table').find('.fa-ticket').click(function () {
+                    this.$content.find('table').find('.feature-create-ticket').click(function () {
                         const ID = $(this).data('feature-id');
                         $("#create-ticket-modal").find('select, input, textarea').not('*[name="csrfmiddlewaretoken"]').val('');
                         $('.feature-id-title').html(ID);

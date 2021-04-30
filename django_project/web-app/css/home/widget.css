@@ -118,22 +118,23 @@
     border-color: #eee #eee #ddd;
 }
 
+#features-detail .nav-tabs a {
+    border: 1px solid #ddd;
+    color: #777;
+    font-size: 12px;
+    margin-top: -1px;
+}
+
 #features-detail .nav-tabs a.active,
 #features-detail .nav-tabs a.active:hover {
-    border-top: 1px solid #ccc;;
-    border-left: 1px solid #ccc;;
-    border-right: 1px solid #ccc;;
-    color: #555;
-    background-color: #fff;
-    cursor: default;
+    border: 1px solid var(--primary-color);
+    background-color: var(--primary-color);
+    font-weight: 700;
+    color: white;
 }
 
 #features-detail .nav-tabs {
     border: none;
-}
-
-#features-detail table .extra-property {
-    display: none;
 }
 
 #features-detail table .button {
@@ -157,20 +158,45 @@
 
 #features-detail table th,
 #features-detail table td {
-    border: 1px solid #ccc;
     padding: 5px 10px;
 }
 
 #features-detail table th {
-    background-color: #ddd;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px;
 }
 
-.fa-ticket {
-    color: green;
+#features-detail tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+#features-detail tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+#features-detail tbody tr:last-of-type {
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.feature-create-ticket-row {
+    background-color: white !important;
+    border: none !important;
+    padding: 0;
+}
+
+.feature-create-ticket-row td {
+    padding: 5px 0 !important;
+}
+
+.feature-create-ticket {
     cursor: pointer;
-    margin-top: 3px;
+    padding: 10px;
+    text-align: center;
+    border: 1px dashed green;
+    color: green;
 }
 
-.fa-ticket:hover {
-    opacity: 0.5;
+.feature-create-ticket:hover {
+    opacity: 0.7;
 }
