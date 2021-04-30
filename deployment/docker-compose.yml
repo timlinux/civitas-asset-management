@@ -111,14 +111,26 @@ services:
   web:
     image: nginx
     hostname: nginx
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
     volumes:
       - ./sites-enabled:/etc/nginx/conf.d:ro
       - ./volumes/static:/home/web/static:ro
       - ./volumes/media:/home/web/media:ro
       - ./volumes/logs:/var/log/nginxs
+      - ./volumes/certbot/conf:/etc/letsencrypt
+      - ./volumes/certbot/www:/var/www/certbot
     ports:
-      - "${HTTP_HOST}:8080"
+      - "${HTTP_HOST}:80"
+      - "${HTTPS_HOST}:8080"
+
     restart: on-failure:5
+
+  certbot:
+    image: certbot/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    volumes:
+      - ./volumes/certbot/conf:/etc/letsencrypt
+      - ./volumes/certbot/www:/var/www/certbot
 
   # QGIS openquake
   qgis-server:
@@ -159,6 +171,7 @@ services:
       - "6003:22"
     depends_on:
       - qgis-server
+
 volumes:
   database:
   rabbitmq:
