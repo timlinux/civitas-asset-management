@@ -116,6 +116,8 @@ services:
       - ./volumes/static:/home/web/static:ro
       - ./volumes/media:/home/web/media:ro
       - ./volumes/logs:/var/log/nginxs
+      - ./volumes/certbot/conf:/etc/letsencrypt
+      - ./volumes/certbot/www:/var/www/certbot
     ports:
       - "${HTTP_HOST}:8080"
     restart: on-failure:5
@@ -159,6 +161,13 @@ services:
       - "6003:22"
     depends_on:
       - qgis-server
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./volumes/certbot/conf:/etc/letsencrypt
+      - ./volumes/certbot/www:/var/www/certbot
+
 volumes:
   database:
   rabbitmq:
