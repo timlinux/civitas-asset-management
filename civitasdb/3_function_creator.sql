@@ -48,7 +48,7 @@ CREATE OR REPLACE FUNCTION function_remaining_years (condition_value numeric, de
 		years_remaining = (life_fraction * lifespan_value) + DATE_PART('year', inspection_date) - DATE_PART('year', CURRENT_DATE);
 		
 		END IF;
-	RETURN years_remaining::NUMERIC(3,0);
+	RETURN years_remaining::NUMERIC(7,0);
 	END;
 	$$;
 	
