@@ -1812,7 +1812,6 @@ BEGIN
 	(SELECT nextval('feature_base_id_seq')),
 	NEW.file_reference,
 	_view_name,
-	NEW.lifespan,
 	NEW.display_label,
 	(SELECT user_community.user_name FROM user_community, system WHERE NEW.system_id = system.id AND system.community_id = user_community.community_id)
 	);
@@ -2064,7 +2063,6 @@ UPDATE feature_base
 		cof = NEW.cof,
 		file_reference = NEW.file_reference,
 		view_name = NEW.view_name,
-		lifespan = NEW.lifespan,
 		display_label = NEW.display_label,
 		user_name = (SELECT user_community.user_name FROM user_community, system WHERE NEW.system_id = system.id AND system.community_id = user_community.community_id)
 	WHERE id = _feature_id;
