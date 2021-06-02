@@ -1774,6 +1774,60 @@ COMMENT ON FUNCTION public.feature_base_inserter()
     IS 'pass in arguements of (''asset_class_name'', ''asset_sub_class_name'', ''view_name'')';
 -- END FEATURE BASE INSERTER
 
+-- START FEATURE BASE INSERTER NATURAL
+CREATE OR REPLACE FUNCTION public.feature_base_inserter_natural()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+DECLARE
+	_asset_class_name TEXT = TG_ARGV[0];
+	_asset_sub_class_name TEXT = TG_ARGV[1];
+	_view_name TEXT = TG_ARGV[2];
+
+BEGIN
+
+--insert feature base values
+	INSERT INTO feature_base (
+    	description,
+    	class_id, --preset value
+    	sub_class_id, --preset value
+    	type_id,
+    	system_id,
+    	cof,
+	id,
+	file_reference,
+	view_name, --preset value
+	display_label,
+	user_name
+    	)
+	VALUES (
+    	NEW.description,
+    	(SELECT id FROM asset_class WHERE name = _asset_class_name),
+    	(SELECT id FROM asset_sub_class WHERE name = _asset_sub_class_name),
+    	NEW.type_id,
+    	NEW.system_id,
+    	NEW.cof,
+	(SELECT nextval('feature_base_id_seq')),
+	NEW.file_reference,
+	_view_name,
+	NEW.lifespan,
+	NEW.display_label,
+	(SELECT user_community.user_name FROM user_community, system WHERE NEW.system_id = system.id AND system.community_id = user_community.community_id)
+	);
+		
+RETURN NEW;
+END;
+$BODY$;
+
+ALTER FUNCTION public.feature_base_inserter_natural()
+    OWNER TO doadmin;
+
+COMMENT ON FUNCTION public.feature_base_inserter_natural()
+    IS 'pass in arguements of (''asset_class_name'', ''asset_sub_class_name'', ''view_name'')';
+-- END FEATURE BASE INSERTER NATURAL
+
 -- START FEATURE INSERTER EQUIPMENT
 CREATE OR REPLACE FUNCTION public.feature_base_inserter_equipment()
     RETURNS trigger
@@ -1984,6 +2038,44 @@ $BODY$;
 ALTER FUNCTION public.feature_base_updater_equipment()
     OWNER TO doadmin;
 -- END FEATURE BASE UPDATER EQUIPMENT
+
+-- START FEATURE BASE UPDATER NATURAL
+CREATE OR REPLACE FUNCTION public.feature_base_updater_natural()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+DECLARE 
+	_feature_id INTEGER;
+
+BEGIN
+--set variables
+	_feature_id = OLD.feature_id;
+
+--update feature base table attributes
+UPDATE feature_base
+	SET 
+		description = NEW.description,
+		class_id = NEW.class_id,
+		sub_class_id = NEW.sub_class_id,
+		type_id = NEW.type_id,
+		system_id = NEW.system_id,
+		cof = NEW.cof,
+		file_reference = NEW.file_reference,
+		view_name = NEW.view_name,
+		lifespan = NEW.lifespan,
+		display_label = NEW.display_label,
+		user_name = (SELECT user_community.user_name FROM user_community, system WHERE NEW.system_id = system.id AND system.community_id = user_community.community_id)
+	WHERE id = _feature_id;
+
+RETURN NEW;
+END;
+$BODY$;
+
+ALTER FUNCTION public.feature_base_updater_natural()
+    OWNER TO doadmin;
+-- END FEATURE BASE UPDATER
 
 -- START FEATURE DELETER
 CREATE OR REPLACE FUNCTION public.feature_deleter()
