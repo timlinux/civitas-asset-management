@@ -1972,7 +1972,7 @@ UPDATE feature_base
 		file_reference = NEW.file_reference,
 		view_name = NEW.view_name,
 		lifespan = NEW.lifespan,
-		structure_id = NEW.structure_id,
+		parent_feature_id = NEW.parent_feature_id,
 		display_label = NEW.display_label,
 		user_name = (SELECT user_community.user_name FROM user_community, system WHERE NEW.system_id = system.id AND system.community_id = user_community.community_id)
 	WHERE id = _feature_id;
