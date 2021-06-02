@@ -52,6 +52,8 @@ DROP FUNCTION IF EXISTS public.feature_base_inserter_nosubclass();
 
 DROP FUNCTION IF EXISTS public.feature_base_updater();
 
+DROP FUNCTION IF EXISTS public.feature_base_updater_natural();
+
 DROP FUNCTION IF EXISTS public.feature_deleter();
 
 DROP FUNCTION IF EXISTS public.feature_deleter_nogeom();
