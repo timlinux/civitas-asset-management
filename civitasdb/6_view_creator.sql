@@ -9372,20 +9372,20 @@ CREATE OR REPLACE VIEW public.natural_wetland
  AS
  SELECT
  	feature_base.id AS feature_id,
-    feature_base.class_id,
-    feature_base.sub_class_id,
-    feature_base.type_id,
-    feature_base.system_id, 
-    feature_base.description,
-    feature_base.cof,
-    feature_base.file_reference,
-    feature_base.view_name,
-    feature_geometry.geom_polygon,
-    feature_base.display_label
+    	feature_base.class_id,
+    	feature_base.sub_class_id,
+   	feature_base.type_id,
+    	feature_base.system_id, 
+    	feature_base.description,
+    	feature_base.cof,
+    	feature_base.file_reference,
+    	feature_base.view_name,
+    	feature_geometry.geom_polygon,
+    	feature_base.display_label
    FROM feature_base,
-    feature_geometry,
-    system,
-    user_community
+    	feature_geometry,
+    	system,
+    	user_community
   WHERE ((feature_base.id = feature_geometry.feature_id) AND (feature_base.view_name = 'natural_wetland'::text) AND (feature_base.system_id = system.id) AND (system.community_id = user_community.community_id) AND ((user_community.user_name = CURRENT_USER) OR (CURRENT_USER = 'doadmin'::name) OR (CURRENT_USER = 'technician'::name)));
 
 ALTER TABLE public.natural_wetland
@@ -9400,14 +9400,14 @@ CREATE TRIGGER a_insert_base
     INSTEAD OF INSERT
     ON public.natural_wetland
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_inserter('nat', 'wetland', 'natural_wetland');
+    EXECUTE PROCEDURE public.feature_base_inserter_natural('nat', 'wetland', 'natural_wetland');
 
 
 CREATE TRIGGER a_update_base
     INSTEAD OF UPDATE 
     ON public.natural_wetland
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_updater();
+    EXECUTE PROCEDURE public.feature_base_updater_natural();
 
 
 CREATE TRIGGER b_insert_geometry
@@ -9480,20 +9480,20 @@ CREATE OR REPLACE VIEW public.natural_waterway
  AS
  SELECT
  	feature_base.id AS feature_id,
-    feature_base.class_id,
-    feature_base.sub_class_id,
-    feature_base.type_id,
-    feature_base.system_id, 
-    feature_base.description,
-    feature_base.cof,
-    feature_base.file_reference,
-    feature_base.view_name,
-    feature_geometry.geom_line,
-    feature_base.display_label
+    	feature_base.class_id,
+    	feature_base.sub_class_id,
+    	feature_base.type_id,
+    	feature_base.system_id, 
+    	feature_base.description,
+    	feature_base.cof,
+    	feature_base.file_reference,
+    	feature_base.view_name,
+    	feature_geometry.geom_line,
+    	feature_base.display_label
    FROM feature_base,
-    feature_geometry,
-    system,
-    user_community
+    	feature_geometry,
+    	system,
+    	user_community
   WHERE ((feature_base.id = feature_geometry.feature_id) AND (feature_base.view_name = 'natural_waterway'::text) AND (feature_base.system_id = system.id) AND (system.community_id = user_community.community_id) AND ((user_community.user_name = CURRENT_USER) OR (CURRENT_USER = 'doadmin'::name) OR (CURRENT_USER = 'technician'::name)));
 
 ALTER TABLE public.natural_waterway
@@ -9508,14 +9508,14 @@ CREATE TRIGGER a_insert_base
     INSTEAD OF INSERT
     ON public.natural_waterway
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_inserter('nat', 'waterway', 'natural_waterway');
+    EXECUTE PROCEDURE public.feature_base_inserter_natural('nat', 'waterway', 'natural_waterway');
 
 
 CREATE TRIGGER a_update_base
     INSTEAD OF UPDATE 
     ON public.natural_waterway
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_updater();
+    EXECUTE PROCEDURE public.feature_base_updater_natural();
 
 
 CREATE TRIGGER b_insert_geometry
@@ -9588,20 +9588,20 @@ CREATE OR REPLACE VIEW public.natural_waterbody
  AS
  SELECT
  	feature_base.id AS feature_id,
-    feature_base.class_id,
-    feature_base.sub_class_id,
-    feature_base.type_id,
-    feature_base.system_id, 
-    feature_base.description,
-    feature_base.cof,
-    feature_base.file_reference,
-    feature_base.view_name,
-    feature_geometry.geom_polygon,
-    feature_base.display_label
+    	feature_base.class_id,
+    	feature_base.sub_class_id,
+    	feature_base.type_id,
+    	feature_base.system_id, 
+    	feature_base.description,
+    	feature_base.cof,
+    	feature_base.file_reference,
+    	feature_base.view_name,
+    	feature_geometry.geom_polygon,
+    	feature_base.display_label
    FROM feature_base,
-    feature_geometry,
-    system,
-    user_community
+    	feature_geometry,
+    	system,
+    	user_community
   WHERE ((feature_base.id = feature_geometry.feature_id) AND (feature_base.view_name = 'natural_waterbody'::text) AND (feature_base.system_id = system.id) AND (system.community_id = user_community.community_id) AND ((user_community.user_name = CURRENT_USER) OR (CURRENT_USER = 'doadmin'::name) OR (CURRENT_USER = 'technician'::name)));
 
 ALTER TABLE public.natural_waterbody
@@ -9616,14 +9616,14 @@ CREATE TRIGGER a_insert_base
     INSTEAD OF INSERT
     ON public.natural_waterbody
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_inserter('nat', 'waterbody', 'natural_waterbody');
+    EXECUTE PROCEDURE public.feature_base_inserter_natural('nat', 'waterbody', 'natural_waterbody');
 
 
 CREATE TRIGGER a_update_base
     INSTEAD OF UPDATE 
     ON public.natural_waterbody
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_updater();
+    EXECUTE PROCEDURE public.feature_base_updater_natural();
 
 
 CREATE TRIGGER b_insert_geometry
@@ -9724,14 +9724,14 @@ CREATE TRIGGER a_insert_base
     INSTEAD OF INSERT
     ON public.natural_vegetation
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_inserter('nat', 'vegetation', 'natural_vegetation');
+    EXECUTE PROCEDURE public.feature_base_inserter_natural('nat', 'vegetation', 'natural_vegetation');
 
 
 CREATE TRIGGER a_update_base
     INSTEAD OF UPDATE 
     ON public.natural_vegetation
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_updater();
+    EXECUTE PROCEDURE public.feature_base_updater_natural();
 
 
 CREATE TRIGGER b_insert_geometry
@@ -9832,14 +9832,14 @@ CREATE TRIGGER a_insert_base
     INSTEAD OF INSERT
     ON public.natural_grassland
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_inserter('nat', 'grassland', 'natural_grassland');
+    EXECUTE PROCEDURE public.feature_base_inserter_natural('nat', 'grassland', 'natural_grassland');
 
 
 CREATE TRIGGER a_update_base
     INSTEAD OF UPDATE 
     ON public.natural_grassland
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_updater();
+    EXECUTE PROCEDURE public.feature_base_updater_natural();
 
 
 CREATE TRIGGER b_insert_geometry
@@ -9940,14 +9940,14 @@ CREATE TRIGGER a_insert_base
     INSTEAD OF INSERT
     ON public.natural_forest
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_inserter('nat', 'forest', 'natural_forest');
+    EXECUTE PROCEDURE public.feature_base_inserter_natural('nat', 'forest', 'natural_forest');
 
 
 CREATE TRIGGER a_update_base
     INSTEAD OF UPDATE 
     ON public.natural_forest
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_updater();
+    EXECUTE PROCEDURE public.feature_base_updater_natural();
 
 
 CREATE TRIGGER b_insert_geometry
@@ -10048,14 +10048,14 @@ CREATE TRIGGER a_insert_base
     INSTEAD OF INSERT
     ON public.natural_aquifer
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_inserter('nat', 'aquifer', 'natural_aquifer');
+    EXECUTE PROCEDURE public.feature_base_inserter_natural('nat', 'aquifer', 'natural_aquifer');
 
 
 CREATE TRIGGER a_update_base
     INSTEAD OF UPDATE 
     ON public.natural_aquifer
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_updater();
+    EXECUTE PROCEDURE public.feature_base_updater_natural();
 
 
 CREATE TRIGGER b_insert_geometry
@@ -10156,14 +10156,14 @@ CREATE TRIGGER a_insert_base
     INSTEAD OF INSERT
     ON public.natural_animalia
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_inserter('nat', 'animalia', 'natural_animalia');
+    EXECUTE PROCEDURE public.feature_base_inserter_natural('nat', 'animalia', 'natural_animalia');
 
 
 CREATE TRIGGER a_update_base
     INSTEAD OF UPDATE 
     ON public.natural_animalia
     FOR EACH ROW
-    EXECUTE PROCEDURE public.feature_base_updater();
+    EXECUTE PROCEDURE public.feature_base_updater_natural();
 
 
 CREATE TRIGGER b_insert_geometry
