@@ -46,6 +46,8 @@ DROP FUNCTION IF EXISTS public.feature_base_inserter();
 
 DROP FUNCTION IF EXISTS public.feature_base_inserter_equipment();
 
+DROP FUNCTION IF EXISTS public.feature_base_inserter_natural();
+
 DROP FUNCTION IF EXISTS public.feature_base_inserter_nosubclass();
 
 DROP FUNCTION IF EXISTS public.feature_base_updater();
