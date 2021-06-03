@@ -126,7 +126,7 @@ class FeatureGeometryGeoSerializer(GeoFeatureModelSerializer):
         """
         :type obj: FeatureBase
         """
-        return obj.type.name
+        return obj.type.name if obj.type else '-'
 
     def get_cof(self, obj):
         """

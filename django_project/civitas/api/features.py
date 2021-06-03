@@ -1,22 +1,22 @@
 __author__ = 'Irwan Fathurrahman <meomancer@gmail.com>'
 __date__ = '18/11/20'
 
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from civitas.models.feature.feature_geometry import FeatureGeometry
+from civitas.models.feature.feature_geometry import FeatureBase
 from civitas.serializer.features import FeatureGeometryGeoSerializer
 
 
-class FeaturesGeojsonAPI(APIView):
+class FeatureGeojsonDetailAPI(APIView):
     """
     get:
-    Return geojson of features
+    Return geojson of a feature
     """
 
-    def get(self, request):
+    def get(self, request, pk):
         """ Return data of features """
-        systems = request.GET.get('systems', '').split(',')
-        query = FeatureGeometry.objects.filter(feature__system__id__in=systems)
+        feature = get_object_or_404(FeatureBase, pk=pk)
         return Response(
-            FeatureGeometryGeoSerializer(query, many=True).data
+            FeatureGeometryGeoSerializer(feature).data
         )

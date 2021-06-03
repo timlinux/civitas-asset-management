@@ -49,6 +49,8 @@ define([
             // add listener
             this.listener();
 
+            this.overlayLayer = new L.FeatureGroup();
+            this.map.addLayer(this.overlayLayer);
             // Draw layer
             // var drawnItems = new L.FeatureGroup();
             // this.map.addLayer(drawnItems);
@@ -89,6 +91,9 @@ define([
         listener: function () {
             event.register(this, evt.MAP_ADD_LAYER, this.addLayer);
             event.register(this, evt.MAP_REMOVE_LAYER, this.removeLayer);
+            event.register(this, evt.MAP_ADD_OVERLAY_FEATURE, this.addFeatureToOverlay);
+            event.register(this, evt.MAP_REMOVE_OVERLAY_FEATURE, this.removeFeatureToOverlay);
+            event.register(this, evt.MAP_REMOVE_ALL_OVERLAY_FEATURE, this.removeAllFeatureToOverlay);
             event.register(this, evt.MAP_PAN, this.panTo);
             event.register(this, evt.MAP_FLY, this.flyTo);
         },
@@ -116,6 +121,36 @@ define([
         removeLayer: function (layer) {
             try {
                 this.map.removeLayer(layer)
+            } catch (e) {
+
+            }
+        },
+        /**
+         * Add feature to overlay map
+         */
+        addFeatureToOverlay: function (feature) {
+            try {
+                feature.addTo(this.overlayLayer)
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        /**
+         * Remove feature from overlay map
+         */
+        removeFeatureToOverlay: function (feature) {
+            try {
+                this.overlayLayer.removeLayer(feature)
+            } catch (e) {
+
+            }
+        },
+        /**
+         * Remove feature from overlay map
+         */
+        removeAllFeatureToOverlay: function () {
+            try {
+                this.overlayLayer.clearLayers()
             } catch (e) {
 
             }

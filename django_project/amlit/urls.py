@@ -14,7 +14,8 @@ from amlit.views.organisations import (
 from civitas.api import (
     ProjectedReportAPI,
     CommunityAPI, CommunityDetailAPI,
-    SummaryAPI, FeaturesGeojsonAPI)
+    FeatureGeojsonDetailAPI,
+    SummaryAPI)
 
 organisation_url = [
     url(r'^(?P<pk>\d+)/edit',
@@ -34,17 +35,21 @@ organisation_url = [
         name='organisation_list'),
 ]
 
+FEATURE_API = [
+    url(r'^(?P<pk>\d+)',
+        view=FeatureGeojsonDetailAPI.as_view(),
+        name='feature-detail'),
+]
+
 API = [
     # API
     url(r'^report/projected/(?P<year>\d+)$',
         ProjectedReportAPI.as_view(),
         name='civitas-projected-report'),
+    url(r'^feature/', include(FEATURE_API)),
     url(r'^features/summary$',
         SummaryAPI.as_view(),
         name='civitas-features-summary'),
-    url(r'^features/geojson$',
-        FeaturesGeojsonAPI.as_view(),
-        name='civitas-features-geojson'),
 
     # community
     url(r'^community/(?P<id>\d+)$',

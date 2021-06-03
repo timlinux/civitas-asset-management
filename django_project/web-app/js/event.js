@@ -5,7 +5,10 @@ const evt = {
     MAP_PAN: 'map:pan', // pan the map
     MAP_FLY: 'map:fly', // fly the map
     MAP_ADD_LAYER: 'map:layer:add', // add layer to map
-    MAP_REMOVE_LAYER: 'map:layer:remove', // add layer to map
+    MAP_REMOVE_LAYER: 'map:layer:remove', // remove layer from map
+    MAP_ADD_OVERLAY_FEATURE: 'map:layer:add-overlay-feature', // add feature to overlay map
+    MAP_REMOVE_OVERLAY_FEATURE: 'map:layer:remove-overlay-feature', // remove feature from overlay map
+    MAP_REMOVE_ALL_OVERLAY_FEATURE: 'map:layer:remove-all-overlay-feature', // remove all feature from overlay map
     MAP_DRAW_DONE: 'map:draw:done', // draw done
     MAP_CLICKED: 'map:click', // draw click
     NOTIFICATION_ADD: 'notification:add', // add a notification

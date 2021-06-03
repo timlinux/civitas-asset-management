@@ -168,26 +168,6 @@ define([
                     function () {
                         /**fail**/
                     })
-
-                // call layer
-                this.layer.clearLayers();
-                if (this.layerRequest) {
-                    this.layerRequest.abort()
-                }
-                this.layerRequest = Request.get(
-                    urls.feature_geojson,
-                    {
-                        'systems': systems.join(',')
-                    },
-                    null,
-                    function (geojson) {
-                        /** success **/
-                        that.layer.addData(geojson);
-                        event.trigger(evt.MAP_FLY, that.layer.getBounds());
-                    },
-                    function () {
-                        /**fail**/
-                    })
             }
 
         },
