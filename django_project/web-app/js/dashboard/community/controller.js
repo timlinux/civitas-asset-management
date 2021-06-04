@@ -29,8 +29,13 @@ define([
             this.collection.fetch({
                 success: function () {
                     if (that.collection.models.length > 0) {
-
-                        that.collection.models.forEach(function (model) {
+                        let defaultCommunity = 0;
+                        that.collection.models.forEach(function (model, idx) {
+                            if (user.communityID) {
+                                if (model.id === user.communityID) {
+                                    defaultCommunity = idx;
+                                }
+                            }
                             $ul.append(`<li value="${model.id}">${model.get('name')}</li>`)
                         });
 
@@ -43,8 +48,9 @@ define([
                             if (that.collection.get($(this).val()) !== that.community) {
                                 that.change(that.collection.get($(this).val()))
                             }
-                        })
-                        $($ul.find('li')[0]).click();
+                        });
+                        console.log(defaultCommunity)
+                        $($ul.find('li')[defaultCommunity]).click();
                         $ul.hide();
                     }
                 }
@@ -58,6 +64,7 @@ define([
             this.$el.find('.province').html(community.get('province'));
             event.trigger(evt.COMMUNITY_CHANGE, null);
             community.selected();
+            setCookie('community', community.id);
         },
         /** Called when the geojson has changed
          * @param geojson
