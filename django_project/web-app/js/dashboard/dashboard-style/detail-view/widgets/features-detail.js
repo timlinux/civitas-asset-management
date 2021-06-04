@@ -225,7 +225,7 @@ define([
                     bounds._northEast.lat,
                     bounds._northEast.lng
                 ].join(','),
-                SRS: MAPSRS,
+                SRS: 'EPSG:4326',
                 HEIGHT: size.y,
                 WIDTH: size.x,
                 QUERY_LAYERS: QGISLayers.join(','),

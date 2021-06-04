@@ -44,14 +44,15 @@ html, body {
     z-index: 999;
 }
 
-.box-overlay {
+.box-overlay, .leaflet-control {
     background-color: rgba(255, 255, 255, 1);
     border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+    border: none !important;
 }
 
 .box-overlay .section {
-    padding: 10px;
+    padding: 5px;
     border-top: 1px solid #ddd;
 }
 
@@ -81,11 +82,6 @@ html, body {
 
 .selection .arrow {
     margin-right: 10px;
-}
-
-.selection:hover .arrow,
-.title:hover .arrow {
-    opacity: 1 !important;
 }
 
 .selection ul {
@@ -118,7 +114,7 @@ html, body {
 }
 
 #left-top .title {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     margin-bottom: 5px;
 }
@@ -128,7 +124,7 @@ html, body {
 }
 
 #left-top .name {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 #left-top .name,
@@ -158,7 +154,6 @@ html, body {
     left: 50%;
     position: absolute;
     z-index: 999;
-    border-radius: 0;
     width: 220px;
     margin-left: -100px;
 }
@@ -190,7 +185,7 @@ html, body {
 /* STYLES */
 #styles .selection {
     padding: 5px 0;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 #styles .selection ul {
@@ -202,7 +197,7 @@ html, body {
 /* SIDE PANEL */
 #side-panel {
     height: 100%;
-    width: 400px;
+    width: 350px;
     position: absolute;
     top: 0;
     right: 0;
@@ -224,13 +219,14 @@ html, body {
     position: absolute;
     left: -26px;
     top: 8px;
-    padding: 5px 5px;
+    padding: 15px 8px;
     cursor: pointer;
     background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: -1px 0px 4px rgb(0 0 0 / 30%);
     color: #aaa;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
+    font-size: 10px;
 }
 
 #side-panel .toggle-button:hover {
