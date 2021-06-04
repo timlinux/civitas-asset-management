@@ -1,12 +1,13 @@
 define([
     'backbone',
     'leaflet',
-    'jquery'
+    'jquery',
+    './map-qgis-layers'
 ], function (
-    Backbone, L, $) {
+    Backbone, L, $, QGISLayer) {
     return Backbone.View.extend({
         layers: [],
-        qgisLayers: {},
+        qgisLayers: null,
         overlayLayer: null,
         basemaps: {
             "OSM": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -20,24 +21,7 @@ define([
 
             // add basemap
             this.basemaps['OSM'].addTo(this.map);
-
-            // QGIS Layers
-            QGISLayers.forEach(layer => {
-                const layerObj = L.tileLayer.wms(QGISUrl, {
-                    SERVICE: 'WMS',
-                    VERSION: '1.3.0',
-                    REQUEST: 'GetMap',
-                    FORMAT: 'image/png',
-                    TRANSPARENT: true,
-                    LAYERS: layer
-                });
-                this.qgisLayers[layer] = layerObj;
-                layerObj.addTo(this.map);
-            });
-
-            L.control.layers(
-                this.basemaps, this.qgisLayers, { position: 'bottomleft', }
-            ).addTo(this.map);
+            this.qgisLayers = new QGISLayer(map);
 
             // add overlay layer
             this.overlayLayer = new L.FeatureGroup();

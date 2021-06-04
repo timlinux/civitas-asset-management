@@ -32,11 +32,11 @@ require([
     'underscore',
     'leaflet',
     'leafletDraw',
-    'map',
+    'map/map',
     '../event',
     '../request',
     'dashboard-style/controller',
-    'side-panel/controller',
+    'left-panel/controller',
     'community/controller',
 ], function (
     $, Backbone, _, L, LDraw, Map, _Event, _Request,

@@ -2,7 +2,7 @@ define([
     'backbone'], function (Backbone) {
     return Backbone.View.extend({
         initialize: function () {
-            this.$wrapper = $('#side-panel .content');
+            this.$wrapper = $('#right-panel .content');
             event.register(this, evt.MAP_CLICKED, this._mapClicked);
         },
         render: function () {

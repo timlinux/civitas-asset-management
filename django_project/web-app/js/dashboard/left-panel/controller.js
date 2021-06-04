@@ -1,7 +1,7 @@
 define([
     'backbone'], function (Backbone) {
     return Backbone.View.extend({
-        el: '#side-panel',
+        el: '#right-panel',
         initialize: function () {
             const that = this;
             this.$el.find('.toggle-button').click(function () {

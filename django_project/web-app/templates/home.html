@@ -16,27 +16,26 @@
     {% csrf_token %}
     <div id="map"></div>
 
-    {# town name and logo#}
-    <div id="left-top" class="ui-overlay box-overlay">
-        <div id="community" class="section">
-            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
-            <div class="detail" style="display: none">
-                <div class="selection">
-                    <span class="name"></span>
-                    <span class="arrow pull-right">▼</span>
-                    <ul class="main-ul" style="display: none"></ul>
+    <div id="left-top" class="side-panel">
+        <div class="inner full ui-overlay">
+            <div class="content full box-overlay">
+                <div id="community" class="section">
+                    <div class="loading"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading community list</div>
+                    <div class="detail" style="display: none">
+                        <div class="selection">
+                            <div class="name"></div>
+                            <ul class="main-ul" style="display: none"></ul>
+                        </div>
+                        <div class="region"></div>
+                        <div class="province"></div>
+                    </div>
                 </div>
-                <div class="region"></div>
-                <div class="province"></div>
-            </div>
-        </div>
-        <div id="system" class="section" style="display: none">
-            <div class="title">System
-                <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
-                <span class="arrow pull-right">▼</span>
-            </div>
-            <div class="detail" style="display: none">
-                <ul class="main-ul"></ul>
+                <div id="layer-list-toggle" class="section">
+                    <span id="see-layer-list"><i style="margin-left: -17px;" class="fa fa-chevron-down" aria-hidden="true"></i> See layer list</span>
+                    <span id="hide-layer-list"><i style="margin-left: -17px;" class="fa fa-chevron-up" aria-hidden="true"></i> Hide layer list</span>
+                </div>
+                <div id="layers" class="section">
+                </div>
             </div>
         </div>
     </div>
@@ -49,7 +48,7 @@
             </div>
         </div>
     </div>
-    <div id="side-panel">
+    <div id="right-panel" class="side-panel">
         <div class="inner full">
             <div class="toggle-button"></div>
             <div class="content full">

@@ -26,7 +26,7 @@ define([
             }).addTo(this.map);
 
             // init control
-            L.control.zoom({ position: 'bottomleft' }).addTo(this.map);
+            // L.control.zoom({ position: 'bottomleft' }).addTo(this.map);
 
             // Init layers
             this.layers = new MapLayer(this.map);

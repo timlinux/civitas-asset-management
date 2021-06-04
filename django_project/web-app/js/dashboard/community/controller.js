@@ -40,7 +40,7 @@ define([
                         });
 
                         // remove loading and show the list
-                        that.$el.find('.fa-spinner').remove();
+                        that.$el.find('.loading').remove();
                         that.$el.find('.detail').show();
 
                         // onclick list
@@ -49,7 +49,6 @@ define([
                                 that.change(that.collection.get($(this).val()))
                             }
                         });
-                        console.log(defaultCommunity)
                         $($ul.find('li')[defaultCommunity]).click();
                         $ul.hide();
                     }
