@@ -1,5 +1,5 @@
 :root {
-    --navbar-height: 56px;
+    --navbar-height: 40px;
     --white: #ffffff;
     --primary-color: #343a40;
     --box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
@@ -27,7 +27,6 @@ body {
 
 #navbar .navbar-options {
     height: 100%;
-    padding-top: 8px;
     color: rgba(255, 255, 255, .5);
     cursor: default;
 }
@@ -37,8 +36,9 @@ body {
 }
 
 .dropdown-menu {
-    top: 18px !important;
-    margin-top: 5px;
+    top: 9px !important;
+    font-size: 14px;
+    left: -10px !important;
     box-shadow: var(--box-shadow);
     padding: 0 !important;
 }
@@ -97,7 +97,6 @@ body {
     font-size: 16px;
     height: 100%;
     margin-left: 20px;
-    padding-top: 8px;
     display: inline-block;
 }
 

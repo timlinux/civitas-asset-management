@@ -1,9 +1,10 @@
 define([
     'backbone',
     'leaflet',
-    'jquery'
+    'jquery',
+    './map-layers'
 ], function (
-    Backbone, L, $) {
+    Backbone, L, $, MapLayer) {
     return Backbone.View.extend({
         initBounds: [[-25.232732932266735, 93.85489258365217], [19.985307983544566, 142.16236486638226]],
         basemaps: {
@@ -14,7 +15,6 @@ define([
         /** Initialization
          */
         initialize: function () {
-            const that = this;
             this.map = L.map('map',
                 {
                     attributionControl: false,
@@ -26,25 +26,10 @@ define([
             }).addTo(this.map);
 
             // init control
-            L.control.zoom({ position: 'bottomleft' }).addTo(this.map);
+            // L.control.zoom({ position: 'bottomleft' }).addTo(this.map);
 
-            // add basemap
-            this.basemaps['OSM'].addTo(this.map);
-
-            // create layers
-            let layers = {};
-            QGISLayers.forEach(layer => {
-                const layerObj = L.tileLayer.wms(QGISUrl, {
-                    SERVICE: 'WMS',
-                    VERSION: '1.3.0',
-                    REQUEST: 'GetMap',
-                    FORMAT: 'image/png',
-                    TRANSPARENT: true,
-                    LAYERS: layer
-                });
-                layers[layer] = layerObj;
-                layerObj.addTo(this.map);
-            });
+            // Init layers
+            this.layers = new MapLayer(this.map);
 
             // add listener
             this.listener();
@@ -75,85 +60,16 @@ define([
             // this.map.on(L.Draw.Event.CREATED, function (e) {
             //     event.trigger(evt.MAP_DRAW_DONE, e.layer);
             // });
-
-            this.markerIndicator = null;
             this.map.on('click', function (e) {
                 event.trigger(evt.MAP_CLICKED, e.latlng);
             });
-
-            L.control.layers(
-                this.basemaps, layers, { position: 'bottomleft', }
-            ).addTo(this.map);
 
         },
         /** Init listener for map
          */
         listener: function () {
-            event.register(this, evt.MAP_ADD_LAYER, this.addLayer);
-            event.register(this, evt.MAP_REMOVE_LAYER, this.removeLayer);
-            event.register(this, evt.MAP_ADD_OVERLAY_FEATURE, this.addFeatureToOverlay);
-            event.register(this, evt.MAP_REMOVE_OVERLAY_FEATURE, this.removeFeatureToOverlay);
-            event.register(this, evt.MAP_REMOVE_ALL_OVERLAY_FEATURE, this.removeAllFeatureToOverlay);
             event.register(this, evt.MAP_PAN, this.panTo);
             event.register(this, evt.MAP_FLY, this.flyTo);
-        },
-        addMarkerIndicator: function (latlng) {
-            // add marker indicator
-            if (this.markerIndicator) {
-                this.markerIndicator.removeFrom(this.map);
-            }
-            this.markerIndicator = new L.marker(latlng)
-            this.markerIndicator.addTo(this.map);
-        },
-        /**
-         * Add layer to map
-         */
-        addLayer: function (layer) {
-            try {
-                layer.addTo(this.map)
-            } catch (e) {
-
-            }
-        },
-        /**
-         * Remove layer from map
-         */
-        removeLayer: function (layer) {
-            try {
-                this.map.removeLayer(layer)
-            } catch (e) {
-
-            }
-        },
-        /**
-         * Add feature to overlay map
-         */
-        addFeatureToOverlay: function (feature) {
-            try {
-                feature.addTo(this.overlayLayer)
-            } catch (e) {
-                console.log(e)
-            }
-        },
-        /**
-         * Remove feature from overlay map
-         */
-        removeFeatureToOverlay: function (feature) {
-            try {
-                this.overlayLayer.removeLayer(feature)
-            } catch (e) {
-
-            }
-        },
-        /**
-         * Remove feature from overlay map
-         */
-        removeAllFeatureToOverlay: function () {
-            try {
-                this.overlayLayer.clearLayers()
-            } catch (e) {
-
-            }
         },
         /**
          * Pan map to lat lng
