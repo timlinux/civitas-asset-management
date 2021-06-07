@@ -161,7 +161,7 @@ CREATE OR REPLACE VIEW feature_projection AS
 		feature_calculation_lookup.remaining_years_method,
 		feature_base.inspection_date)
 	AS remaining_years,
-	((feature_calculation.renewal_cost/feature_calculation.lifespan) + feature_calculation.maintenance_cost)::numeric(11,2) as annual_reserve
+	((feature_calculation.renewal_cost/feature_calculation.lifespan))::numeric(11,2) as annual_reserve
 	
 	
 	FROM feature_base, feature_calculation_lookup, feature_calculation
