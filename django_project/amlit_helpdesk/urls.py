@@ -4,12 +4,18 @@ __date__ = '19/08/20'
 from django.conf.urls import url
 from django.urls import include
 
-from amlit_helpdesk.api.ticket import FeatureTicketListView, FeatureTicketFeatureDetailAPI
+from amlit_helpdesk.api.ticket import (
+    TicketListView,
+    FeatureTicketListView,
+    FeatureTicketFeatureDetailAPI)
 from amlit_helpdesk.views import public
 
 app_name = 'amlit_helpdesk'
 
 api_url = [
+    url(r'^tickets/$',
+        view=TicketListView.as_view(),
+        name='ticket-list'),
     url(r'^feature/(?P<id>\d+)/tickets/$',
         view=FeatureTicketListView.as_view(),
         name='feature-ticket-list'),

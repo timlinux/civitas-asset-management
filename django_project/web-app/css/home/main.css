@@ -360,30 +360,34 @@ html, body {
     overflow-y: auto;
 }
 
-.side-panel .toggle-button {
+#side-panel-toggle-button {
     position: absolute;
-    left: -26px;
+    left: -25px;
     top: 8px;
+}
+
+#side-panel-toggle-button .toggle-button:first-child {
+    margin-top: 0 !important;
+}
+
+#side-panel-toggle-button .toggle-button {
     padding: 15px 8px;
     cursor: pointer;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(28, 165, 28, 0.9);
     box-shadow: -1px 0px 4px rgb(0 0 0 / 30%);
-    color: #aaa;
+    color: white;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
     font-size: 10px;
 }
 
+#side-panel-toggle-button .toggle-button.hidden {
+    color: #aaa;
+    background: rgba(255, 255, 255, 0.9);
+}
+
 .side-panel .toggle-button:hover {
     color: rgba(170, 170, 170, 0.7);
-}
-
-.side-panel .toggle-button:after {
-    content: '►';
-}
-
-.side-panel .toggle-button.hidden:after {
-    content: '◄';
 }
 
 .side-panel .loading {

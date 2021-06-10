@@ -36,11 +36,10 @@ require([
     '../event',
     '../request',
     'dashboard-style/controller',
-    'left-panel/controller',
     'community/controller',
 ], function (
     $, Backbone, _, L, LDraw, Map, _Event, _Request,
-    DashboardStyleController, SidePanelController, CommunityConstroller) {
+    DashboardStyleController, CommunityConstroller) {
     csrfmiddlewaretoken = $('input[name ="csrfmiddlewaretoken"]').val();
     event = new _Event();
     Request = new _Request();
@@ -52,5 +51,4 @@ require([
     // init system/community controller
     new DashboardStyleController();
     new CommunityConstroller();
-    new SidePanelController();
 });

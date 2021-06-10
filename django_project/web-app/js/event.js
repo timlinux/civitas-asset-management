@@ -13,6 +13,7 @@ const evt = {
     MAP_CLICKED: 'map:click', // draw click
     NOTIFICATION_ADD: 'notification:add', // add a notification
     SYSTEM_CHANGE: 'system:change', // when system change
+    WIDGETS_HIDE: 'widget:all:hide', // hide all widget
 }
 define([
     'backbone'], function (Backbone) {

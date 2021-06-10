@@ -22,6 +22,7 @@ define([
         activate: function () {
             this.active = true;
             this.renderWidgets();
+            this.widgets[0].show();
 
             // call system changed when it's activated
             if (this.systems) {

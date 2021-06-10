@@ -69,6 +69,7 @@
     background: rgba(220, 220, 220, 0.3);
 }
 
+
 /* TICKET LIST */
 .ticket-detail {
     border: 1px solid #ddd;
@@ -92,7 +93,28 @@
     font-size: 12px;
     font-style: italic;
     color: gray;
+}
 
+#widget-ticket .ticket-row {
+    padding: 10px;
+    background: var(--primary-color);
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    margin-bottom: 3px;
+    display: block;
+}
+
+#widget-ticket .ticket-row:hover {
+    text-decoration: none;
+}
+
+#widget-ticket .ticket-row .created {
+    font-style: italic;
+}
+
+#widget-ticket .ticket-row:hover {
+    opacity: 0.9;
 }
 
 /* FEATURE DETAIL */

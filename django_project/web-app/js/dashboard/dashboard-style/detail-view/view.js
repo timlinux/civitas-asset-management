@@ -1,14 +1,15 @@
 define([
     'leaflet',
     '../style-base',
-    '../detail-view/widgets/features-detail'
-], function (L, Base, FeaturesDetail) {
+    '../detail-view/widgets/features-detail',
+    '../detail-view/widgets/ticket',
+], function (L, Base, FeaturesDetail, Ticket) {
     return Base.extend({
         name: 'Detail View',
         lastLayer: null,
         init: function () {
             // create layer
-            this.widgets = [new FeaturesDetail()];
+            this.widgets = [new FeaturesDetail(), new Ticket()];
         },
         /** Rerender all widgets
          *

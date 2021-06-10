@@ -250,10 +250,22 @@ define([
                     /** success **/
                     that.data = data;
                     that.render();
+                    const ID = $(that.$rightPanel.find('.content:visible')[0]).attr('id');
+                    if (ID !== that.id) {
+                        that.show();
+                    }
                 },
                 function () {
                     /**fail**/
                 })
-        }
+        },
+        // Show overlay when shown
+        extraShow: function () {
+            console.log('show')
+        },
+        // Hide overlay when hidden
+        extraHide: function () {
+            // event.trigger(evt.MAP_REMOVE_ALL_OVERLAY_FEATURE);
+        },
     });
 });
