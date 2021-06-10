@@ -22,10 +22,6 @@ class StaffCreateTicketView(staff.CreateTicketView):
     And save it to asset ticket
     """
 
-    def get_initial(self):
-        initial_data = super().get_initial()
-        return initial_data
-
     def form_valid(self, form):
         # check if asset ID provided
         feature_id = self.request.POST.get('feature_id', None)
