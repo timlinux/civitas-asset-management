@@ -203,6 +203,78 @@ GRANT SELECT ON TABLE public.feature_risk TO reader;
 GRANT ALL ON TABLE public.feature_risk TO doadmin;
 GRANT INSERT, SELECT, UPDATE, DELETE ON TABLE public.feature_risk TO technician;
 
+CREATE MATERIALIZED VIEW public.reporter_data
+ AS
+ SELECT province.id AS province_id,
+    province.name AS province_name,
+    region.id AS region_id,
+    region.name AS region_name,
+    community.id AS community_id,
+    community.name AS community_name,
+    system.id AS system_id,
+    system.name AS system_name,
+    feature_base.id AS feature_id,
+    feature_quantity.length,
+    feature_quantity.area,
+    feature_calculation_lookup.quantity,
+    feature_calculation_lookup.renewal_cost_method,
+    feature_calculation_lookup.maintenance_cost_method,
+    feature_calculation_lookup.lifespan_method,
+    feature_calculation_lookup.remaining_years_method,
+    feature_calculation_lookup.deterioration_name,
+    feature_calculation.renewal_cost,
+    feature_calculation.maintenance_cost,
+    feature_calculation.lifespan,
+    feature_calculation.age,
+    feature_projection.remaining_years,
+    feature_projection.annual_reserve,
+    feature_pof.pof AS pof_id,
+    pof.name AS pof_name,
+    feature_base.cof AS cof_id,
+    cof.name AS cof_name,
+    feature_risk.risk_value,
+    feature_risk.risk_level,
+    feature_base.condition_id,
+    condition.name AS condition_name,
+    feature_base.class_id,
+    asset_class.name AS class_name,
+    asset_class.description AS class_description,
+    feature_base.sub_class_id,
+    asset_sub_class.name AS sub_class_name,
+    asset_sub_class.description AS sub_class_description,
+    asset_sub_class.deterioration_id AS sub_class_deterioration_id,
+    asset_sub_class.unit_id AS sub_class_unit_id,
+    unit.name AS sub_class_unit_name,
+    unit.description AS sub_class_unit_description,
+    feature_base.type_id,
+    asset_type.name AS asset_type_name,
+    asset_type.description AS asset_type_description
+   FROM ((((((((((((((((((feature_base
+     LEFT JOIN system ON ((feature_base.system_id = system.id)))
+     LEFT JOIN community ON ((system.community_id = community.id)))
+     LEFT JOIN region ON ((community.region_id = region.id)))
+     LEFT JOIN province ON ((region.province_id = province.id)))
+     LEFT JOIN condition ON ((feature_base.condition_id = condition.id)))
+     LEFT JOIN asset_class ON ((feature_base.class_id = asset_class.id)))
+     LEFT JOIN asset_sub_class ON ((feature_base.sub_class_id = asset_sub_class.id)))
+     LEFT JOIN asset_type ON ((feature_base.type_id = asset_type.id)))
+     LEFT JOIN unit ON ((asset_sub_class.unit_id = unit.id)))
+     LEFT JOIN deterioration ON ((asset_sub_class.deterioration_id = deterioration.id)))
+     LEFT JOIN feature_quantity ON ((feature_base.id = feature_quantity.feature_id)))
+     LEFT JOIN feature_calculation_lookup ON ((feature_base.id = feature_calculation_lookup.feature_id)))
+     LEFT JOIN feature_calculation ON ((feature_base.id = feature_calculation.feature_id)))
+     LEFT JOIN feature_projection ON ((feature_base.id = feature_projection.feature_id)))
+     LEFT JOIN feature_pof ON ((feature_base.id = feature_pof.feature_id)))
+     LEFT JOIN feature_risk ON ((feature_base.id = feature_risk.feature_id)))
+     LEFT JOIN pof ON ((feature_pof.pof = pof.id)))
+     LEFT JOIN cof ON ((feature_base.cof = cof.id)));
+
+ALTER TABLE public.reporter_data
+    OWNER TO doadmin;
+
+GRANT ALL ON TABLE public.reporter_data TO doadmin;
+GRANT SELECT ON TABLE public.reporter_data TO reporter;
+
 -- WATER --
 -- water valve --
 
@@ -10562,3 +10634,4 @@ CREATE OR REPLACE VIEW public.equipment_type_list AS
 		
 GRANT ALL ON TABLE public.equipment_type_list TO doadmin;
 GRANT SELECT ON TABLE public.equipment_type_list TO technician;
+
