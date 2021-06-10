@@ -1,5 +1,5 @@
 -- -- CREATE VIEWS -- --
-CREATE OR REPLACE VIEW feature_quantity AS
+CREATE MATERIALIZED VIEW feature_quantity AS
 
 	SELECT
 		feature_base.id AS feature_id,
@@ -19,7 +19,7 @@ ALTER TABLE feature_quantity
 	OWNER TO doadmin
 ;
 
-CREATE OR REPLACE VIEW feature_unit AS
+CREATE MATERIALIZED VIEW feature_unit AS
 
 	SELECT 
 		feature_base.id AS feature_id,
@@ -34,7 +34,7 @@ ALTER TABLE feature_unit
     OWNER TO doadmin
 ;
 
-CREATE OR REPLACE VIEW feature_calculation_lookup AS
+CREATE MATERIALIZED VIEW feature_calculation_lookup AS
 
 SELECT
 	feature_base.id AS feature_id,
@@ -102,7 +102,7 @@ ALTER TABLE feature_calculation_lookup
 	OWNER TO doadmin
 ;
 
-CREATE VIEW feature_calculation AS
+CREATE MATERIALIZED VIEW feature_calculation AS
 	SELECT 
 		feature_base.id AS feature_id,
 		
@@ -150,7 +150,7 @@ ALTER TABLE feature_calculation
 	OWNER TO doadmin
 ;
 
-CREATE OR REPLACE VIEW feature_projection AS
+CREATE MATERIALIZED VIEW feature_projection AS
 	SELECT 
 	feature_base.id AS feature_id,
 	function_remaining_years(
@@ -173,7 +173,7 @@ ALTER TABLE feature_projection
 	OWNER TO doadmin
 ;
 	
-CREATE OR REPLACE VIEW feature_pof AS 
+CREATE MATERIALIZED VIEW feature_pof AS 
 	SELECT
 		feature_base.id AS feature_id,
 		function_remaining_years_to_pof(feature_projection.remaining_years) AS pof
@@ -185,7 +185,7 @@ ALTER TABLE feature_pof
 	OWNER TO doadmin
 ;
 
-CREATE OR REPLACE VIEW public.feature_risk AS
+CREATE MATERIALIZED VIEW public.feature_risk AS
 	SELECT 
 		feature_base.id AS feature_id,
 		risk_lookup.risk_value,
