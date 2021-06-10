@@ -11,49 +11,49 @@ services:
     md:
       title: MapProxy WMS Proxy
       abstract: MapProxy for my civitas
-      online_resource: https://mycivitas.ca/
+      online_resource: http://nginx/
 
 sources:
   natural:
     type: wms
     req:
-      url: https://mycivitas.ca/map/
+      url: http://nginx/map/
       layers: Natural
       transparent: true
   fleet_and_equipment:
     type: wms
     req:
-      url: https://mycivitas.ca/map/
+      url: http://nginx/map/
       layers: Fleet and Equipment
       transparent: true
   structures:
     type: wms
     req:
-      url: https://mycivitas.ca/map/
+      url: http://nginx/map/
       layers: Structures
       transparent: true
   transportation_network:
     type: wms
     req:
-      url: https://mycivitas.ca/map/
+      url: http://nginx/map/
       layers: Transportation Network
       transparent: true
   water_network:
     type: wms
     req:
-      url: https://mycivitas.ca/map/
+      url: http://nginx/map/
       layers: Water Network
       transparent: true
   wastewater_network:
     type: wms
     req:
-      url: https://mycivitas.ca/map/
+      url: http://nginx/map/
       layers: Wastewater Network
       transparent: true
   stormwater_network:
     type: wms
     req:
-      url: https://mycivitas.ca/map/
+      url: http://nginx/map/
       layers: Stormwater Network
       transparent: true
 
