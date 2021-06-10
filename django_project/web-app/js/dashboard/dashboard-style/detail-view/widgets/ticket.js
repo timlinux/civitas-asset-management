@@ -39,12 +39,12 @@ define([
                     that.$el.append(`
                         <a class="ticket-row" href="${urls.ticket_detail.replaceAll(0, ticket.id)}" target="_blank">
                             <div style="margin-bottom: 5px">
-                                <b>${ticket.ticket}</b>
-                                <div class="pull-right created">${ticket.created}</div>
+                                <b>${ticket.ticket}</b>                                
                             </div>
                             <div>
                                ${ticket.description}
                             </div>
+                            <div class="created">${ticket.created}</div>
                         </a>
                     `)
                 }

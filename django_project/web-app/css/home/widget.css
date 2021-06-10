@@ -103,6 +103,7 @@
     color: white;
     margin-bottom: 3px;
     display: block;
+    font-size: 12px;
 }
 
 #widget-ticket .ticket-row:hover {
@@ -111,6 +112,7 @@
 
 #widget-ticket .ticket-row .created {
     font-style: italic;
+    text-align: right;
 }
 
 #widget-ticket .ticket-row:hover {
