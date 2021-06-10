@@ -136,6 +136,7 @@ DROP VIEW IF EXISTS public.equipment;
 DROP VIEW IF EXISTS public.region_community_system;
 DROP VIEW IF EXISTS equipment_sub_class_list;
 DROP VIEW IF EXISTS equipment_type_list;
+DROP MATERIALIZED VIEW IF EXISTS public.reporter_data;
 DROP MATERIALIZED VIEW IF EXISTS feature_risk;
 DROP MATERIALIZED VIEW IF EXISTS feature_pof;
 DROP MATERIALIZED VIEW IF EXISTS feature_projection;
