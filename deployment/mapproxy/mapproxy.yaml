@@ -1,0 +1,110 @@
+# -------------------------------
+# MapProxy example configuration.
+# -------------------------------
+#
+# This is a minimal MapProxy configuration.
+# See full_example.yaml and the documentation for more options.
+
+services:
+  demo:
+  wms:
+    md:
+      title: MapProxy WMS Proxy
+      abstract: MapProxy for my civitas
+      online_resource: https://mycivitas.ca/
+
+sources:
+  natural:
+    type: wms
+    req:
+      url: https://mycivitas.ca/map/
+      layers: Natural
+      transparent: true
+  fleet_and_equipment:
+    type: wms
+    req:
+      url: https://mycivitas.ca/map/
+      layers: Fleet and Equipment
+      transparent: true
+  structures:
+    type: wms
+    req:
+      url: https://mycivitas.ca/map/
+      layers: Structures
+      transparent: true
+  transportation_network:
+    type: wms
+    req:
+      url: https://mycivitas.ca/map/
+      layers: Transportation Network
+      transparent: true
+  water_network:
+    type: wms
+    req:
+      url: https://mycivitas.ca/map/
+      layers: Water Network
+      transparent: true
+  wastewater_network:
+    type: wms
+    req:
+      url: https://mycivitas.ca/map/
+      layers: Wastewater Network
+      transparent: true
+  stormwater_network:
+    type: wms
+    req:
+      url: https://mycivitas.ca/map/
+      layers: Stormwater Network
+      transparent: true
+
+caches:
+  natural_cache:
+    grids: [webmercator]
+    sources: [natural]
+  fleet_and_equipment_cache:
+    grids: [webmercator]
+    sources: [fleet_and_equipment]
+  structures_cache:
+    grids: [webmercator]
+    sources: [structures]
+  transportation_network_cache:
+    grids: [webmercator]
+    sources: [transportation_network]
+  water_network_cache:
+    grids: [webmercator]
+    sources: [water_network]
+  wastewater_network_cache:
+    grids: [webmercator]
+    sources: [wastewater_network]
+  stormwater_network_cache:
+    grids: [webmercator]
+    sources: [stormwater_network]
+
+layers:
+  - name: Natural
+    title: Natural
+    sources: [natural_cache]
+  - name: Fleet and Equipment
+    title: Fleet and Equipment
+    sources: [fleet_and_equipment_cache]
+  - name: Structures
+    title: Structures
+    sources: [structures_cache]
+  - name: Transportation Network
+    title: Transportation Network
+    sources: [transportation_network_cache]
+  - name: Water Network
+    title: Water Network
+    sources: [water_network_cache]
+  - name: Wastewater Network
+    title: Wastewater Network
+    sources: [wastewater_network_cache]
+  - name: Stormwater Network
+    title: Stormwater Network
+    sources: [stormwater_network_cache]
+
+grids:
+  webmercator:
+    base: GLOBAL_WEBMERCATOR
+
+globals:

@@ -1,5 +1,9 @@
 version: '3.4'
 
+volumes:
+  database:
+  rabbitmq:
+
 x-common-django:
   &default-common-django
   build:
@@ -158,6 +162,13 @@ services:
       - "9990:80"
     restart: on-failure:5
 
+  mapproxy:
+    image: kartoza/mapproxy
+    volumes:
+      - ./mapproxy:/mapproxy
+    depends_on:
+      - qgis-server
+
   # django application for development
   dev:
     <<: *default-common-django
@@ -171,7 +182,3 @@ services:
       - "6003:22"
     depends_on:
       - qgis-server
-
-volumes:
-  database:
-  rabbitmq:

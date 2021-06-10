@@ -17,13 +17,13 @@ define([
                 $('#left-top').toggleClass('show');
             })
             $.each(QGISLayers, function (key, layerName) {
-                const objLayer = L.tileLayer.wms(QGISUrl, {
-                    SERVICE: 'WMS',
-                    VERSION: '1.3.0',
-                    REQUEST: 'GetMap',
-                    FORMAT: 'image/png',
-                    TRANSPARENT: true,
-                    LAYERS: layerName
+                const objLayer = L.tileLayer.wms(MapproxyUrl, {
+                    service: 'WMS',
+                    version: '1.3.0',
+                    request: 'GetMap',
+                    format: 'image/png',
+                    transparent: true,
+                    layers: layerName
                 })
                 const layer = {
                     'active': true,

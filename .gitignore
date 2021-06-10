@@ -4,6 +4,11 @@ deployment/backups
 deployment/qgis-server/qgis-auth.db
 deployment/qgis-server/qgis-auth-pwd.txt
 deployment/volumes
+deployment/sites-enabled/default.conf
+deployment/mapproxy/app.py
+deployment/mapproxy/full_example.yaml
+deployment/mapproxy/full_seed_example.yaml
+deployment/mapproxy/cache_data/*
 
 __pycache__/
 

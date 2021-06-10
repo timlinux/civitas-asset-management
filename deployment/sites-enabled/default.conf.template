@@ -6,6 +6,9 @@ upstream django {
 upstream qgis-fcgi {
     server qgis-server:9993;
 }
+upstream mapproxy {
+    server mapproxy:8080;
+}
 
 # Get 'host' from `$host` unless 'X-Forwarded-Host'
 # is set by the reverse proxy.
